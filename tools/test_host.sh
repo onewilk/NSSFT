@@ -30,7 +30,8 @@ unit i18n_test core/i18n.cpp tools/i18n_test.cpp
     tools/sft_probe.cpp -o build/sft_probe
 
 if [ ! -f build/test.h264 ]; then
-    if command -v swift >/dev/null 2>&1; then
+    # 生成脚本用的是 macOS 的 VideoToolbox；Linux 上即使装了 swift（GitHub 的 Ubuntu 机器就有）也跑不了
+    if [ "$(uname)" = Darwin ] && command -v swift >/dev/null 2>&1; then
         swift tools/make_test_h264.swift build/test.h264 6
     else
         echo "没有 build/test.h264，跳过端到端测试"
