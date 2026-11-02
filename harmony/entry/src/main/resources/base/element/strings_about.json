@@ -1,0 +1,68 @@
+{
+  "string": [
+    {
+      "name": "about_desc",
+      "value": "A native HarmonyOS receiver for the open-source game streaming project SFT"
+    },
+    {
+      "name": "about_disclaimer",
+      "value": "NSSFT is an independent third-party open-source project, not affiliated with the console maker or the author of SFT."
+    },
+    {
+      "name": "about_group_notes",
+      "value": "Notes"
+    },
+    {
+      "name": "about_group_project",
+      "value": "Project"
+    },
+    {
+      "name": "about_license",
+      "value": "License: GPL-2.0. See the LICENSE file in the source repository for the full terms."
+    },
+    {
+      "name": "about_open_failed",
+      "value": "Couldn't open the browser. Please visit %s"
+    },
+    {
+      "name": "about_privacy",
+      "value": "Privacy: NSSFT collects no personal information, has no accounts and sends no analytics. Picture and sound go directly between this device and your console."
+    },
+    {
+      "name": "about_sft",
+      "value": "SFT project"
+    },
+    {
+      "name": "about_sft_desc",
+      "value": "The console side is developed and maintained by SFT's author"
+    },
+    {
+      "name": "about_source",
+      "value": "Source code"
+    },
+    {
+      "name": "about_source_desc",
+      "value": "NSSFT is open source under the GPL-2.0 license"
+    },
+    {
+      "name": "about_store",
+      "value": "Rate on AppGallery"
+    },
+    {
+      "name": "about_store_desc",
+      "value": "If you like it, a rating helps"
+    },
+    {
+      "name": "about_store_unavailable",
+      "value": "Can't open the AppGallery page yet (available once the app is released)"
+    },
+    {
+      "name": "about_title",
+      "value": "About"
+    },
+    {
+      "name": "about_version",
+      "value": "Version %s"
+    }
+  ]
+}

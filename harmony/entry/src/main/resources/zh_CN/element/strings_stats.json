@@ -1,0 +1,76 @@
+{
+  "string": [
+    {
+      "name": "app_boost_flow_failed",
+      "value": "数据流标记失败（%d）"
+    },
+    {
+      "name": "app_boost_flows",
+      "value": "%d 条连接已标记高优先级"
+    },
+    {
+      "name": "app_boost_off",
+      "value": "未启用"
+    },
+    {
+      "name": "app_boost_old",
+      "value": "系统版本过低，不支持"
+    },
+    {
+      "name": "app_boost_scene",
+      "value": "已声明实时游戏场景"
+    },
+    {
+      "name": "app_boost_unavailable",
+      "value": "不可用（%d）"
+    },
+    {
+      "name": "stats_console_status",
+      "value": "游戏机：%s %s"
+    },
+    {
+      "name": "stats_enhance_off",
+      "value": "画质增强未生效：%s"
+    },
+    {
+      "name": "stats_enhance_on",
+      "value": "画质增强：%s · 处理耗时 %s ms"
+    },
+    {
+      "name": "stats_frozen_now",
+      "value": "（定格中）"
+    },
+    {
+      "name": "stats_line_audio",
+      "value": "声音 %d kbps · 缓冲 %d / 目标 %d ms · 欠载 %d"
+    },
+    {
+      "name": "stats_line_audio_none",
+      "value": "声音：游戏机没有发送（可能在 SFT 里关了声音，或游戏禁止录像）"
+    },
+    {
+      "name": "stats_line_audio_off",
+      "value": "声音：本机已静音"
+    },
+    {
+      "name": "stats_line_latency",
+      "value": "游戏机端 %s ms · 刷新 %d Hz · 上屏抖动 %s ms · 最长间隔 %d ms"
+    },
+    {
+      "name": "stats_line_link",
+      "value": "%s · %d×%d · %s Mbps"
+    },
+    {
+      "name": "stats_line_loss",
+      "value": "丢帧 %d 次（%d 帧）· 失步 %d · 定格 %d 次%s · 丢弃 %d · 重连 %d"
+    },
+    {
+      "name": "stats_line_video",
+      "value": "画面 收 %d · 显示 %d 帧/秒 · %d kbps · 关键帧 %d · 请求 %d"
+    },
+    {
+      "name": "stats_network",
+      "value": "网络 · %s"
+    }
+  ]
+}

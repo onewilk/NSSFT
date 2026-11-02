@@ -1,0 +1,168 @@
+{
+  "string": [
+    {
+      "name": "guide_connect_step1",
+      "value": "Put this device and the console on the same Wi-Fi, or join the console to this device's dedicated hotspot."
+    },
+    {
+      "name": "guide_connect_step2",
+      "value": "Tap Start streaming on the console card; if it does not appear, enter the address manually."
+    },
+    {
+      "name": "guide_connect_step3",
+      "value": "Start a game on the console and the picture appears."
+    },
+    {
+      "name": "guide_connect_title",
+      "value": "Connect and stream"
+    },
+    {
+      "name": "guide_disclaimer",
+      "value": "NSSFT only receives and plays the stream; it does not provide or modify any software on the console."
+    },
+    {
+      "name": "guide_faq_a1",
+      "value": "Check that SFT is set to Network and the console has been restarted, and that both are on the same network. Some routers block broadcasts between devices; use Enter address manually in that case."
+    },
+    {
+      "name": "guide_faq_a2",
+      "value": "SFT is still set to USB. Change it to Network in the manager app, then restart the console."
+    },
+    {
+      "name": "guide_faq_a3",
+      "value": "By default SFT streams games only; there is no picture on the home menu. Start a game."
+    },
+    {
+      "name": "guide_faq_a4",
+      "value": "When the network drops a frame, the picture holds the last good frame and the console is asked for a keyframe right away, so it usually recovers in a moment. You can turn off Freeze on frame loss in Settings."
+    },
+    {
+      "name": "guide_faq_a5",
+      "value": "SFT accepts one receiver at a time. Disconnect the receiver on the computer or other device first."
+    },
+    {
+      "name": "guide_faq_q1",
+      "value": "The home screen never finds the console?"
+    },
+    {
+      "name": "guide_faq_q2",
+      "value": "It says the console answered but is not streaming over the network?"
+    },
+    {
+      "name": "guide_faq_q3",
+      "value": "Connected, but still waiting for the game picture?"
+    },
+    {
+      "name": "guide_faq_q4",
+      "value": "The picture pauses briefly now and then?"
+    },
+    {
+      "name": "guide_faq_q5",
+      "value": "A computer can connect but this app cannot?"
+    },
+    {
+      "name": "guide_faq_title",
+      "value": "FAQ"
+    },
+    {
+      "name": "guide_open_sft",
+      "value": "Open the SFT project page"
+    },
+    {
+      "name": "guide_prepare_step1",
+      "value": "Install SFT on the console; see the SFT project page."
+    },
+    {
+      "name": "guide_prepare_step2",
+      "value": "In the SFT manager app, set Connection to Network and restart the console."
+    },
+    {
+      "name": "guide_prepare_step3",
+      "value": "SFT starts about 30 seconds after booting."
+    },
+    {
+      "name": "guide_prepare_title",
+      "value": "Prepare the console"
+    },
+    {
+      "name": "guide_quality_body",
+      "value": "Docked over the network is native 1080p, handheld usually 720p; when the network is tight the console lowers quality to keep the frame rate. Tap the picture for the toolbar and adjust Freeze on frame loss and Picture enhancement under Options."
+    },
+    {
+      "name": "guide_quality_tip",
+      "value": "A nearby dedicated hotspot or the dock's LAN port is steadiest."
+    },
+    {
+      "name": "guide_quality_title",
+      "value": "Quality and smoothness"
+    },
+    {
+      "name": "guide_sft_1080_body",
+      "value": "Docked over the network is 1080p; handheld is 720p unless an extra module outputs the docked picture. Sizes such as 1600×900 go out at 720p unless Scale other docked sizes up to 1080p is on (Picture page)."
+    },
+    {
+      "name": "guide_sft_1080_title",
+      "value": "When you get 1080p"
+    },
+    {
+      "name": "guide_sft_60_body",
+      "value": "At stock clocks 1080p runs a little under 60 fps; a CPU at 1785 MHz reaches 60. For heavy scenes, turn on Faster memory while streaming (Picture page)."
+    },
+    {
+      "name": "guide_sft_60_title",
+      "value": "When you get a full 60 fps"
+    },
+    {
+      "name": "guide_sft_cheat_body",
+      "value": "With a game modifier loaded, reading the picture is several times slower, so turn it off while streaming. Programs with anti-debug protection cannot be streamed."
+    },
+    {
+      "name": "guide_sft_cheat_title",
+      "value": "Game modifiers slow the picture"
+    },
+    {
+      "name": "guide_sft_intro",
+      "value": "Set in the SFT manager app on the console; tap to read"
+    },
+    {
+      "name": "guide_sft_mem_body",
+      "value": "Modules share a few MB of system memory; without enough, SFT does not start. Check usage in the Setup page and turn off modules you do not need."
+    },
+    {
+      "name": "guide_sft_mem_title",
+      "value": "Too many modules stop SFT from starting"
+    },
+    {
+      "name": "guide_sft_one_body",
+      "value": "SFT and other streaming modules (such as SysDVR) compete for the recording service and can conflict or fail to start. Keep only SFT on."
+    },
+    {
+      "name": "guide_sft_one_title",
+      "value": "Run only one streaming module"
+    },
+    {
+      "name": "guide_sft_sound_body",
+      "value": "Games that block recording have no sound by default; turn on Sound in no-record games in SFT and restart."
+    },
+    {
+      "name": "guide_sft_sound_title",
+      "value": "No sound in games that block recording"
+    },
+    {
+      "name": "guide_sft_title",
+      "value": "SFT setup notes"
+    },
+    {
+      "name": "guide_sft_usb_body",
+      "value": "In handheld mode, set SFT to USB - PC viewer, restart, and connect the console with a data cable; the home screen then shows \"Console found over USB\". With a C-to-C cable a phone or tablet may end up as the USB device; an OTG adapter is more reliable. Each boot uses either USB or the network."
+    },
+    {
+      "name": "guide_sft_usb_title",
+      "value": "Connecting over USB"
+    },
+    {
+      "name": "guide_title",
+      "value": "Guide"
+    }
+  ]
+}

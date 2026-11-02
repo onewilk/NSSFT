@@ -1,0 +1,48 @@
+{
+  "string": [
+    {
+      "name": "usb_err_no_iface",
+      "value": "The USB device has no usable interface"
+    },
+    {
+      "name": "usb_err_no_right",
+      "value": "USB access was not granted; allow it in the system prompt and try again"
+    },
+    {
+      "name": "usb_err_open",
+      "value": "Failed to open the USB device: %s"
+    },
+    {
+      "name": "usb_err_open_service",
+      "value": "Failed to open the USB device"
+    },
+    {
+      "name": "usb_err_webcam_mode",
+      "value": "The console is in webcam mode: set SFT to USB - PC viewer and restart the console"
+    },
+    {
+      "name": "usb_hint_no_device",
+      "value": "No console found. Check that the console is in handheld mode, SFT is set to USB - PC viewer and was restarted, and the cable carries data. With a C-to-C cable a phone or tablet may end up as the USB device; replug a few times, or use an OTG adapter (C male to A female) with an A-to-C cable."
+    },
+    {
+      "name": "usb_hint_no_device_pc",
+      "value": "No console found. Check that the console is in handheld mode and SFT is set to USB - PC viewer (restart after changing), then connect it to a USB port with a data cable."
+    },
+    {
+      "name": "usb_hint_unsupported",
+      "value": "This device cannot act as a USB host; use the network instead."
+    },
+    {
+      "name": "usb_hint_wrong_mode",
+      "value": "A USB device is connected, but not in SFT receiver mode: set Connection to USB - PC viewer in SFT (webcam mode is not supported) and restart the console."
+    },
+    {
+      "name": "usb_transport_compat",
+      "value": "compatibility mode"
+    },
+    {
+      "name": "usb_transport_direct",
+      "value": "direct"
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "string": [
+    {
+      "name": "app_enhance_high",
+      "value": "高"
+    },
+    {
+      "name": "app_enhance_standard",
+      "value": "标准"
+    },
+    {
+      "name": "app_lang_system",
+      "value": "跟随系统"
+    },
+    {
+      "name": "app_minutes",
+      "value": "%d 分钟"
+    },
+    {
+      "name": "app_off",
+      "value": "关闭"
+    },
+    {
+      "name": "cfg_hs_auto_desc",
+      "value": "省去每次手动打开；系统里热点仍在运行时不会重复创建"
+    },
+    {
+      "name": "cfg_hs_auto_title",
+      "value": "打开 App 时自动开启热点"
+    },
+    {
+      "name": "cfg_hs_close",
+      "value": "关闭"
+    },
+    {
+      "name": "cfg_hs_current",
+      "value": "当前热点"
+    },
+    {
+      "name": "cfg_hs_custom_title",
+      "value": "自定义网络名和密码"
+    },
+    {
+      "name": "cfg_hs_desc",
+      "value": "非必须，网络环境欠佳时可以尝试：由手机为游戏机创建 5 GHz 热点（36–48 信道，WPA2 加密），不经过路由器直接相连，改善流畅度和延迟"
+    },
+    {
+      "name": "cfg_hs_edit_note",
+      "value": "修改后游戏机需要重新连接一次新的网络；热点开着时会自动按新配置重建"
+    },
+    {
+      "name": "cfg_hs_pass_hint",
+      "value": "密码：8–63 位英文字母、数字或符号"
+    },
+    {
+      "name": "cfg_hs_pass_line",
+      "value": "密码：%s"
+    },
+    {
+      "name": "cfg_hs_random",
+      "value": "随机"
+    },
+    {
+      "name": "cfg_hs_rebuild_failed",
+      "value": "按新配置重建热点失败：%s"
+    },
+    {
+      "name": "cfg_hs_rebuilt",
+      "value": "已按新配置重建热点，游戏机需要重新连接一次"
+    },
+    {
+      "name": "cfg_hs_save",
+      "value": "保存"
+    },
+    {
+      "name": "cfg_hs_ssid_hint",
+      "value": "网络名，如 DIRECT-NSSFT"
+    },
+    {
+      "name": "cfg_hs_ssid_line",
+      "value": "网络名：%s"
+    },
+    {
+      "name": "cfg_hs_title",
+      "value": "设备专用热点"
+    },
+    {
+      "name": "cfg_hs_unsaved",
+      "value": "修改还没保存，点右上角「保存」后生效"
+    },
+    {
+      "name": "common_cancel",
+      "value": "取消"
+    },
+    {
+      "name": "common_ok",
+      "value": "知道了"
+    },
+    {
+      "name": "common_save",
+      "value": "保存"
+    },
+    {
+      "name": "recent_days_ago",
+      "value": "%d 天前"
+    },
+    {
+      "name": "recent_hours_ago",
+      "value": "%d 小时前"
+    },
+    {
+      "name": "recent_just_now",
+      "value": "刚刚"
+    },
+    {
+      "name": "recent_minutes_ago",
+      "value": "%d 分钟前"
+    }
+  ]
+}

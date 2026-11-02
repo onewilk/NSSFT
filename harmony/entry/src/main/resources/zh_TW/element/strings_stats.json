@@ -1,0 +1,76 @@
+{
+  "string": [
+    {
+      "name": "app_boost_flow_failed",
+      "value": "資料流標記失敗（%d）"
+    },
+    {
+      "name": "app_boost_flows",
+      "value": "%d 條連線已標記高優先級"
+    },
+    {
+      "name": "app_boost_off",
+      "value": "未啟用"
+    },
+    {
+      "name": "app_boost_old",
+      "value": "系統版本過低，不支援"
+    },
+    {
+      "name": "app_boost_scene",
+      "value": "已宣告即時遊戲場景"
+    },
+    {
+      "name": "app_boost_unavailable",
+      "value": "不可用（%d）"
+    },
+    {
+      "name": "stats_console_status",
+      "value": "遊戲機：%s %s"
+    },
+    {
+      "name": "stats_enhance_off",
+      "value": "畫質增強未生效：%s"
+    },
+    {
+      "name": "stats_enhance_on",
+      "value": "畫質增強：%s · 處理耗時 %s ms"
+    },
+    {
+      "name": "stats_frozen_now",
+      "value": "（定格中）"
+    },
+    {
+      "name": "stats_line_audio",
+      "value": "聲音 %d kbps · 緩衝 %d / 目標 %d ms · 欠載 %d"
+    },
+    {
+      "name": "stats_line_audio_none",
+      "value": "聲音：遊戲機沒有傳送（可能在 SFT 裡關了聲音，或遊戲禁止錄影）"
+    },
+    {
+      "name": "stats_line_audio_off",
+      "value": "聲音：本機已靜音"
+    },
+    {
+      "name": "stats_line_latency",
+      "value": "遊戲機端 %s ms · 更新 %d Hz · 上屏抖動 %s ms · 最長間隔 %d ms"
+    },
+    {
+      "name": "stats_line_link",
+      "value": "%s · %d×%d · %s Mbps"
+    },
+    {
+      "name": "stats_line_loss",
+      "value": "掉幀 %d 次（%d 格）· 失步 %d · 定格 %d 次%s · 丟棄 %d · 重新連線 %d"
+    },
+    {
+      "name": "stats_line_video",
+      "value": "畫面 收 %d · 顯示 %d 格/秒 · %d kbps · 關鍵影格 %d · 請求 %d"
+    },
+    {
+      "name": "stats_network",
+      "value": "網路 · %s"
+    }
+  ]
+}

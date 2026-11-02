@@ -1,0 +1,140 @@
+{
+  "string": [
+    {
+      "name": "home_discovery_failed",
+      "value": "自动发现不可用，请手动输入地址"
+    },
+    {
+      "name": "home_empty_desc",
+      "value": "请确认游戏机上的 SFT 已改用网络连接并重启过，并且和本机在同一个网络里。也可以手动输入地址。"
+    },
+    {
+      "name": "home_empty_title",
+      "value": "还没找到主机"
+    },
+    {
+      "name": "home_forget",
+      "value": "从列表移除"
+    },
+    {
+      "name": "home_forget_confirm",
+      "value": "移除"
+    },
+    {
+      "name": "home_forget_message",
+      "value": "从列表里移除“%s”？下次在局域网里发现它时还会出现。"
+    },
+    {
+      "name": "home_forget_title",
+      "value": "移除主机"
+    },
+    {
+      "name": "home_host_default",
+      "value": "主机 %s"
+    },
+    {
+      "name": "home_host_online",
+      "value": "在线"
+    },
+    {
+      "name": "home_host_seen",
+      "value": "%s连过"
+    },
+    {
+      "name": "home_hotspot",
+      "value": "专用热点"
+    },
+    {
+      "name": "home_hotspot_desc",
+      "value": "让游戏机直连本机的 5 GHz 热点，画面更稳"
+    },
+    {
+      "name": "home_hotspot_unsupported",
+      "value": "本机不支持 Wi-Fi 直连，无法开启专用热点"
+    },
+    {
+      "name": "home_manual",
+      "value": "手动输入地址"
+    },
+    {
+      "name": "home_manual_connect",
+      "value": "连接"
+    },
+    {
+      "name": "home_manual_desc",
+      "value": "游戏机的 IP 地址可以在 SFT 管理程序里看到"
+    },
+    {
+      "name": "home_manual_invalid",
+      "value": "请输入有效的 IPv4 地址"
+    },
+    {
+      "name": "home_manual_placeholder",
+      "value": "例如 192.168.1.50"
+    },
+    {
+      "name": "home_manual_title",
+      "value": "连接到主机"
+    },
+    {
+      "name": "home_more",
+      "value": "更多"
+    },
+    {
+      "name": "home_open_guide",
+      "value": "查看使用说明"
+    },
+    {
+      "name": "home_rename",
+      "value": "重命名"
+    },
+    {
+      "name": "home_rename_placeholder",
+      "value": "例如：客厅"
+    },
+    {
+      "name": "home_rename_title",
+      "value": "给这台主机起个名字"
+    },
+    {
+      "name": "home_searching",
+      "value": "正在搜索"
+    },
+    {
+      "name": "home_section_hosts",
+      "value": "主机"
+    },
+    {
+      "name": "home_start",
+      "value": "开始串流"
+    },
+    {
+      "name": "home_tagline",
+      "value": "局域网游戏串流"
+    },
+    {
+      "name": "home_try_connect",
+      "value": "尝试连接"
+    },
+    {
+      "name": "home_usb",
+      "value": "USB 连接"
+    },
+    {
+      "name": "home_usb_desc",
+      "value": "掌机模式下 SFT 选 “USB - PC viewer”，用数据线连到本机"
+    },
+    {
+      "name": "home_usb_found",
+      "value": "已通过 USB 检测到游戏机"
+    },
+    {
+      "name": "home_usb_found_desc",
+      "value": "点此开始串流"
+    },
+    {
+      "name": "home_usb_unsupported",
+      "value": "本机不支持 USB 主机模式，请改用网络连接"
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "string": [
+    {
+      "name": "settings_about_desc",
+      "value": "版本、開放原始碼與隱私說明"
+    },
+    {
+      "name": "settings_audio",
+      "value": "播放遊戲聲音"
+    },
+    {
+      "name": "settings_audio_desc",
+      "value": "聲音和畫面在同一條連線上傳輸，關閉後只是本機不播放"
+    },
+    {
+      "name": "settings_enhance",
+      "value": "畫質增強"
+    },
+    {
+      "name": "settings_enhance_desc",
+      "value": "用系統的視訊處理引擎放大和銳化畫面，會增加少量延遲"
+    },
+    {
+      "name": "settings_enhance_unsupported",
+      "value": "本機不支援視訊處理引擎"
+    },
+    {
+      "name": "settings_freeze",
+      "value": "掉幀定格"
+    },
+    {
+      "name": "settings_freeze_desc",
+      "value": "掉幀後停在最後一個完好的畫面，等到關鍵影格再繼續，避免破圖"
+    },
+    {
+      "name": "settings_group_appearance",
+      "value": "外觀"
+    },
+    {
+      "name": "settings_group_connection",
+      "value": "連線"
+    },
+    {
+      "name": "settings_group_help",
+      "value": "說明"
+    },
+    {
+      "name": "settings_group_picture",
+      "value": "畫面"
+    },
+    {
+      "name": "settings_group_sound",
+      "value": "聲音"
+    },
+    {
+      "name": "settings_guide_desc",
+      "value": "準備遊戲機、連線方法和常見問題"
+    },
+    {
+      "name": "settings_keepalive",
+      "value": "背景保持連線"
+    },
+    {
+      "name": "settings_keepalive_desc",
+      "value": "切到背景後繼續接收一段時間，回來時馬上恢復畫面"
+    },
+    {
+      "name": "settings_language",
+      "value": "語言"
+    },
+    {
+      "name": "settings_netopt",
+      "value": "網路最佳化"
+    },
+    {
+      "name": "settings_netopt_desc",
+      "value": "快速確認收到的資料，並請系統為串流加速"
+    },
+    {
+      "name": "settings_pip",
+      "value": "離開時轉小視窗"
+    },
+    {
+      "name": "settings_pip_desc",
+      "value": "離開 App 時自動轉入小視窗繼續播放"
+    },
+    {
+      "name": "settings_pip_unsupported",
+      "value": "本機不支援小視窗播放"
+    },
+    {
+      "name": "settings_refresh",
+      "value": "播放時使用 60Hz"
+    },
+    {
+      "name": "settings_refresh_desc",
+      "value": "遊戲畫面最高 60 格，高更新率螢幕降到 60Hz 更省電、上屏更穩"
+    },
+    {
+      "name": "settings_stats",
+      "value": "統計浮層"
+    },
+    {
+      "name": "settings_stats_desc",
+      "value": "播放時在左上角顯示連線、影格率、位元率、延遲和聲音等資訊"
+    },
+    {
+      "name": "settings_theme",
+      "value": "深色模式"
+    },
+    {
+      "name": "settings_theme_dark",
+      "value": "深色"
+    },
+    {
+      "name": "settings_theme_light",
+      "value": "淺色"
+    },
+    {
+      "name": "settings_theme_system",
+      "value": "跟隨系統"
+    },
+    {
+      "name": "settings_title",
+      "value": "設定"
+    }
+  ]
+}

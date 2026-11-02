@@ -1,0 +1,120 @@
+{
+  "string": [
+    {
+      "name": "app_enhance_high",
+      "value": "High"
+    },
+    {
+      "name": "app_enhance_standard",
+      "value": "Standard"
+    },
+    {
+      "name": "app_lang_system",
+      "value": "Follow system"
+    },
+    {
+      "name": "app_minutes",
+      "value": "%d min"
+    },
+    {
+      "name": "app_off",
+      "value": "Off"
+    },
+    {
+      "name": "cfg_hs_auto_desc",
+      "value": "No need to turn it on manually each time. Won't create a duplicate if it's already running."
+    },
+    {
+      "name": "cfg_hs_auto_title",
+      "value": "Turn on hotspot when the app opens"
+    },
+    {
+      "name": "cfg_hs_close",
+      "value": "Close"
+    },
+    {
+      "name": "cfg_hs_current",
+      "value": "Current hotspot"
+    },
+    {
+      "name": "cfg_hs_custom_title",
+      "value": "Custom network name and password"
+    },
+    {
+      "name": "cfg_hs_desc",
+      "value": "Optional — try it if your network is poor. Your phone creates a 5 GHz hotspot for the console (channels 36–48, WPA2) with no router in between, for smoother streaming and lower latency."
+    },
+    {
+      "name": "cfg_hs_edit_note",
+      "value": "After changing, reconnect the console to the new network. If the hotspot is on, it's rebuilt automatically."
+    },
+    {
+      "name": "cfg_hs_pass_hint",
+      "value": "Password: 8–63 letters, digits or symbols"
+    },
+    {
+      "name": "cfg_hs_pass_line",
+      "value": "Password: %s"
+    },
+    {
+      "name": "cfg_hs_random",
+      "value": "Random"
+    },
+    {
+      "name": "cfg_hs_rebuild_failed",
+      "value": "Couldn't rebuild the hotspot with the new settings: %s"
+    },
+    {
+      "name": "cfg_hs_rebuilt",
+      "value": "Hotspot rebuilt with the new settings. Reconnect the console once."
+    },
+    {
+      "name": "cfg_hs_save",
+      "value": "Save"
+    },
+    {
+      "name": "cfg_hs_ssid_hint",
+      "value": "Network name, e.g. DIRECT-NSSFT"
+    },
+    {
+      "name": "cfg_hs_ssid_line",
+      "value": "Network name: %s"
+    },
+    {
+      "name": "cfg_hs_title",
+      "value": "Device hotspot"
+    },
+    {
+      "name": "cfg_hs_unsaved",
+      "value": "Changes not saved yet. Tap Save at the top right to apply them."
+    },
+    {
+      "name": "common_cancel",
+      "value": "Cancel"
+    },
+    {
+      "name": "common_ok",
+      "value": "OK"
+    },
+    {
+      "name": "common_save",
+      "value": "Save"
+    },
+    {
+      "name": "recent_days_ago",
+      "value": "%d d ago"
+    },
+    {
+      "name": "recent_hours_ago",
+      "value": "%d h ago"
+    },
+    {
+      "name": "recent_just_now",
+      "value": "just now"
+    },
+    {
+      "name": "recent_minutes_ago",
+      "value": "%d min ago"
+    }
+  ]
+}

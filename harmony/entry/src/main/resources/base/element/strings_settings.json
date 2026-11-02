@@ -1,0 +1,128 @@
+{
+  "string": [
+    {
+      "name": "settings_about_desc",
+      "value": "Version, source code and privacy"
+    },
+    {
+      "name": "settings_audio",
+      "value": "Play game sound"
+    },
+    {
+      "name": "settings_audio_desc",
+      "value": "Sound travels with the picture; turning it off only mutes this device"
+    },
+    {
+      "name": "settings_enhance",
+      "value": "Picture enhancement"
+    },
+    {
+      "name": "settings_enhance_desc",
+      "value": "Upscales and sharpens with the system video engine; adds a little latency"
+    },
+    {
+      "name": "settings_enhance_unsupported",
+      "value": "This device has no video processing engine"
+    },
+    {
+      "name": "settings_freeze",
+      "value": "Freeze on frame loss"
+    },
+    {
+      "name": "settings_freeze_desc",
+      "value": "After a lost frame, hold the last good picture until the next keyframe instead of showing artifacts"
+    },
+    {
+      "name": "settings_group_appearance",
+      "value": "Appearance"
+    },
+    {
+      "name": "settings_group_connection",
+      "value": "Connection"
+    },
+    {
+      "name": "settings_group_help",
+      "value": "Help"
+    },
+    {
+      "name": "settings_group_picture",
+      "value": "Picture"
+    },
+    {
+      "name": "settings_group_sound",
+      "value": "Sound"
+    },
+    {
+      "name": "settings_guide_desc",
+      "value": "Console setup, connecting and FAQ"
+    },
+    {
+      "name": "settings_keepalive",
+      "value": "Stay connected in background"
+    },
+    {
+      "name": "settings_keepalive_desc",
+      "value": "Keep receiving for a while after leaving the app so the picture is back instantly"
+    },
+    {
+      "name": "settings_language",
+      "value": "Language"
+    },
+    {
+      "name": "settings_netopt",
+      "value": "Network optimization"
+    },
+    {
+      "name": "settings_netopt_desc",
+      "value": "Acknowledge data quickly and ask the system to prioritize the stream"
+    },
+    {
+      "name": "settings_pip",
+      "value": "Picture-in-picture on leave"
+    },
+    {
+      "name": "settings_pip_desc",
+      "value": "Keep playing in a small window when you leave the app"
+    },
+    {
+      "name": "settings_pip_unsupported",
+      "value": "Picture-in-picture is not supported on this device"
+    },
+    {
+      "name": "settings_refresh",
+      "value": "60 Hz while playing"
+    },
+    {
+      "name": "settings_refresh_desc",
+      "value": "Games run at up to 60 fps; dropping a high-refresh screen to 60 Hz saves power and keeps frames even"
+    },
+    {
+      "name": "settings_stats",
+      "value": "Stats overlay"
+    },
+    {
+      "name": "settings_stats_desc",
+      "value": "Show link, frame rate, bitrate, latency and sound at the top left while playing"
+    },
+    {
+      "name": "settings_theme",
+      "value": "Dark mode"
+    },
+    {
+      "name": "settings_theme_dark",
+      "value": "Dark"
+    },
+    {
+      "name": "settings_theme_light",
+      "value": "Light"
+    },
+    {
+      "name": "settings_theme_system",
+      "value": "System"
+    },
+    {
+      "name": "settings_title",
+      "value": "Settings"
+    }
+  ]
+}

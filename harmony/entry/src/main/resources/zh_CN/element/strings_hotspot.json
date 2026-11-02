@@ -1,0 +1,120 @@
+{
+  "string": [
+    {
+      "name": "hs_auto_failed",
+      "value": "自动开启专用热点失败：%s"
+    },
+    {
+      "name": "hs_auto_started",
+      "value": "已自动开启 设备专用热点"
+    },
+    {
+      "name": "hs_channel_auto",
+      "value": "自动"
+    },
+    {
+      "name": "hs_channel_mismatch",
+      "value": "请求 %d 信道，实际落在 %d 信道"
+    },
+    {
+      "name": "hs_channel_n",
+      "value": "%d 信道"
+    },
+    {
+      "name": "hs_closed",
+      "value": "已关闭"
+    },
+    {
+      "name": "hs_creating",
+      "value": "正在创建 5 GHz 热点（依次尝试 36/40/44/48 信道）…"
+    },
+    {
+      "name": "hs_detail_band",
+      "value": "频段：%s · %d 信道（%d MHz）· WPA2"
+    },
+    {
+      "name": "hs_detail_clients",
+      "value": "已连接设备：%d"
+    },
+    {
+      "name": "hs_detail_ip",
+      "value": " · 本机地址 %s"
+    },
+    {
+      "name": "hs_detail_switch_steps",
+      "value": "在游戏机上：设置 → 互联网 → 互联网设置，选择这个网络名并输入密码"
+    },
+    {
+      "name": "hs_err_create",
+      "value": "建组失败 %d"
+    },
+    {
+      "name": "hs_err_no_channel",
+      "value": "没能建在游戏机能识别的信道上：%s"
+    },
+    {
+      "name": "hs_err_pass",
+      "value": "密码需为 8–63 位英文字母、数字或符号（WPA2 要求）"
+    },
+    {
+      "name": "hs_err_ssid_empty",
+      "value": "网络名不能为空"
+    },
+    {
+      "name": "hs_err_ssid_long",
+      "value": "网络名太长：最多 32 字节（一个中文算 3 字节）"
+    },
+    {
+      "name": "hs_err_system_hotspot",
+      "value": "请先关闭系统的个人热点，两者会冲突"
+    },
+    {
+      "name": "hs_err_timeout",
+      "value": "等待建组超时"
+    },
+    {
+      "name": "hs_err_wlan_off",
+      "value": "请先打开手机 WLAN（建组需要 WLAN 开着，但不必连接任何网络）"
+    },
+    {
+      "name": "hs_err_wlan_state",
+      "value": "读取 WLAN 状态失败（%d）"
+    },
+    {
+      "name": "hs_fallback_24",
+      "value": "5 GHz 失败（%s），已改用 2.4 GHz。"
+    },
+    {
+      "name": "hs_reclaimed",
+      "value": "专用热点已关闭（手机 WLAN 被关闭，或被系统回收）"
+    },
+    {
+      "name": "hs_sep",
+      "value": "；"
+    },
+    {
+      "name": "hs_started",
+      "value": "已开启：%s %d 信道 · WPA2"
+    },
+    {
+      "name": "hs_still_running",
+      "value": "专用热点仍在运行（上次打开后没有关闭）"
+    },
+    {
+      "name": "hs_summary_on",
+      "value": "已开启 · %s · %d 信道 · 已连接 %d 台设备"
+    },
+    {
+      "name": "hs_tried_before",
+      "value": "（之前尝试：%s）"
+    },
+    {
+      "name": "hs_try_item",
+      "value": "%s：%s"
+    },
+    {
+      "name": "hs_warn_sta",
+      "value": "手机还连着“%s”（%s，%d 信道），和专用热点（%d 信道）不在同一信道，无线芯片要来回切换，会掉帧、断音。建议在 WLAN 设置里断开它（WLAN 本身保持打开，关掉 WLAN 会让专用热点一起消失）"
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "string": [
+    {
+      "name": "home_discovery_failed",
+      "value": "Discovery unavailable, enter the address manually"
+    },
+    {
+      "name": "home_empty_desc",
+      "value": "Make sure SFT on the console is set to Network and the console has been restarted, and that it is on the same network as this device. You can also enter its address manually."
+    },
+    {
+      "name": "home_empty_title",
+      "value": "No consoles found yet"
+    },
+    {
+      "name": "home_forget",
+      "value": "Remove from list"
+    },
+    {
+      "name": "home_forget_confirm",
+      "value": "Remove"
+    },
+    {
+      "name": "home_forget_message",
+      "value": "Remove “%s” from the list? It shows up again when it is found on the network."
+    },
+    {
+      "name": "home_forget_title",
+      "value": "Remove console"
+    },
+    {
+      "name": "home_host_default",
+      "value": "Console %s"
+    },
+    {
+      "name": "home_host_online",
+      "value": "online"
+    },
+    {
+      "name": "home_host_seen",
+      "value": "last used %s"
+    },
+    {
+      "name": "home_hotspot",
+      "value": "Dedicated hotspot"
+    },
+    {
+      "name": "home_hotspot_desc",
+      "value": "Let the console join this device's 5 GHz hotspot for a steadier picture"
+    },
+    {
+      "name": "home_hotspot_unsupported",
+      "value": "This device has no Wi-Fi Direct, so the hotspot is unavailable"
+    },
+    {
+      "name": "home_manual",
+      "value": "Enter address manually"
+    },
+    {
+      "name": "home_manual_connect",
+      "value": "Connect"
+    },
+    {
+      "name": "home_manual_desc",
+      "value": "The console's IP address is shown in the SFT manager app"
+    },
+    {
+      "name": "home_manual_invalid",
+      "value": "Enter a valid IPv4 address"
+    },
+    {
+      "name": "home_manual_placeholder",
+      "value": "e.g. 192.168.1.50"
+    },
+    {
+      "name": "home_manual_title",
+      "value": "Connect to a console"
+    },
+    {
+      "name": "home_more",
+      "value": "More"
+    },
+    {
+      "name": "home_open_guide",
+      "value": "Read the guide"
+    },
+    {
+      "name": "home_rename",
+      "value": "Rename"
+    },
+    {
+      "name": "home_rename_placeholder",
+      "value": "e.g. Living room"
+    },
+    {
+      "name": "home_rename_title",
+      "value": "Name this console"
+    },
+    {
+      "name": "home_searching",
+      "value": "Searching"
+    },
+    {
+      "name": "home_section_hosts",
+      "value": "Consoles"
+    },
+    {
+      "name": "home_start",
+      "value": "Start streaming"
+    },
+    {
+      "name": "home_tagline",
+      "value": "Game streaming over your local network"
+    },
+    {
+      "name": "home_try_connect",
+      "value": "Try to connect"
+    },
+    {
+      "name": "home_usb",
+      "value": "USB connection"
+    },
+    {
+      "name": "home_usb_desc",
+      "value": "Handheld, SFT set to USB - PC viewer, cable to this device"
+    },
+    {
+      "name": "home_usb_found",
+      "value": "Console found over USB"
+    },
+    {
+      "name": "home_usb_found_desc",
+      "value": "Tap to start streaming"
+    },
+    {
+      "name": "home_usb_unsupported",
+      "value": "This device cannot act as a USB host; use the network instead"
+    }
+  ]
+}

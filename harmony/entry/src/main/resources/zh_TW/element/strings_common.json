@@ -1,0 +1,120 @@
+{
+  "string": [
+    {
+      "name": "app_enhance_high",
+      "value": "高"
+    },
+    {
+      "name": "app_enhance_standard",
+      "value": "標準"
+    },
+    {
+      "name": "app_lang_system",
+      "value": "跟隨系統"
+    },
+    {
+      "name": "app_minutes",
+      "value": "%d 分鐘"
+    },
+    {
+      "name": "app_off",
+      "value": "關閉"
+    },
+    {
+      "name": "cfg_hs_auto_desc",
+      "value": "免去每次手動開啟；系統中熱點仍在執行時不會重複建立"
+    },
+    {
+      "name": "cfg_hs_auto_title",
+      "value": "開啟 App 時自動開啟熱點"
+    },
+    {
+      "name": "cfg_hs_close",
+      "value": "關閉"
+    },
+    {
+      "name": "cfg_hs_current",
+      "value": "目前熱點"
+    },
+    {
+      "name": "cfg_hs_custom_title",
+      "value": "自訂網路名稱與密碼"
+    },
+    {
+      "name": "cfg_hs_desc",
+      "value": "非必須，網路環境不佳時可以嘗試：由手機為遊戲機建立 5 GHz 熱點（36–48 頻道，WPA2 加密），不經過路由器直接相連，改善流暢度和延遲"
+    },
+    {
+      "name": "cfg_hs_edit_note",
+      "value": "修改後遊戲機需要重新連線一次新的網路；熱點開啟時會自動依新設定重建"
+    },
+    {
+      "name": "cfg_hs_pass_hint",
+      "value": "密碼：8–63 個英文字母、數字或符號"
+    },
+    {
+      "name": "cfg_hs_pass_line",
+      "value": "密碼：%s"
+    },
+    {
+      "name": "cfg_hs_random",
+      "value": "隨機"
+    },
+    {
+      "name": "cfg_hs_rebuild_failed",
+      "value": "依新設定重建熱點失敗：%s"
+    },
+    {
+      "name": "cfg_hs_rebuilt",
+      "value": "已依新設定重建熱點，遊戲機需要重新連線一次"
+    },
+    {
+      "name": "cfg_hs_save",
+      "value": "儲存"
+    },
+    {
+      "name": "cfg_hs_ssid_hint",
+      "value": "網路名稱，例如 DIRECT-NSSFT"
+    },
+    {
+      "name": "cfg_hs_ssid_line",
+      "value": "網路名稱：%s"
+    },
+    {
+      "name": "cfg_hs_title",
+      "value": "裝置專用熱點"
+    },
+    {
+      "name": "cfg_hs_unsaved",
+      "value": "修改尚未儲存，點右上角「儲存」後生效"
+    },
+    {
+      "name": "common_cancel",
+      "value": "取消"
+    },
+    {
+      "name": "common_ok",
+      "value": "知道了"
+    },
+    {
+      "name": "common_save",
+      "value": "儲存"
+    },
+    {
+      "name": "recent_days_ago",
+      "value": "%d 天前"
+    },
+    {
+      "name": "recent_hours_ago",
+      "value": "%d 小時前"
+    },
+    {
+      "name": "recent_just_now",
+      "value": "剛剛"
+    },
+    {
+      "name": "recent_minutes_ago",
+      "value": "%d 分鐘前"
+    }
+  ]
+}

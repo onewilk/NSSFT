@@ -1,0 +1,68 @@
+{
+  "string": [
+    {
+      "name": "about_desc",
+      "value": "开源游戏串流项目 SFT 的鸿蒙原生接收端"
+    },
+    {
+      "name": "about_disclaimer",
+      "value": "NSSFT 是独立的第三方开源项目，与游戏机厂商及 SFT 作者没有隶属关系。"
+    },
+    {
+      "name": "about_group_notes",
+      "value": "说明"
+    },
+    {
+      "name": "about_group_project",
+      "value": "项目"
+    },
+    {
+      "name": "about_license",
+      "value": "许可证：GPL-2.0，完整条款见开源代码仓库里的 LICENSE 文件。"
+    },
+    {
+      "name": "about_open_failed",
+      "value": "无法打开浏览器，请手动访问 %s"
+    },
+    {
+      "name": "about_privacy",
+      "value": "隐私：NSSFT 不收集任何个人信息，没有账号，也没有统计上报。画面和声音只在本机与你的游戏机之间直接传输。"
+    },
+    {
+      "name": "about_sft",
+      "value": "SFT 项目"
+    },
+    {
+      "name": "about_sft_desc",
+      "value": "游戏机端由 SFT 的作者开发和维护"
+    },
+    {
+      "name": "about_source",
+      "value": "开源代码"
+    },
+    {
+      "name": "about_source_desc",
+      "value": "NSSFT 以 GPL-2.0 许可证开源"
+    },
+    {
+      "name": "about_store",
+      "value": "去应用市场评分"
+    },
+    {
+      "name": "about_store_desc",
+      "value": "觉得好用的话，欢迎打个分"
+    },
+    {
+      "name": "about_store_unavailable",
+      "value": "暂时无法打开应用市场详情页（应用上架后可用）"
+    },
+    {
+      "name": "about_title",
+      "value": "关于"
+    },
+    {
+      "name": "about_version",
+      "value": "版本 %s"
+    }
+  ]
+}

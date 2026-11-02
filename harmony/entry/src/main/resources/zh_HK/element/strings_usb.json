@@ -1,0 +1,48 @@
+{
+  "string": [
+    {
+      "name": "usb_err_no_iface",
+      "value": "這個 USB 裝置沒有可用的介面"
+    },
+    {
+      "name": "usb_err_no_right",
+      "value": "沒有取得 USB 存取權限，請在系統彈窗裡允許後再試"
+    },
+    {
+      "name": "usb_err_open",
+      "value": "開啟 USB 裝置失敗：%s"
+    },
+    {
+      "name": "usb_err_open_service",
+      "value": "開啟 USB 裝置失敗"
+    },
+    {
+      "name": "usb_err_webcam_mode",
+      "value": "遊戲機處於攝影機模式：請在 SFT 裡改成「USB - PC viewer」並重新啟動遊戲機"
+    },
+    {
+      "name": "usb_hint_no_device",
+      "value": "沒偵測到遊戲機。請確認：遊戲機在掌機模式；SFT 的連線方式選了「USB - PC viewer」並重新啟動過；資料線支援傳輸資料。手機、平板用 C-C 線直連時可能被辨識成從裝置，可以拔插幾次，或改用 OTG 轉接頭（C 公轉 A 母）加 A-C 線。"
+    },
+    {
+      "name": "usb_hint_no_device_pc",
+      "value": "沒偵測到遊戲機。請確認遊戲機在掌機模式、SFT 的連線方式選了「USB - PC viewer」並重新啟動過，再用支援傳輸資料的線連到電腦的 USB 埠。"
+    },
+    {
+      "name": "usb_hint_unsupported",
+      "value": "本機不支援 USB 主機模式，請改用網路連線。"
+    },
+    {
+      "name": "usb_hint_wrong_mode",
+      "value": "偵測到 USB 裝置，但不是 SFT 的接收模式：請在 SFT 裡把連線方式改成「USB - PC viewer」（攝影機模式不支援），然後重新啟動遊戲機。"
+    },
+    {
+      "name": "usb_transport_compat",
+      "value": "相容傳輸"
+    },
+    {
+      "name": "usb_transport_direct",
+      "value": "直連"
+    }
+  ]
+}

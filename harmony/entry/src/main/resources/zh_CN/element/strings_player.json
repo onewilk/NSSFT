@@ -1,0 +1,172 @@
+{
+  "string": [
+    {
+      "name": "app_live_btn_open",
+      "value": "回到画面"
+    },
+    {
+      "name": "app_live_btn_stop",
+      "value": "停止串流"
+    },
+    {
+      "name": "app_live_receiving",
+      "value": "后台接收中"
+    },
+    {
+      "name": "app_live_reconnecting",
+      "value": "重连中"
+    },
+    {
+      "name": "app_live_text_bg",
+      "value": "%s · %s · 已收 %s MB · %s 后断开"
+    },
+    {
+      "name": "app_live_text_fg",
+      "value": "%s · 前台播放"
+    },
+    {
+      "name": "app_live_title_bg",
+      "value": "%s 后台保持连接"
+    },
+    {
+      "name": "app_live_title_fg",
+      "value": "%s 串流中"
+    },
+    {
+      "name": "player_badge",
+      "value": "%s · %d 帧"
+    },
+    {
+      "name": "player_connecting",
+      "value": "正在连接 %s …"
+    },
+    {
+      "name": "player_enhance_desc",
+      "value": "切换时画面会闪一下"
+    },
+    {
+      "name": "player_freeze_desc",
+      "value": "丢帧后停在最后一个完好的画面"
+    },
+    {
+      "name": "player_gamepad",
+      "value": "手柄"
+    },
+    {
+      "name": "player_lock",
+      "value": "锁定"
+    },
+    {
+      "name": "player_options",
+      "value": "选项"
+    },
+    {
+      "name": "player_options_title",
+      "value": "播放选项"
+    },
+    {
+      "name": "player_pip",
+      "value": "小窗"
+    },
+    {
+      "name": "player_record",
+      "value": "录制"
+    },
+    {
+      "name": "player_sound_off",
+      "value": "静音"
+    },
+    {
+      "name": "player_sound_on",
+      "value": "声音"
+    },
+    {
+      "name": "player_stop",
+      "value": "断开"
+    },
+    {
+      "name": "player_toast_coming_soon",
+      "value": "%s功能正在开发，敬请期待"
+    },
+    {
+      "name": "player_toast_enhance_unavailable",
+      "value": "画质增强不可用：%s"
+    },
+    {
+      "name": "player_toast_keepalive_off",
+      "value": "已关闭后台保持"
+    },
+    {
+      "name": "player_toast_keepalive_unavailable",
+      "value": "后台保持不可用：%s"
+    },
+    {
+      "name": "player_toast_locked",
+      "value": "已锁定：点一下屏幕显示锁形按钮，再点按钮解锁"
+    },
+    {
+      "name": "player_toast_pip_failed",
+      "value": "无法进入小窗：%s"
+    },
+    {
+      "name": "player_toast_resume_failed",
+      "value": "恢复画面失败：%s"
+    },
+    {
+      "name": "player_toast_start_failed",
+      "value": "无法开始串流：%s"
+    },
+    {
+      "name": "player_toast_tv_menu",
+      "value": "按菜单键或长按确认键打开菜单，按返回键断开"
+    },
+    {
+      "name": "player_toast_usb_detached",
+      "value": "USB 已断开"
+    },
+    {
+      "name": "player_unlock",
+      "value": "解锁"
+    },
+    {
+      "name": "shortcut_connect_last",
+      "value": "连接上次"
+    },
+    {
+      "name": "shortcut_hotspot_connect",
+      "value": "热点+连接"
+    },
+    {
+      "name": "shortcut_hotspot_failed",
+      "value": "专用热点开启失败：%s"
+    },
+    {
+      "name": "shortcut_hotspot_starting",
+      "value": "正在开启专用热点…"
+    },
+    {
+      "name": "shortcut_hotspot_unsupported",
+      "value": "本机不支持专用热点，直接连接上次的设备"
+    },
+    {
+      "name": "shortcut_no_recent",
+      "value": "还没有连接记录，请先连接一次"
+    },
+    {
+      "name": "shortcut_wait_timeout",
+      "value": "没有等到游戏机，请确认游戏机已连上专用热点"
+    },
+    {
+      "name": "shortcut_waiting",
+      "value": "专用热点已开启，等待游戏机连接…"
+    },
+    {
+      "name": "tv_off",
+      "value": "关"
+    },
+    {
+      "name": "tv_on",
+      "value": "开"
+    }
+  ]
+}

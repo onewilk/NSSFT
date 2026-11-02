@@ -1,0 +1,168 @@
+{
+  "string": [
+    {
+      "name": "guide_connect_step1",
+      "value": "本機和遊戲機連同一個 Wi-Fi，或讓遊戲機連本機的專用熱點。"
+    },
+    {
+      "name": "guide_connect_step2",
+      "value": "在首頁點主機卡片上的「開始串流」；沒出現就手動輸入位址。"
+    },
+    {
+      "name": "guide_connect_step3",
+      "value": "在遊戲機上打開遊戲，畫面就會出現。"
+    },
+    {
+      "name": "guide_connect_title",
+      "value": "連線與串流"
+    },
+    {
+      "name": "guide_disclaimer",
+      "value": "NSSFT 只負責接收和播放畫面，不提供、也不修改遊戲機上的任何軟體。"
+    },
+    {
+      "name": "guide_faq_a1",
+      "value": "確認 SFT 的連線方式是「網路」並已重新啟動遊戲機，本機和遊戲機在同一個網路裡。有些路由器會攔截裝置之間的廣播，這時用「手動輸入位址」即可。"
+    },
+    {
+      "name": "guide_faq_a2",
+      "value": "SFT 的連線方式還是 USB。在管理程式裡改成「網路」後，要重新啟動遊戲機才會生效。"
+    },
+    {
+      "name": "guide_faq_a3",
+      "value": "SFT 預設只串流遊戲畫面，停在主選單時沒有畫面。打開一款遊戲即可。"
+    },
+    {
+      "name": "guide_faq_a4",
+      "value": "網路掉了影格時，畫面會停在最後一個完好的畫面，同時馬上請遊戲機補發關鍵影格，通常一瞬間就恢復。不喜歡可以在設定裡關掉「掉幀定格」。"
+    },
+    {
+      "name": "guide_faq_a5",
+      "value": "SFT 同一時間只接受一個接收端。先中斷電腦或其他裝置上的接收端，再在這裡連線。"
+    },
+    {
+      "name": "guide_faq_q1",
+      "value": "首頁一直找不到主機？"
+    },
+    {
+      "name": "guide_faq_q2",
+      "value": "提示「遊戲機有回應，但沒有開網路串流」？"
+    },
+    {
+      "name": "guide_faq_q3",
+      "value": "已經連上，但一直在等遊戲畫面？"
+    },
+    {
+      "name": "guide_faq_q4",
+      "value": "畫面偶爾停住一下？"
+    },
+    {
+      "name": "guide_faq_q5",
+      "value": "電腦能連，這裡卻連不上？"
+    },
+    {
+      "name": "guide_faq_title",
+      "value": "常見問題"
+    },
+    {
+      "name": "guide_open_sft",
+      "value": "打開 SFT 專案首頁"
+    },
+    {
+      "name": "guide_prepare_step1",
+      "value": "在遊戲機上安裝好 SFT，方法見 SFT 專案首頁。"
+    },
+    {
+      "name": "guide_prepare_step2",
+      "value": "在 SFT 管理程式裡把「連線方式」改成「網路」，重新啟動遊戲機。"
+    },
+    {
+      "name": "guide_prepare_step3",
+      "value": "開機約 30 秒後 SFT 才開始運作。"
+    },
+    {
+      "name": "guide_prepare_title",
+      "value": "準備遊戲機"
+    },
+    {
+      "name": "guide_quality_body",
+      "value": "底座加網路是原生 1080p，掌機一般 720p；網路吃緊時遊戲機會自動降畫質保影格率。播放時點畫面叫出工具列，在「選項」裡調整掉幀定格和畫質增強。"
+    },
+    {
+      "name": "guide_quality_tip",
+      "value": "就近的專用熱點或底座網路線最穩。"
+    },
+    {
+      "name": "guide_quality_title",
+      "value": "畫質與流暢"
+    },
+    {
+      "name": "guide_sft_1080_body",
+      "value": "底座模式走網路就是 1080p；掌機模式只有 720p，要靠額外外掛輸出底座畫面。1600×900 這類解析度預設以 720p 傳送，可在 Picture 頁開啟 Scale other docked sizes up to 1080p。"
+    },
+    {
+      "name": "guide_sft_1080_title",
+      "value": "1080p 的條件"
+    },
+    {
+      "name": "guide_sft_60_body",
+      "value": "預設頻率下 1080p 略低於 60 格，CPU 超頻到 1785 MHz 可以跑滿；畫面複雜時可在 Picture 頁開啟 Faster memory while streaming。"
+    },
+    {
+      "name": "guide_sft_60_title",
+      "value": "滿 60 格的條件"
+    },
+    {
+      "name": "guide_sft_cheat_body",
+      "value": "載入修改器時讀取畫面會慢好幾倍，串流時請關閉；帶防除錯保護的程式無法串流。"
+    },
+    {
+      "name": "guide_sft_cheat_title",
+      "value": "遊戲修改器會拖慢畫面"
+    },
+    {
+      "name": "guide_sft_intro",
+      "value": "都在遊戲機的 SFT 管理程式裡設定，點開查看"
+    },
+    {
+      "name": "guide_sft_mem_body",
+      "value": "外掛共用幾 MB 系統記憶體，不夠時 SFT 不會啟動。可在 SFT 的 Setup 頁查看占用，關掉用不到的外掛。"
+    },
+    {
+      "name": "guide_sft_mem_title",
+      "value": "外掛太多會導致 SFT 不啟動"
+    },
+    {
+      "name": "guide_sft_one_body",
+      "value": "SFT 和其他串流外掛（如 SysDVR）會爭用錄影服務，同時開啟容易衝突或啟動失敗，只保留 SFT。"
+    },
+    {
+      "name": "guide_sft_one_title",
+      "value": "只開一個串流外掛"
+    },
+    {
+      "name": "guide_sft_sound_body",
+      "value": "禁止錄影的遊戲預設沒有聲音，在 SFT 裡開啟 Sound in no-record games 並重新啟動遊戲機即可。"
+    },
+    {
+      "name": "guide_sft_sound_title",
+      "value": "禁止錄影的遊戲沒有聲音"
+    },
+    {
+      "name": "guide_sft_title",
+      "value": "SFT 設定要點"
+    },
+    {
+      "name": "guide_sft_usb_body",
+      "value": "遊戲機在掌機模式下，SFT 的連線方式選「USB - PC viewer」並重新啟動，再用支援傳輸資料的線連到本機，首頁會出現「已透過 USB 偵測到遊戲機」。手機、平板用 C-C 線時可能被辨識成從裝置，改用 OTG 轉接頭更穩。USB 和網路每次開機只能選一種。"
+    },
+    {
+      "name": "guide_sft_usb_title",
+      "value": "使用 USB 連線"
+    },
+    {
+      "name": "guide_title",
+      "value": "使用說明"
+    }
+  ]
+}

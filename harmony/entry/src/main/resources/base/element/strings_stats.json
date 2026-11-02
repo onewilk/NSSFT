@@ -1,0 +1,76 @@
+{
+  "string": [
+    {
+      "name": "app_boost_flow_failed",
+      "value": "flow marking failed (%d)"
+    },
+    {
+      "name": "app_boost_flows",
+      "value": "%d connections marked high priority"
+    },
+    {
+      "name": "app_boost_off",
+      "value": "not enabled"
+    },
+    {
+      "name": "app_boost_old",
+      "value": "not supported on this system version"
+    },
+    {
+      "name": "app_boost_scene",
+      "value": "real-time gaming scene declared"
+    },
+    {
+      "name": "app_boost_unavailable",
+      "value": "unavailable (%d)"
+    },
+    {
+      "name": "stats_console_status",
+      "value": "Console: %s %s"
+    },
+    {
+      "name": "stats_enhance_off",
+      "value": "Enhancement not active: %s"
+    },
+    {
+      "name": "stats_enhance_on",
+      "value": "Enhancement: %s · processing %s ms"
+    },
+    {
+      "name": "stats_frozen_now",
+      "value": " (frozen)"
+    },
+    {
+      "name": "stats_line_audio",
+      "value": "Audio %d kbps · buffer %d / target %d ms · underruns %d"
+    },
+    {
+      "name": "stats_line_audio_none",
+      "value": "Audio: the console is not sending any (sound off in SFT, or the game blocks recording)"
+    },
+    {
+      "name": "stats_line_audio_off",
+      "value": "Audio: muted on this device"
+    },
+    {
+      "name": "stats_line_latency",
+      "value": "Console age %s ms · display %d Hz · jitter %s ms · longest gap %d ms"
+    },
+    {
+      "name": "stats_line_link",
+      "value": "%s · %d×%d · %s Mbps"
+    },
+    {
+      "name": "stats_line_loss",
+      "value": "Lost %d times (%d frames) · resyncs %d · freezes %d%s · dropped %d · reconnects %d"
+    },
+    {
+      "name": "stats_line_video",
+      "value": "Video RX %d · shown %d FPS · %d kbps · keyframes %d · requested %d"
+    },
+    {
+      "name": "stats_network",
+      "value": "Network · %s"
+    }
+  ]
+}

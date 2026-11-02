@@ -1,0 +1,25 @@
+# 构建产物和本地测试数据
+build/
+*.h264
+*.pcm
+__pycache__/
+
+# macOS / 编辑器
+.DS_Store
+.vscode/
+
+# 上架资料、AGC 凭证（只留在本机，不开源）
+/release/
+.env
+*private.json
+
+# 签名证书和密钥（任何位置都不提交）
+*.p12
+*.p7b
+*.cer
+*.csr
+*.keystore
+
+# 依赖安装目录
+oh_modules/
+.hvigor/

@@ -1,0 +1,120 @@
+{
+  "string": [
+    {
+      "name": "hs_auto_failed",
+      "value": "Couldn't turn on the device hotspot automatically: %s"
+    },
+    {
+      "name": "hs_auto_started",
+      "value": "Device hotspot turned on automatically"
+    },
+    {
+      "name": "hs_channel_auto",
+      "value": "auto"
+    },
+    {
+      "name": "hs_channel_mismatch",
+      "value": "requested channel %d, got channel %d"
+    },
+    {
+      "name": "hs_channel_n",
+      "value": "channel %d"
+    },
+    {
+      "name": "hs_closed",
+      "value": "Off"
+    },
+    {
+      "name": "hs_creating",
+      "value": "Creating a 5 GHz hotspot (trying channels 36/40/44/48)…"
+    },
+    {
+      "name": "hs_detail_band",
+      "value": "Band: %s · channel %d (%d MHz) · WPA2"
+    },
+    {
+      "name": "hs_detail_clients",
+      "value": "Connected devices: %d"
+    },
+    {
+      "name": "hs_detail_ip",
+      "value": " · this phone: %s"
+    },
+    {
+      "name": "hs_detail_switch_steps",
+      "value": "On the console: System Settings → Internet → Internet Settings, choose this network and enter the password"
+    },
+    {
+      "name": "hs_err_create",
+      "value": "Group creation failed (%d)"
+    },
+    {
+      "name": "hs_err_no_channel",
+      "value": "Couldn't create it on a channel the console supports: %s"
+    },
+    {
+      "name": "hs_err_pass",
+      "value": "Password must be 8–63 letters, digits or symbols (WPA2 requirement)"
+    },
+    {
+      "name": "hs_err_ssid_empty",
+      "value": "Network name can't be empty"
+    },
+    {
+      "name": "hs_err_ssid_long",
+      "value": "Network name too long: max 32 bytes (a Chinese character counts as 3)"
+    },
+    {
+      "name": "hs_err_system_hotspot",
+      "value": "Turn off the system personal hotspot first; the two conflict"
+    },
+    {
+      "name": "hs_err_timeout",
+      "value": "Timed out creating the group"
+    },
+    {
+      "name": "hs_err_wlan_off",
+      "value": "Turn on WLAN first (it must be on, but doesn't need to be connected to a network)"
+    },
+    {
+      "name": "hs_err_wlan_state",
+      "value": "Couldn't read WLAN status (%d)"
+    },
+    {
+      "name": "hs_fallback_24",
+      "value": "5 GHz failed (%s); switched to 2.4 GHz. "
+    },
+    {
+      "name": "hs_reclaimed",
+      "value": "The device hotspot was turned off (WLAN was turned off, or the system reclaimed it)"
+    },
+    {
+      "name": "hs_sep",
+      "value": "; "
+    },
+    {
+      "name": "hs_started",
+      "value": "On: %s channel %d · WPA2"
+    },
+    {
+      "name": "hs_still_running",
+      "value": "The device hotspot is still running (it wasn't turned off last time)"
+    },
+    {
+      "name": "hs_summary_on",
+      "value": "On · %s · channel %d · %d device(s) connected"
+    },
+    {
+      "name": "hs_tried_before",
+      "value": " (tried before: %s)"
+    },
+    {
+      "name": "hs_try_item",
+      "value": "%s: %s"
+    },
+    {
+      "name": "hs_warn_sta",
+      "value": "Your phone is still connected to “%s” (%s, channel %d), which is on a different channel from the device hotspot (channel %d). The Wi-Fi chip has to hop between them, causing dropped frames and audio. Disconnect it in WLAN settings (keep WLAN itself on; turning WLAN off also turns off the hotspot)."
+    }
+  ]
+}

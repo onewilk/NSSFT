@@ -1,0 +1,20 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "NSSFT：遊戲畫面串流接收端"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "透過區域網路接收 SFT 的遊戲畫面和聲音"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "NSSFT"
+    },
+    {
+      "name": "reason_keep_background",
+      "value": "切到背景時保持串流連線"
+    }
+  ]
+}

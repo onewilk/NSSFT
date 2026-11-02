@@ -1,0 +1,128 @@
+{
+  "string": [
+    {
+      "name": "settings_about_desc",
+      "value": "版本、开源代码与隐私说明"
+    },
+    {
+      "name": "settings_audio",
+      "value": "播放游戏声音"
+    },
+    {
+      "name": "settings_audio_desc",
+      "value": "声音和画面在同一条连接上传输，关闭后只是本机不播放"
+    },
+    {
+      "name": "settings_enhance",
+      "value": "画质增强"
+    },
+    {
+      "name": "settings_enhance_desc",
+      "value": "用系统的视频处理引擎放大和锐化画面，会增加少量延迟"
+    },
+    {
+      "name": "settings_enhance_unsupported",
+      "value": "本机不支持视频处理引擎"
+    },
+    {
+      "name": "settings_freeze",
+      "value": "丢帧定格"
+    },
+    {
+      "name": "settings_freeze_desc",
+      "value": "丢帧后停在最后一个完好的画面，等到关键帧再继续，避免花屏"
+    },
+    {
+      "name": "settings_group_appearance",
+      "value": "外观"
+    },
+    {
+      "name": "settings_group_connection",
+      "value": "连接"
+    },
+    {
+      "name": "settings_group_help",
+      "value": "帮助"
+    },
+    {
+      "name": "settings_group_picture",
+      "value": "画面"
+    },
+    {
+      "name": "settings_group_sound",
+      "value": "声音"
+    },
+    {
+      "name": "settings_guide_desc",
+      "value": "准备游戏机、连接方法和常见问题"
+    },
+    {
+      "name": "settings_keepalive",
+      "value": "后台保持连接"
+    },
+    {
+      "name": "settings_keepalive_desc",
+      "value": "切到后台后继续接收一段时间，回来时马上恢复画面"
+    },
+    {
+      "name": "settings_language",
+      "value": "语言"
+    },
+    {
+      "name": "settings_netopt",
+      "value": "网络优化"
+    },
+    {
+      "name": "settings_netopt_desc",
+      "value": "快速确认收到的数据，并请系统为串流加速"
+    },
+    {
+      "name": "settings_pip",
+      "value": "离开时转小窗"
+    },
+    {
+      "name": "settings_pip_desc",
+      "value": "离开 App 时自动转入小窗继续播放"
+    },
+    {
+      "name": "settings_pip_unsupported",
+      "value": "本机不支持小窗播放"
+    },
+    {
+      "name": "settings_refresh",
+      "value": "播放时用 60Hz"
+    },
+    {
+      "name": "settings_refresh_desc",
+      "value": "游戏画面最高 60 帧，高刷屏降到 60Hz 更省电、上屏更稳"
+    },
+    {
+      "name": "settings_stats",
+      "value": "统计浮层"
+    },
+    {
+      "name": "settings_stats_desc",
+      "value": "播放时在左上角显示连接、帧率、码率、延迟和声音等信息"
+    },
+    {
+      "name": "settings_theme",
+      "value": "深色模式"
+    },
+    {
+      "name": "settings_theme_dark",
+      "value": "深色"
+    },
+    {
+      "name": "settings_theme_light",
+      "value": "浅色"
+    },
+    {
+      "name": "settings_theme_system",
+      "value": "跟随系统"
+    },
+    {
+      "name": "settings_title",
+      "value": "设置"
+    }
+  ]
+}

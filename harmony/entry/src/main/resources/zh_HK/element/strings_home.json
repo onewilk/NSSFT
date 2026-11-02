@@ -1,0 +1,140 @@
+{
+  "string": [
+    {
+      "name": "home_discovery_failed",
+      "value": "自動探索無法使用，請手動輸入位址"
+    },
+    {
+      "name": "home_empty_desc",
+      "value": "請確認遊戲機上的 SFT 已改用網路連線並重新啟動過，並且和本機在同一個網路裡。也可以手動輸入位址。"
+    },
+    {
+      "name": "home_empty_title",
+      "value": "還沒找到主機"
+    },
+    {
+      "name": "home_forget",
+      "value": "從清單移除"
+    },
+    {
+      "name": "home_forget_confirm",
+      "value": "移除"
+    },
+    {
+      "name": "home_forget_message",
+      "value": "從清單移除「%s」？下次在區域網路裡發現它時還會出現。"
+    },
+    {
+      "name": "home_forget_title",
+      "value": "移除主機"
+    },
+    {
+      "name": "home_host_default",
+      "value": "主機 %s"
+    },
+    {
+      "name": "home_host_online",
+      "value": "在線"
+    },
+    {
+      "name": "home_host_seen",
+      "value": "%s連過"
+    },
+    {
+      "name": "home_hotspot",
+      "value": "專用熱點"
+    },
+    {
+      "name": "home_hotspot_desc",
+      "value": "讓遊戲機直接連上本機的 5 GHz 熱點，畫面更穩"
+    },
+    {
+      "name": "home_hotspot_unsupported",
+      "value": "本機不支援 Wi-Fi Direct，無法開啟專用熱點"
+    },
+    {
+      "name": "home_manual",
+      "value": "手動輸入位址"
+    },
+    {
+      "name": "home_manual_connect",
+      "value": "連線"
+    },
+    {
+      "name": "home_manual_desc",
+      "value": "遊戲機的 IP 位址可以在 SFT 管理程式裡看到"
+    },
+    {
+      "name": "home_manual_invalid",
+      "value": "請輸入有效的 IPv4 位址"
+    },
+    {
+      "name": "home_manual_placeholder",
+      "value": "例如 192.168.1.50"
+    },
+    {
+      "name": "home_manual_title",
+      "value": "連線到主機"
+    },
+    {
+      "name": "home_more",
+      "value": "更多"
+    },
+    {
+      "name": "home_open_guide",
+      "value": "查看使用說明"
+    },
+    {
+      "name": "home_rename",
+      "value": "重新命名"
+    },
+    {
+      "name": "home_rename_placeholder",
+      "value": "例如：客廳"
+    },
+    {
+      "name": "home_rename_title",
+      "value": "為這台主機取個名字"
+    },
+    {
+      "name": "home_searching",
+      "value": "正在搜尋"
+    },
+    {
+      "name": "home_section_hosts",
+      "value": "主機"
+    },
+    {
+      "name": "home_start",
+      "value": "開始串流"
+    },
+    {
+      "name": "home_tagline",
+      "value": "區域網路遊戲串流"
+    },
+    {
+      "name": "home_try_connect",
+      "value": "嘗試連線"
+    },
+    {
+      "name": "home_usb",
+      "value": "USB 連線"
+    },
+    {
+      "name": "home_usb_desc",
+      "value": "掌機模式下 SFT 選「USB - PC viewer」，用資料線連到本機"
+    },
+    {
+      "name": "home_usb_found",
+      "value": "已透過 USB 偵測到遊戲機"
+    },
+    {
+      "name": "home_usb_found_desc",
+      "value": "點此開始串流"
+    },
+    {
+      "name": "home_usb_unsupported",
+      "value": "本機不支援 USB 主機模式，請改用網路連線"
+    }
+  ]
+}

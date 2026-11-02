@@ -1,0 +1,168 @@
+{
+  "string": [
+    {
+      "name": "guide_connect_step1",
+      "value": "本机和游戏机连同一个 Wi-Fi，或让游戏机连本机的专用热点。"
+    },
+    {
+      "name": "guide_connect_step2",
+      "value": "在首页点主机卡片上的“开始串流”；没出现就手动输入地址。"
+    },
+    {
+      "name": "guide_connect_step3",
+      "value": "在游戏机上打开游戏，画面就会出现。"
+    },
+    {
+      "name": "guide_connect_title",
+      "value": "连接与串流"
+    },
+    {
+      "name": "guide_disclaimer",
+      "value": "NSSFT 只负责接收和播放画面，不提供、也不修改游戏机上的任何软件。"
+    },
+    {
+      "name": "guide_faq_a1",
+      "value": "确认 SFT 的连接方式是“网络”并已重启游戏机，本机和游戏机在同一个网络里。有些路由器会拦截设备之间的广播，这时用“手动输入地址”即可。"
+    },
+    {
+      "name": "guide_faq_a2",
+      "value": "SFT 的连接方式还是 USB。在管理程序里改成“网络”后，要重启游戏机才生效。"
+    },
+    {
+      "name": "guide_faq_a3",
+      "value": "SFT 默认只串流游戏画面，停在主菜单时没有画面。打开一款游戏即可。"
+    },
+    {
+      "name": "guide_faq_a4",
+      "value": "网络丢了帧时，画面会停在最后一个完好的画面，同时马上请游戏机补发关键帧，通常一瞬间就恢复。不喜欢可以在设置里关掉“丢帧定格”。"
+    },
+    {
+      "name": "guide_faq_a5",
+      "value": "SFT 同一时间只接受一个接收端。先断开电脑或其他设备上的接收端，再在这里连接。"
+    },
+    {
+      "name": "guide_faq_q1",
+      "value": "首页一直找不到主机？"
+    },
+    {
+      "name": "guide_faq_q2",
+      "value": "提示“游戏机有回应，但没有开网络串流”？"
+    },
+    {
+      "name": "guide_faq_q3",
+      "value": "已经连上，但一直在等游戏画面？"
+    },
+    {
+      "name": "guide_faq_q4",
+      "value": "画面偶尔停住一下？"
+    },
+    {
+      "name": "guide_faq_q5",
+      "value": "电脑能连，这里却连不上？"
+    },
+    {
+      "name": "guide_faq_title",
+      "value": "常见问题"
+    },
+    {
+      "name": "guide_open_sft",
+      "value": "打开 SFT 项目主页"
+    },
+    {
+      "name": "guide_prepare_step1",
+      "value": "在游戏机上装好 SFT，方法见 SFT 项目主页。"
+    },
+    {
+      "name": "guide_prepare_step2",
+      "value": "在 SFT 管理程序里把“连接方式”改成“网络”，重启游戏机。"
+    },
+    {
+      "name": "guide_prepare_step3",
+      "value": "开机约 30 秒后 SFT 才开始工作。"
+    },
+    {
+      "name": "guide_prepare_title",
+      "value": "准备游戏机"
+    },
+    {
+      "name": "guide_quality_body",
+      "value": "底座加网络是原生 1080p，掌机一般 720p；网络吃紧时游戏机会自动降画质保帧率。播放时点画面呼出工具条，在“选项”里调整丢帧定格和画质增强。"
+    },
+    {
+      "name": "guide_quality_tip",
+      "value": "就近的专用热点或底座网线最稳。"
+    },
+    {
+      "name": "guide_quality_title",
+      "value": "画质与流畅"
+    },
+    {
+      "name": "guide_sft_1080_body",
+      "value": "底座模式走网络就是 1080p；掌机模式只有 720p，要靠额外插件输出底座画面。1600×900 这类分辨率默认按 720p 发送，可在 Picture 页开启 Scale other docked sizes up to 1080p。"
+    },
+    {
+      "name": "guide_sft_1080_title",
+      "value": "1080p 的条件"
+    },
+    {
+      "name": "guide_sft_60_body",
+      "value": "默认频率下 1080p 略低于 60 帧，CPU 超频到 1785 MHz 可以跑满；画面复杂时可在 Picture 页开启 Faster memory while streaming。"
+    },
+    {
+      "name": "guide_sft_60_title",
+      "value": "满 60 帧的条件"
+    },
+    {
+      "name": "guide_sft_cheat_body",
+      "value": "加载修改器时读取画面会慢好几倍，串流时请关闭；带防调试保护的程序无法串流。"
+    },
+    {
+      "name": "guide_sft_cheat_title",
+      "value": "游戏修改器会拖慢画面"
+    },
+    {
+      "name": "guide_sft_intro",
+      "value": "都在游戏机的 SFT 管理程序里设置，点开查看"
+    },
+    {
+      "name": "guide_sft_mem_body",
+      "value": "插件共用几 MB 系统内存，不够时 SFT 不会启动。可在 SFT 的 Setup 页查看占用，关掉用不到的插件。"
+    },
+    {
+      "name": "guide_sft_mem_title",
+      "value": "插件太多会导致 SFT 不启动"
+    },
+    {
+      "name": "guide_sft_one_body",
+      "value": "SFT 和其他串流插件（如 SysDVR）会争用录像服务，同时开启容易冲突或启动失败，只保留 SFT。"
+    },
+    {
+      "name": "guide_sft_one_title",
+      "value": "只开一个串流插件"
+    },
+    {
+      "name": "guide_sft_sound_body",
+      "value": "禁止录像的游戏默认没有声音，在 SFT 里开启 Sound in no-record games 并重启游戏机即可。"
+    },
+    {
+      "name": "guide_sft_sound_title",
+      "value": "禁止录像的游戏没有声音"
+    },
+    {
+      "name": "guide_sft_title",
+      "value": "SFT 设置要点"
+    },
+    {
+      "name": "guide_sft_usb_body",
+      "value": "游戏机在掌机模式下，SFT 的连接方式选 “USB - PC viewer” 并重启，再用支持传数据的线连到本机，首页会出现“已通过 USB 检测到游戏机”。手机、平板用 C-C 线时可能被识别成从设备，改用 OTG 转接头更稳。USB 和网络每次开机只能选一种。"
+    },
+    {
+      "name": "guide_sft_usb_title",
+      "value": "用 USB 连接"
+    },
+    {
+      "name": "guide_title",
+      "value": "使用说明"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "modelVersion": "5.0.0",
+  "description": "NSSFT: HarmonyOS client for SFT game streaming",
+  "dependencies": {},
+  "devDependencies": {}
+}

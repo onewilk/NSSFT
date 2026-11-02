@@ -1,0 +1,11 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "NSSFT: HarmonyOS client for SFT game streaming",
+  "main": "",
+  "author": "",
+  "license": "GPL-2.0",
+  "dependencies": {
+    "libentry.so": "file:./src/main/cpp/types/libentry"
+  }
+}

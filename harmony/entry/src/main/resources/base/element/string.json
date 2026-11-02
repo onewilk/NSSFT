@@ -1,0 +1,20 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "NSSFT: game streaming receiver"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "Receive game picture and sound from SFT over the local network"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "NSSFT"
+    },
+    {
+      "name": "reason_keep_background",
+      "value": "Keep the streaming connection while in the background"
+    }
+  ]
+}

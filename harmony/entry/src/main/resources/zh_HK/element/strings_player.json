@@ -1,0 +1,172 @@
+{
+  "string": [
+    {
+      "name": "app_live_btn_open",
+      "value": "回到畫面"
+    },
+    {
+      "name": "app_live_btn_stop",
+      "value": "停止串流"
+    },
+    {
+      "name": "app_live_receiving",
+      "value": "背景接收中"
+    },
+    {
+      "name": "app_live_reconnecting",
+      "value": "重新連線中"
+    },
+    {
+      "name": "app_live_text_bg",
+      "value": "%s · %s · 已接收 %s MB · %s 後中斷連線"
+    },
+    {
+      "name": "app_live_text_fg",
+      "value": "%s · 前景播放"
+    },
+    {
+      "name": "app_live_title_bg",
+      "value": "%s 背景保持連線"
+    },
+    {
+      "name": "app_live_title_fg",
+      "value": "%s 串流中"
+    },
+    {
+      "name": "player_badge",
+      "value": "%s · %d 格"
+    },
+    {
+      "name": "player_connecting",
+      "value": "正在連線 %s …"
+    },
+    {
+      "name": "player_enhance_desc",
+      "value": "切換時畫面會閃一下"
+    },
+    {
+      "name": "player_freeze_desc",
+      "value": "掉幀後停在最後一個完好的畫面"
+    },
+    {
+      "name": "player_gamepad",
+      "value": "手把"
+    },
+    {
+      "name": "player_lock",
+      "value": "鎖定"
+    },
+    {
+      "name": "player_options",
+      "value": "選項"
+    },
+    {
+      "name": "player_options_title",
+      "value": "播放選項"
+    },
+    {
+      "name": "player_pip",
+      "value": "小視窗"
+    },
+    {
+      "name": "player_record",
+      "value": "錄製"
+    },
+    {
+      "name": "player_sound_off",
+      "value": "靜音"
+    },
+    {
+      "name": "player_sound_on",
+      "value": "聲音"
+    },
+    {
+      "name": "player_stop",
+      "value": "中斷"
+    },
+    {
+      "name": "player_toast_coming_soon",
+      "value": "%s功能正在開發，敬請期待"
+    },
+    {
+      "name": "player_toast_enhance_unavailable",
+      "value": "畫質增強無法使用：%s"
+    },
+    {
+      "name": "player_toast_keepalive_off",
+      "value": "已關閉背景保持"
+    },
+    {
+      "name": "player_toast_keepalive_unavailable",
+      "value": "背景保持無法使用：%s"
+    },
+    {
+      "name": "player_toast_locked",
+      "value": "已鎖定：點一下螢幕顯示鎖形按鈕，再點按鈕解鎖"
+    },
+    {
+      "name": "player_toast_pip_failed",
+      "value": "無法進入小視窗：%s"
+    },
+    {
+      "name": "player_toast_resume_failed",
+      "value": "恢復畫面失敗：%s"
+    },
+    {
+      "name": "player_toast_start_failed",
+      "value": "無法開始串流：%s"
+    },
+    {
+      "name": "player_toast_tv_menu",
+      "value": "按選單鍵或長按確認鍵開啟選單，按返回鍵中斷"
+    },
+    {
+      "name": "player_toast_usb_detached",
+      "value": "USB 已中斷"
+    },
+    {
+      "name": "player_unlock",
+      "value": "解鎖"
+    },
+    {
+      "name": "shortcut_connect_last",
+      "value": "連接上次"
+    },
+    {
+      "name": "shortcut_hotspot_connect",
+      "value": "熱點+連線"
+    },
+    {
+      "name": "shortcut_hotspot_failed",
+      "value": "專用熱點開啟失敗：%s"
+    },
+    {
+      "name": "shortcut_hotspot_starting",
+      "value": "正在開啟專用熱點…"
+    },
+    {
+      "name": "shortcut_hotspot_unsupported",
+      "value": "本機不支援專用熱點，直接連線上次的裝置"
+    },
+    {
+      "name": "shortcut_no_recent",
+      "value": "還沒有連線紀錄，請先連線一次"
+    },
+    {
+      "name": "shortcut_wait_timeout",
+      "value": "沒有等到遊戲機，請確認遊戲機已連上專用熱點"
+    },
+    {
+      "name": "shortcut_waiting",
+      "value": "專用熱點已開啟，等待遊戲機連線…"
+    },
+    {
+      "name": "tv_off",
+      "value": "關"
+    },
+    {
+      "name": "tv_on",
+      "value": "開"
+    }
+  ]
+}

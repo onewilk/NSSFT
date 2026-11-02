@@ -1,0 +1,35 @@
+{
+  "apiType": "stageMode",
+  "buildOption": {
+    "externalNativeOptions": {
+      "path": "./src/main/cpp/CMakeLists.txt",
+      "arguments": "",
+      "cppFlags": "",
+      // x86_64 用于模拟器调试界面；模拟器没有硬件解码，画面需真机验证
+      "abiFilters": ["arm64-v8a", "x86_64"]
+    }
+  },
+  // 发布包只保留真机的 arm64-v8a
+  "buildOptionSet": [
+    {
+      "name": "release",
+      "externalNativeOptions": {
+        "path": "./src/main/cpp/CMakeLists.txt",
+        "arguments": "",
+        "cppFlags": "",
+        "abiFilters": ["arm64-v8a"]
+      },
+      "nativeLib": {
+        "filter": {
+          "excludes": ["**/x86_64/*.so", "**/x86_64/*.so.*"]
+        }
+      }
+    }
+  ],
+  // default：开源版（GitHub 上的未签名包），设备类型按 module.json5（含智慧屏）。
+  // appgallery：应用市场提审包，不声明 tv（大屏应用要广电备案号，托管隐私弹窗也不支持智慧屏）
+  "targets": [
+    { "name": "default" },
+    { "name": "appgallery", "config": { "deviceType": ["phone", "tablet", "2in1"] } }
+  ]
+}
