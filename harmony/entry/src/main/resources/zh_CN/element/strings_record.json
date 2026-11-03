@@ -1,0 +1,296 @@
+{
+  "string": [
+    {
+      "name": "player_record_stop",
+      "value": "停止录制"
+    },
+    {
+      "name": "player_record_waiting",
+      "value": "等待画面"
+    },
+    {
+      "name": "player_toast_record_started",
+      "value": "开始录制"
+    },
+    {
+      "name": "player_toast_record_saved",
+      "value": "已录制 %s（%s），可在首页的“录像”里查看"
+    },
+    {
+      "name": "player_toast_record_empty",
+      "value": "没有录到画面，未保存文件"
+    },
+    {
+      "name": "player_toast_record_failed",
+      "value": "无法开始录制：%s"
+    },
+    {
+      "name": "player_toast_record_unsupported",
+      "value": "本机不能录制：%s"
+    },
+    {
+      "name": "player_toast_record_error",
+      "value": "录制出错，已停止：%s"
+    },
+    {
+      "name": "player_toast_record_low_space",
+      "value": "存储空间快满了，已停止录制"
+    },
+    {
+      "name": "app_live_title_rec",
+      "value": "%s 正在录制"
+    },
+    {
+      "name": "app_live_text_rec",
+      "value": "%s · 已录 %s · %s"
+    },
+    {
+      "name": "record_info_dropped",
+      "value": "%d 帧未录入"
+    },
+    {
+      "name": "record_only_title",
+      "value": "只录制"
+    },
+    {
+      "name": "record_only_recording",
+      "value": "正在录制"
+    },
+    {
+      "name": "record_only_waiting",
+      "value": "正在等待画面…"
+    },
+    {
+      "name": "record_only_hint",
+      "value": "录制时可以锁屏或切到其他应用，录制会在后台继续。"
+    },
+    {
+      "name": "record_only_stop",
+      "value": "停止录制"
+    },
+    {
+      "name": "record_only_stop_title",
+      "value": "停止录制？"
+    },
+    {
+      "name": "record_only_stop_message",
+      "value": "已经录下的部分会保存。"
+    },
+    {
+      "name": "record_only_continue",
+      "value": "继续录制"
+    },
+    {
+      "name": "home_record_only",
+      "value": "只录制（不显示画面）"
+    },
+    {
+      "name": "settings_group_record",
+      "value": "录像"
+    },
+    {
+      "name": "settings_record_quality",
+      "value": "录制画质"
+    },
+    {
+      "name": "record_quality_high",
+      "value": "高画质"
+    },
+    {
+      "name": "record_quality_standard",
+      "value": "标准"
+    },
+    {
+      "name": "record_quality_small",
+      "value": "省空间"
+    },
+    {
+      "name": "record_quality_high_desc",
+      "value": "1080p · H.265 12 Mbps，每分钟约 90 MB"
+    },
+    {
+      "name": "record_quality_standard_desc",
+      "value": "1080p · H.265 8 Mbps，每分钟约 60 MB"
+    },
+    {
+      "name": "record_quality_small_desc",
+      "value": "720p · H.265 4 Mbps，每分钟约 30 MB"
+    },
+    {
+      "name": "record_quality_small_noscale",
+      "value": "本机不能缩放画面：游戏机发 1080p 时按 1080p 录制"
+    },
+    {
+      "name": "record_unsupported_encoder",
+      "value": "本机没有硬件视频编码器"
+    },
+    {
+      "name": "record_unsupported_two_decoders",
+      "value": "本机不能同时运行两路硬件解码，边播边录不可用，可以改用“只录制”"
+    },
+    {
+      "name": "record_unsupported_decoder",
+      "value": "本机没有可用的硬件解码器"
+    },
+    {
+      "name": "record_error_dir",
+      "value": "无法创建录像目录：%s"
+    },
+    {
+      "name": "record_error_space",
+      "value": "剩余空间不足（%s），至少需要 1 GB"
+    },
+    {
+      "name": "recordings_title",
+      "value": "录像文件"
+    },
+    {
+      "name": "recordings_empty",
+      "value": "还没有录像"
+    },
+    {
+      "name": "recordings_empty_hint",
+      "value": "在播放页点“录制”，或在首页主机卡片的菜单里选“只录制”"
+    },
+    {
+      "name": "recordings_summary",
+      "value": "共 %d 个，%s"
+    },
+    {
+      "name": "recordings_save",
+      "value": "存到图库"
+    },
+    {
+      "name": "recordings_saved",
+      "value": "已存到图库"
+    },
+    {
+      "name": "recordings_save_failed",
+      "value": "存到图库失败：%s"
+    },
+    {
+      "name": "recordings_delete",
+      "value": "删除"
+    },
+    {
+      "name": "recordings_delete_title",
+      "value": "删除这个录像？"
+    },
+    {
+      "name": "recordings_delete_message",
+      "value": "%s，%s。删除后无法恢复。"
+    },
+    {
+      "name": "recordings_note",
+      "value": "录像先保存在应用里，存到图库后会从这里移走。卸载应用会删除还没存到图库的录像。"
+    },
+    {
+      "name": "guide_record_title",
+      "value": "录像"
+    },
+    {
+      "name": "guide_record_intro",
+      "value": "在本机边收边压缩成 MP4（H.265），和串流画面互不影响。"
+    },
+    {
+      "name": "guide_record_live_title",
+      "value": "边播边录"
+    },
+    {
+      "name": "guide_record_live_body",
+      "value": "播放时在顶部中间的菜单里点“录制”开始，再点一次停止；录制中右上角显示红点和时长，通知栏也会显示录制时长和大小。切到后台或锁屏时会继续录。"
+    },
+    {
+      "name": "guide_record_only_title",
+      "value": "只录制"
+    },
+    {
+      "name": "guide_record_only_body",
+      "value": "首页主机卡片右上角的菜单里选“只录制”（USB 长按卡片）：不显示画面、不出声，收到画面后自动开始录。可以锁屏放着，比边播边录更省电。"
+    },
+    {
+      "name": "guide_record_quality_title",
+      "value": "录制画质"
+    },
+    {
+      "name": "guide_record_quality_body",
+      "value": "在“设置 > 录像”里选：高画质 1080p 12 Mbps（每分钟约 90 MB）、标准 1080p 8 Mbps（约 60 MB）、省空间 720p 4 Mbps（约 30 MB）。游戏机发 720p 时按 720p 录，码率相应降低。本机没有 H.265 编码器时改用 H.264，文件会大一些。"
+    },
+    {
+      "name": "guide_record_files_title",
+      "value": "录好的视频在哪"
+    },
+    {
+      "name": "guide_record_files_body",
+      "value": "在首页“专用热点”下方的“录像”卡片里，可以播放、存到图库或删除。录好的视频先保存在应用里，系统图库里看不到；点“存到图库”确认后才会移到图库。卸载应用会删除还没存到图库的录像。"
+    },
+    {
+      "name": "guide_record_enhance_title",
+      "value": "画质增强与录制"
+    },
+    {
+      "name": "guide_record_enhance_body",
+      "value": "画质增强可能会对录制效果产生影响，如发现录制内容出现异常，可尝试关闭画质增强选项。"
+    },
+    {
+      "name": "guide_record_loss_title",
+      "value": "录像里的停顿和分段"
+    },
+    {
+      "name": "guide_record_loss_body",
+      "value": "录像存的是收到的画面：网络丢帧时录像里也会缺那一段，用 USB 连接最稳定。录制时会请游戏机保持一种画面尺寸（SFT 0.7.18 及以上）；更早的版本在 720p 与 1080p 之间切换时，会另存为一个新文件。"
+    },
+    {
+      "name": "guide_record_power_title",
+      "value": "空间、耗电和发热"
+    },
+    {
+      "name": "guide_record_power_body",
+      "value": "开始录制要至少 1 GB 剩余空间，录制中剩余空间低于 300 MB 会自动停止。边播边录要多跑一路硬件解码和编码，会更耗电、发热，长时间录制建议接上电源或改用“只录制”。"
+    },
+    {
+      "name": "guide_record_sound_title",
+      "value": "录像的声音"
+    },
+    {
+      "name": "guide_record_sound_body",
+      "value": "游戏声音会一起录进去，本机关了“播放游戏声音”也照样录（只是本机不播放）。如果在 SFT 里关了声音，录像就没有声音。"
+    },
+    {
+      "name": "home_recordings",
+      "value": "录像"
+    },
+    {
+      "name": "home_recordings_desc",
+      "value": "%d 个录像 · %s"
+    },
+    {
+      "name": "home_recordings_empty",
+      "value": "录好的视频在这里播放、存到图库或删除"
+    },
+    {
+      "name": "recordings_play",
+      "value": "播放"
+    },
+    {
+      "name": "recordings_play_failed",
+      "value": "无法打开这个录像：%s"
+    },
+    {
+      "name": "live_rec_stop",
+      "value": "停止录制"
+    },
+    {
+      "name": "live_rec_state_recording",
+      "value": "录制中"
+    },
+    {
+      "name": "live_rec_content",
+      "value": "录制中 · 已录 %s"
+    },
+    {
+      "name": "app_live_text_rec_wait",
+      "value": "%s · 等待画面"
+    }
+  ]
+}

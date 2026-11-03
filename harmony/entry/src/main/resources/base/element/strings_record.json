@@ -1,0 +1,296 @@
+{
+  "string": [
+    {
+      "name": "player_record_stop",
+      "value": "Stop"
+    },
+    {
+      "name": "player_record_waiting",
+      "value": "Waiting"
+    },
+    {
+      "name": "player_toast_record_started",
+      "value": "Recording started"
+    },
+    {
+      "name": "player_toast_record_saved",
+      "value": "Recorded %s (%s). Find it under Recordings on the home screen"
+    },
+    {
+      "name": "player_toast_record_empty",
+      "value": "Nothing was recorded, so no file was saved"
+    },
+    {
+      "name": "player_toast_record_failed",
+      "value": "Cannot start recording: %s"
+    },
+    {
+      "name": "player_toast_record_unsupported",
+      "value": "Recording is not available: %s"
+    },
+    {
+      "name": "player_toast_record_error",
+      "value": "Recording stopped after an error: %s"
+    },
+    {
+      "name": "player_toast_record_low_space",
+      "value": "Storage is almost full, so recording stopped"
+    },
+    {
+      "name": "app_live_title_rec",
+      "value": "%s is recording"
+    },
+    {
+      "name": "app_live_text_rec",
+      "value": "%s · %s recorded · %s"
+    },
+    {
+      "name": "record_info_dropped",
+      "value": "%d frames not recorded"
+    },
+    {
+      "name": "record_only_title",
+      "value": "Record only"
+    },
+    {
+      "name": "record_only_recording",
+      "value": "Recording"
+    },
+    {
+      "name": "record_only_waiting",
+      "value": "Waiting for the picture…"
+    },
+    {
+      "name": "record_only_hint",
+      "value": "You can lock the screen or use other apps. Recording continues in the background."
+    },
+    {
+      "name": "record_only_stop",
+      "value": "Stop recording"
+    },
+    {
+      "name": "record_only_stop_title",
+      "value": "Stop recording?"
+    },
+    {
+      "name": "record_only_stop_message",
+      "value": "What has been recorded so far is saved."
+    },
+    {
+      "name": "record_only_continue",
+      "value": "Keep recording"
+    },
+    {
+      "name": "home_record_only",
+      "value": "Record only (no picture)"
+    },
+    {
+      "name": "settings_group_record",
+      "value": "Recording"
+    },
+    {
+      "name": "settings_record_quality",
+      "value": "Recording quality"
+    },
+    {
+      "name": "record_quality_high",
+      "value": "High"
+    },
+    {
+      "name": "record_quality_standard",
+      "value": "Standard"
+    },
+    {
+      "name": "record_quality_small",
+      "value": "Space saver"
+    },
+    {
+      "name": "record_quality_high_desc",
+      "value": "1080p, H.265 at 12 Mbps, about 90 MB a minute"
+    },
+    {
+      "name": "record_quality_standard_desc",
+      "value": "1080p, H.265 at 8 Mbps, about 60 MB a minute"
+    },
+    {
+      "name": "record_quality_small_desc",
+      "value": "720p, H.265 at 4 Mbps, about 30 MB a minute"
+    },
+    {
+      "name": "record_quality_small_noscale",
+      "value": "This device cannot scale the picture: 1080p streams are recorded at 1080p"
+    },
+    {
+      "name": "record_unsupported_encoder",
+      "value": "this device has no hardware video encoder"
+    },
+    {
+      "name": "record_unsupported_two_decoders",
+      "value": "this device cannot run two hardware decoders at once; use Record only instead"
+    },
+    {
+      "name": "record_unsupported_decoder",
+      "value": "this device has no hardware decoder available"
+    },
+    {
+      "name": "record_error_dir",
+      "value": "cannot create the recordings folder: %s"
+    },
+    {
+      "name": "record_error_space",
+      "value": "not enough free space (%s); at least 1 GB is needed"
+    },
+    {
+      "name": "recordings_title",
+      "value": "Recordings"
+    },
+    {
+      "name": "recordings_empty",
+      "value": "No recordings yet"
+    },
+    {
+      "name": "recordings_empty_hint",
+      "value": "Tap Record while streaming, or choose Record only from a console card's menu on the home screen"
+    },
+    {
+      "name": "recordings_summary",
+      "value": "%d recordings, %s"
+    },
+    {
+      "name": "recordings_save",
+      "value": "Save to Gallery"
+    },
+    {
+      "name": "recordings_saved",
+      "value": "Saved to Gallery"
+    },
+    {
+      "name": "recordings_save_failed",
+      "value": "Could not save to Gallery: %s"
+    },
+    {
+      "name": "recordings_delete",
+      "value": "Delete"
+    },
+    {
+      "name": "recordings_delete_title",
+      "value": "Delete this recording?"
+    },
+    {
+      "name": "recordings_delete_message",
+      "value": "%s, %s. This cannot be undone."
+    },
+    {
+      "name": "recordings_note",
+      "value": "Recordings are kept inside the app until you save them to Gallery, which moves them out of this list. Uninstalling the app deletes recordings that were not saved to Gallery."
+    },
+    {
+      "name": "guide_record_title",
+      "value": "Recording"
+    },
+    {
+      "name": "guide_record_intro",
+      "value": "The stream is compressed into an MP4 (H.265) on this device as it arrives, separately from what is on screen."
+    },
+    {
+      "name": "guide_record_live_title",
+      "value": "Record while streaming"
+    },
+    {
+      "name": "guide_record_live_body",
+      "value": "While streaming, open the menu at the top center and tap Record; tap it again to stop. A red dot and the time show at the top right, and the notification bar shows the time and size too. Recording continues in the background or with the screen locked."
+    },
+    {
+      "name": "guide_record_only_title",
+      "value": "Record only"
+    },
+    {
+      "name": "guide_record_only_body",
+      "value": "Choose Record only from the menu at the top right of a console card (for USB, touch and hold its card). Nothing is shown or played; recording starts once the picture arrives. You can leave the screen locked, and it uses less power than recording while streaming."
+    },
+    {
+      "name": "guide_record_quality_title",
+      "value": "Recording quality"
+    },
+    {
+      "name": "guide_record_quality_body",
+      "value": "Choose it in Settings > Recording: High is 1080p at 12 Mbps (about 90 MB a minute), Standard is 1080p at 8 Mbps (about 60 MB), and Space saver is 720p at 4 Mbps (about 30 MB). 720p streams are recorded at 720p with a lower bitrate. Without an H.265 encoder, H.264 is used and files are somewhat larger."
+    },
+    {
+      "name": "guide_record_files_title",
+      "value": "Where recordings go"
+    },
+    {
+      "name": "guide_record_files_body",
+      "value": "In the Recordings card below Dedicated hotspot on the home screen, where you can play, save to Gallery or delete them. Recordings stay inside the app and do not appear in Gallery until you tap Save to Gallery and confirm, which moves them there. Uninstalling the app deletes recordings that were not saved to Gallery."
+    },
+    {
+      "name": "guide_record_enhance_title",
+      "value": "Picture enhancement and recording"
+    },
+    {
+      "name": "guide_record_enhance_body",
+      "value": "Picture enhancement can affect recordings. If something looks wrong in a recording, try turning picture enhancement off."
+    },
+    {
+      "name": "guide_record_loss_title",
+      "value": "Pauses and split files"
+    },
+    {
+      "name": "guide_record_loss_body",
+      "value": "Recordings contain the frames that arrived: if frames are lost on the network, that part is missing from the recording too. USB is the most stable. While recording, the console is asked to keep one picture size (SFT 0.7.18 or later); with older versions, switching between 720p and 1080p starts a new file."
+    },
+    {
+      "name": "guide_record_power_title",
+      "value": "Storage, battery and heat"
+    },
+    {
+      "name": "guide_record_power_body",
+      "value": "Recording needs at least 1 GB of free space to start and stops by itself below 300 MB. Recording while streaming runs one more hardware decoder and an encoder, so it uses more power and gets warmer. For long recordings, plug in or use Record only."
+    },
+    {
+      "name": "guide_record_sound_title",
+      "value": "Sound in recordings"
+    },
+    {
+      "name": "guide_record_sound_body",
+      "value": "Game sound is recorded too, even when Play game sound is off on this device (it just is not played here). If sound is turned off in SFT, the recording has no sound."
+    },
+    {
+      "name": "home_recordings",
+      "value": "Recordings"
+    },
+    {
+      "name": "home_recordings_desc",
+      "value": "%d recordings · %s"
+    },
+    {
+      "name": "home_recordings_empty",
+      "value": "Play your recordings here, save them to Gallery or delete them"
+    },
+    {
+      "name": "recordings_play",
+      "value": "Play"
+    },
+    {
+      "name": "recordings_play_failed",
+      "value": "Cannot open this recording: %s"
+    },
+    {
+      "name": "live_rec_stop",
+      "value": "Stop recording"
+    },
+    {
+      "name": "live_rec_state_recording",
+      "value": "Recording"
+    },
+    {
+      "name": "live_rec_content",
+      "value": "Recording · %s"
+    },
+    {
+      "name": "app_live_text_rec_wait",
+      "value": "%s · waiting for the picture"
+    }
+  ]
+}

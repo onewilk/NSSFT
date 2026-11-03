@@ -9,30 +9,6 @@
       "value": "停止串流"
     },
     {
-      "name": "app_live_receiving",
-      "value": "背景接收中"
-    },
-    {
-      "name": "app_live_reconnecting",
-      "value": "重新連線中"
-    },
-    {
-      "name": "app_live_text_bg",
-      "value": "%s · %s · 已接收 %s MB · %s 後中斷連線"
-    },
-    {
-      "name": "app_live_text_fg",
-      "value": "%s · 前景播放"
-    },
-    {
-      "name": "app_live_title_bg",
-      "value": "%s 背景保持連線"
-    },
-    {
-      "name": "app_live_title_fg",
-      "value": "%s 串流中"
-    },
-    {
       "name": "player_badge",
       "value": "%s · %d 格"
     },
@@ -85,20 +61,16 @@
       "value": "中斷"
     },
     {
-      "name": "player_toast_coming_soon",
-      "value": "%s功能正在開發，敬請期待"
-    },
-    {
       "name": "player_toast_enhance_unavailable",
       "value": "畫質增強無法使用：%s"
     },
     {
       "name": "player_toast_keepalive_off",
-      "value": "已關閉背景保持"
+      "value": "已關閉背景錄製，切到背景時錄製會停止"
     },
     {
       "name": "player_toast_keepalive_unavailable",
-      "value": "背景保持無法使用：%s"
+      "value": "背景錄製不可用：%s。切到背景時錄製會停止"
     },
     {
       "name": "player_toast_locked",
@@ -167,6 +139,22 @@
     {
       "name": "tv_on",
       "value": "開"
+    },
+    {
+      "name": "player_menu",
+      "value": "選單"
+    },
+    {
+      "name": "player_toast_menu_hint",
+      "value": "點頂部中間的選單按鈕，可以開關聲音、錄製、手把、子母畫面等"
+    },
+    {
+      "name": "tv_guide_title",
+      "value": "遙控器怎麼用"
+    },
+    {
+      "name": "tv_guide_body",
+      "value": "選單鍵或長按確認鍵：打開、收起選單\n方向鍵：在選單裡移動；確認鍵：選擇\n返回鍵：先回到上一層、收起選單；選單收起時再按返回，中斷串流回到首頁\n接著手把時：同時按住開始鍵和選擇鍵（+ 和 −）1.5 秒也能打開選單"
     }
   ]
 }

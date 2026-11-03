@@ -4,6 +4,7 @@
 //   build/sft_probe --discover [秒数]        # 只监听 UDP 9951 广播
 //
 // 视频序号断档时会像客户端一样请求关键帧（SFTK）。退出码：收到过视频为 0，否则为 1。
+// 环境变量 SFT_PAD_TEST=1：当作接着一个手柄，第 1 秒起按住手柄的 B 键（按位置对应游戏机的 A）半秒（测 SFTI）。
 #include <algorithm>
 #include <atomic>
 #include <chrono>
@@ -15,6 +16,7 @@
 
 #include "../core/h264.h"
 #include "../core/sft_net_source.h"
+#include "../core/sft_pad.h"
 
 using namespace nssft;
 
@@ -60,9 +62,27 @@ int main(int argc, char** argv) {
     SftNetSource source(argv[1], cb, port);
     self = &source;
     source.Start();
+    const bool padTest = std::getenv("SFT_PAD_TEST") != nullptr;
+    pad::PadState padState;
+    pad::PadSender padSender(
+        padState, [&](const uint8_t* p, size_t n) { return source.SendInput(p, n); },
+        [&] { return source.ConsoleTakesInput(); });
+    if (padTest) {
+        padSender.SetDevicePresent(true);
+        padSender.SetEnabled(true);
+    }
     const auto t0 = std::chrono::steady_clock::now();
     for (int i = 0; i < seconds; ++i) {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        if (padTest && i == 1) {
+            padState.Key(pad::key::kButtonB, true);
+            padSender.Poke();
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            padState.Key(pad::key::kButtonB, false);
+            padSender.Poke();
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        } else {
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
         const SourceStats s = source.GetStats();
         std::printf("%2ds  视频 %llu 帧（关键帧 %llu）%ux%u  %.1f Mbps  音频 %llu 包  请求 %llu  断档 %llu（%llu 帧）\n", i + 1,
                     (unsigned long long)s.videoPackets, (unsigned long long)s.keyframes, s.width, s.height,
@@ -71,15 +91,18 @@ int main(int argc, char** argv) {
                     (unsigned long long)s.audioPackets, (unsigned long long)s.keyRequests,
                     (unsigned long long)s.sequenceGaps, (unsigned long long)s.lostFrames);
     }
+    const bool takesInput = source.ConsoleTakesInput();
+    padSender.Stop();  // 接着的话先拔掉手柄，再断开
     source.Stop();
     const SourceStats s = source.GetStats();
     std::printf("结果：frames=%llu idr=%llu key_mismatch=%llu audio_bytes=%llu losses=%llu key_requests=%llu "
-                "gaps=%llu lost=%llu resyncs=%llu reconnects=%llu avg_age_us=%llu\n",
+                "gaps=%llu lost=%llu resyncs=%llu reconnects=%llu avg_age_us=%llu takes_input=%d pad_sent=%llu\n",
                 (unsigned long long)frames.load(), (unsigned long long)idrs.load(),
                 (unsigned long long)mismatched.load(), (unsigned long long)audioBytes.load(),
                 (unsigned long long)losses.load(), (unsigned long long)s.keyRequests,
                 (unsigned long long)s.sequenceGaps, (unsigned long long)s.lostFrames, (unsigned long long)s.resyncs,
                 (unsigned long long)s.reconnects,
-                (unsigned long long)(s.ageSamples ? s.ageTotalUs / s.ageSamples : 0));
+                (unsigned long long)(s.ageSamples ? s.ageTotalUs / s.ageSamples : 0), takesInput ? 1 : 0,
+                (unsigned long long)padSender.Sent());
     return frames > 0 ? 0 : 1;
 }

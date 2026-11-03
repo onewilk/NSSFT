@@ -13,10 +13,6 @@
       "value": "跟隨系統"
     },
     {
-      "name": "app_minutes",
-      "value": "%d 分鐘"
-    },
-    {
       "name": "app_off",
       "value": "關閉"
     },

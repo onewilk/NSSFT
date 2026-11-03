@@ -10,3 +10,9 @@ export const FOCUS_BOX: FocusBoxStyle = {
   strokeColor: ColorMetrics.rgba(63, 140, 255, 1),
   strokeWidth: LengthMetrics.vp(3)
 };
+
+/** 不显示焦点框（播放页垫在画面下面接点击和按键的那一层：它获焦只是为了让按键送到播放器） */
+export const NO_FOCUS_BOX: FocusBoxStyle = {
+  strokeColor: ColorMetrics.rgba(0, 0, 0, 0),
+  strokeWidth: LengthMetrics.vp(0)
+};

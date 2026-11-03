@@ -1,4 +1,4 @@
-// 使用说明：三步准备 + 三步连接 + SFT 设置要点 + 画质说明 + 常见问题。
+// 使用说明：三步准备 + 三步连接 + SFT 设置要点 + 画质说明 + 录像 + 手柄 + 常见问题。
 // 要点和问题都是点标题才展开，一屏能看到全部条目
 import { common, Want } from '@kit.AbilityKit';
 import { tr } from '../common/I18n';
@@ -32,6 +32,35 @@ export struct GuideView {
       fold(tr('guide_sft_60_title'), tr('guide_sft_60_body')),
       fold(tr('guide_sft_sound_title'), tr('guide_sft_sound_body')),
       fold(tr('guide_sft_cheat_title'), tr('guide_sft_cheat_body'))
+    ];
+  }
+
+  // 录像：两种录法、画质档位、文件在哪、画质增强的影响、丢帧与分段、空间耗电、声音
+  private recordTips(): Fold[] {
+    return [
+      fold(tr('guide_record_live_title'), tr('guide_record_live_body')),
+      fold(tr('guide_record_only_title'), tr('guide_record_only_body')),
+      fold(tr('guide_record_quality_title'), tr('guide_record_quality_body')),
+      fold(tr('guide_record_files_title'), tr('guide_record_files_body')),
+      fold(tr('guide_record_enhance_title'), tr('guide_record_enhance_body')),
+      fold(tr('guide_record_loss_title'), tr('guide_record_loss_body')),
+      fold(tr('guide_record_power_title'), tr('guide_record_power_body')),
+      fold(tr('guide_record_sound_title'), tr('guide_record_sound_body'))
+    ];
+  }
+
+  // 手柄：游戏机端打开、连接、只对应一个手柄、按键对应、键盘、菜单、摇杆问题
+  private padTips(): Fold[] {
+    return [
+      fold(tr('guide_pad_enable_title'), tr('guide_pad_enable_body')),
+      fold(tr('guide_pad_connect_title'), tr('guide_pad_connect_body')),
+      fold(tr('guide_pad_one_title'), tr('guide_pad_one_body')),
+      fold(tr('guide_pad_layout_title'), tr('guide_pad_layout_body')),
+      fold(tr('guide_pad_touch_title'), tr('guide_pad_touch_body')),
+      fold(tr('guide_pad_layouts_title'), tr('guide_pad_layouts_body')),
+      fold(tr('guide_pad_keyboard_title'), tr('guide_pad_keyboard_body')),
+      fold(tr('guide_pad_menu_title'), tr('guide_pad_menu_body')),
+      fold(tr('guide_pad_trouble_title'), tr('guide_pad_trouble_body'))
     ];
   }
 
@@ -126,6 +155,14 @@ export struct GuideView {
             .lineHeight(22)
             .fontColor($r('app.color.text_primary'))
           TipBar({ text: tr('guide_quality_tip') })
+        }
+
+        Card({ title: tr('guide_record_title'), subtitle: tr('guide_record_intro') }) {
+          this.FoldList(this.recordTips(), 'rec')
+        }
+
+        Card({ title: tr('guide_pad_title'), subtitle: tr('guide_pad_intro') }) {
+          this.FoldList(this.padTips(), 'pad')
         }
 
         Card({ title: tr('guide_faq_title') }) {

@@ -13,10 +13,6 @@
       "value": "Follow system"
     },
     {
-      "name": "app_minutes",
-      "value": "%d min"
-    },
-    {
       "name": "app_off",
       "value": "Off"
     },

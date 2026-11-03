@@ -10,6 +10,7 @@
 --drop-every N 每 N 帧跳过一个序号（模拟游戏机网络忙时跳帧），用来测客户端的定格和关键帧请求。
 --status 在开始推流前先发几个“没有画面的原因”状态包。
 --resize-at N 第 N 帧起把包头里的尺寸改成 1280x720（只改包头，不改码流，测客户端的尺寸变化处理）。
+--input 包头带“接受手柄输入”标志（相当于游戏机上打开了 Controls from the viewer），客户端发来的 SFTI 解析后打到日志。
 """
 import argparse
 import math
@@ -21,6 +22,9 @@ import threading
 import time
 
 HEADER = struct.Struct("<IHHIIIIII")
+PAD = struct.Struct("<IQiiii")
+PAD_NAMES = [(0, "A"), (1, "B"), (2, "X"), (3, "Y"), (4, "L3"), (5, "R3"), (6, "L"), (7, "R"), (8, "ZL"), (9, "ZR"),
+             (10, "+"), (11, "-"), (12, "Left"), (13, "Up"), (14, "Right"), (15, "Down"), (18, "HOME"), (19, "Capture")]
 MAGIC = 0x52544653
 VIDEO, KEY, AUDIO, STATUS, INPUT = 2, 4, 8, 16, 128
 START = re.compile(b"\x00\x00\x00\x01|\x00\x00\x01")
@@ -75,21 +79,47 @@ def status_packet(reason, head, detail, seq):
 def serve_client(client, units, args, log):
     key_requested = threading.Event()
     gone = threading.Event()
-    requests = {"SFTK": 0, "other": 0}
+    requests = {"SFTK": 0, "SFTL": 0, "SFTU": 0, "SFTI": 0, "other": 0}
+    pad = {"last": None}
+
+    def on_pad(body):
+        # SFTI：u32 flags、u64 按键（HidNpadButton 位）、i32 lx ly rx ry；只在内容变了时打日志（客户端每 100 ms 重发一次）
+        flags, buttons, lx, ly, rx, ry = PAD.unpack(body)
+        requests["SFTI"] += 1
+        state = (flags, buttons, lx, ly, rx, ry)
+        if state == pad["last"]:
+            return
+        pad["last"] = state
+        if not flags & 1:
+            log("pad: released (no controller)")
+            return
+        names = " ".join(n for bit, n in PAD_NAMES if buttons & (1 << bit)) or "-"
+        log(f"pad: {names}  L=({lx},{ly}) R=({rx},{ry})  [{requests['SFTI']} msgs]")
 
     def reader():
         buf = b""
         try:
             while not gone.is_set():
-                chunk = client.recv(64)
+                chunk = client.recv(256)
                 if not chunk:
                     break
                 buf += chunk
                 while len(buf) >= 4:
+                    if buf[:4] == b"SFTI":
+                        # 客户端手柄：32 字节一条，不够就等下一块
+                        if len(buf) < 32:
+                            break
+                        on_pad(buf[4:32])
+                        buf = buf[32:]
+                        continue
                     word, buf = buf[:4].decode("ascii", "replace"), buf[4:]
                     if word == "SFTK":
                         requests["SFTK"] += 1
                         key_requested.set()
+                    elif word in ("SFTL", "SFTU"):
+                        # 录制时的尺寸锁定 / 解锁（SFTKSFTL / SFTKSFTU，前面的 SFTK 已按关键帧请求处理）
+                        requests[word] += 1
+                        log(f"size {'lock' if word == 'SFTL' else 'unlock'} request")
                     else:
                         requests["other"] += 1
         except OSError:
@@ -202,8 +232,9 @@ def main():
                 connected.set()
                 log(f"client {address[0]}:{address[1]}")
                 with client:
-                    client.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
                     try:
+                        # 客户端连上又马上断开（排队的连接）时这里就会出错：只断这一个客户端，别让服务退出
+                        client.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
                         serve_client(client, units, args, log)
                     except OSError as e:
                         log(f"client error: {e}")

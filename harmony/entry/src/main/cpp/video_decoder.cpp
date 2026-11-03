@@ -328,6 +328,12 @@ void VideoDecoder::OnNewOutputBuffer(OH_AVCodec* codec, uint32_t index, OH_AVBuf
 }
 
 void VideoDecoder::Present(OH_AVCodec* codec, uint32_t index) {
+    if (directRender_) {
+        if (OH_VideoDecoder_RenderOutputBuffer(codec, index) != AV_ERR_OK) return;
+        ++framesRendered_;
+        if (frameQueuedHook_) frameQueuedHook_();
+        return;
+    }
     const int64_t nowNs = NowNs();
     VsyncMonitor& vsync = VsyncMonitor::Get();
     vsync.MaybeRefresh(nowNs);

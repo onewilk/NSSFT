@@ -57,14 +57,6 @@
       "value": "Console setup, connecting and FAQ"
     },
     {
-      "name": "settings_keepalive",
-      "value": "Stay connected in background"
-    },
-    {
-      "name": "settings_keepalive_desc",
-      "value": "Keep receiving for a while after leaving the app so the picture is back instantly"
-    },
-    {
       "name": "settings_language",
       "value": "Language"
     },

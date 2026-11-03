@@ -20,14 +20,15 @@ unit() {
 }
 
 unit sft_protocol_test core/sft_protocol.cpp tools/sft_protocol_test.cpp
-unit sft_receiver_test core/sft_receiver.cpp core/sft_usb_source.cpp core/sft_protocol.cpp core/i18n.cpp core/log.cpp \
+unit sft_receiver_test core/sft_receiver.cpp core/sft_usb_source.cpp core/sft_protocol.cpp core/sft_pad.cpp core/i18n.cpp core/log.cpp \
     tools/sft_receiver_test.cpp
+unit sft_pad_test core/sft_pad.cpp tools/sft_pad_test.cpp
 unit frame_loss_test core/frame_loss.cpp tools/frame_loss_test.cpp
 unit gop_cache_test core/gop_cache.cpp core/h264.cpp tools/gop_cache_test.cpp
 unit i18n_test core/i18n.cpp tools/i18n_test.cpp
 
-"$CXX" $FLAGS core/sft_net_source.cpp core/sft_receiver.cpp core/sft_protocol.cpp core/h264.cpp core/log.cpp core/i18n.cpp \
-    tools/sft_probe.cpp -o build/sft_probe
+"$CXX" $FLAGS core/sft_net_source.cpp core/sft_receiver.cpp core/sft_protocol.cpp core/sft_pad.cpp core/h264.cpp core/log.cpp \
+    core/i18n.cpp tools/sft_probe.cpp -o build/sft_probe
 
 if [ ! -f build/test.h264 ]; then
     # 生成脚本用的是 macOS 的 VideoToolbox；Linux 上即使装了 swift（GitHub 的 Ubuntu 机器就有）也跑不了
@@ -72,6 +73,23 @@ run_case "序号断档：报丢失并请求关键帧" 4 \
     'losses=[1-9].* key_requests=[2-9].* gaps=[1-9]' --drop-every 50
 run_case "状态包和尺寸变化不影响收流" 3 \
     'frames=[1-9][0-9]+ .*losses=0 .*resyncs=0' --status --resize-at 60
+
+# 手柄：模拟游戏机的包头带“接受手柄”，探针按住手柄的 B（按位置对应游戏机的 A）半秒，模拟游戏机要解析出 A，结束时拔掉
+python3 tools/mock_sft.py --h264 build/test.h264 --port $PORT --beacon-port $BEACON --no-beacon --once --seconds 6 --input \
+    >build/mock.log 2>&1 &
+mock=$!
+sleep 1
+out=$(SFT_PAD_TEST=1 SFT_PORT=$PORT build/sft_probe 127.0.0.1 3 2>&1 | tail -1)
+wait $mock || true
+if echo "$out" | grep -Eq 'takes_input=1 pad_sent=([5-9]|[1-9][0-9]+)' && grep -q "pad: A " build/mock.log &&
+    grep -q "pad: released" build/mock.log; then
+    echo "  ✓ 手柄：SFTI 按下、重发、拔掉"
+else
+    echo "  ✗ 手柄：SFTI 按下、重发、拔掉"
+    echo "    结果：$out"
+    sed 's/^/    mock: /' build/mock.log
+    fail=1
+fi
 
 # 发现：模拟游戏机往 127.0.0.1 发广播
 python3 tools/mock_sft.py --h264 build/test.h264 --port $PORT --beacon-port $BEACON --once --seconds 1 >build/mock.log 2>&1 &

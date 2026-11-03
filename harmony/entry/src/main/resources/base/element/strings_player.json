@@ -9,30 +9,6 @@
       "value": "Stop streaming"
     },
     {
-      "name": "app_live_receiving",
-      "value": "Receiving in background"
-    },
-    {
-      "name": "app_live_reconnecting",
-      "value": "Reconnecting"
-    },
-    {
-      "name": "app_live_text_bg",
-      "value": "%s · %s · %s MB received · disconnects in %s"
-    },
-    {
-      "name": "app_live_text_fg",
-      "value": "%s · playing"
-    },
-    {
-      "name": "app_live_title_bg",
-      "value": "%s is staying connected"
-    },
-    {
-      "name": "app_live_title_fg",
-      "value": "%s is streaming"
-    },
-    {
       "name": "player_badge",
       "value": "%s · %d fps"
     },
@@ -50,7 +26,7 @@
     },
     {
       "name": "player_gamepad",
-      "value": "Gamepad"
+      "value": "Controller"
     },
     {
       "name": "player_lock",
@@ -85,20 +61,16 @@
       "value": "Stop"
     },
     {
-      "name": "player_toast_coming_soon",
-      "value": "%s is coming soon"
-    },
-    {
       "name": "player_toast_enhance_unavailable",
       "value": "Picture enhancement unavailable: %s"
     },
     {
       "name": "player_toast_keepalive_off",
-      "value": "Background keep-alive turned off"
+      "value": "Background recording is off; recording stops when you leave the app"
     },
     {
       "name": "player_toast_keepalive_unavailable",
-      "value": "Background keep-alive unavailable: %s"
+      "value": "Background recording is not available: %s. Recording stops when you leave the app"
     },
     {
       "name": "player_toast_locked",
@@ -167,6 +139,22 @@
     {
       "name": "tv_on",
       "value": "On"
+    },
+    {
+      "name": "player_menu",
+      "value": "Menu"
+    },
+    {
+      "name": "player_toast_menu_hint",
+      "value": "Tap the menu button at the top center for sound, recording, the controller, picture-in-picture and more"
+    },
+    {
+      "name": "tv_guide_title",
+      "value": "Using the remote"
+    },
+    {
+      "name": "tv_guide_body",
+      "value": "Menu key, or hold OK: open or close the menu\nArrow keys: move in the menu; OK: select\nBack: up one level, then close the menu; with the menu closed, Back ends the stream and returns home\nWith a controller: hold Start and Select (+ and −) for 1.5 seconds to open the menu"
     }
   ]
 }

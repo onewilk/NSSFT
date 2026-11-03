@@ -27,6 +27,9 @@ public:
     SourceStats GetStats() const override { return receiver_.Stats(); }
     void SetAudioEnabled(bool enabled) override { receiver_.SetAudioEnabled(enabled); }
     void RequestKeyframe() override { receiver_.RequestKeyframe(); }
+    void SetRecordSizeLock(bool on) override { receiver_.SetRecordSizeLock(on); }
+    bool SendInput(const uint8_t* data, size_t size) override { return receiver_.SendInput(data, size); }
+    bool ConsoleTakesInput() const override { return receiver_.ConsoleTakesInput(); }
     // 每次收完数据立即回 ACK（TCP_QUICKACK，仅 Linux/鸿蒙内核有效）
     void SetQuickAck(bool enabled) override { quickAck_ = enabled; }
     std::vector<SocketFlow> SocketFlows() const override;

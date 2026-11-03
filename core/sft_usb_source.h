@@ -28,6 +28,9 @@ public:
     // 声音和画面在同一个端点上，关掉声音只是本地不播放
     void SetAudioEnabled(bool enabled) override { receiver_.SetAudioEnabled(enabled); }
     void RequestKeyframe() override { receiver_.RequestKeyframe(); }
+    void SetRecordSizeLock(bool on) override { receiver_.SetRecordSizeLock(on); }
+    bool SendInput(const uint8_t* data, size_t size) override { return receiver_.SendInput(data, size); }
+    bool ConsoleTakesInput() const override { return receiver_.ConsoleTakesInput(); }
 
 private:
     void Run();

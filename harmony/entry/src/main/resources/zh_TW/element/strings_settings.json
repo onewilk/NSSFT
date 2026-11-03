@@ -57,14 +57,6 @@
       "value": "準備遊戲機、連線方法和常見問題"
     },
     {
-      "name": "settings_keepalive",
-      "value": "背景保持連線"
-    },
-    {
-      "name": "settings_keepalive_desc",
-      "value": "切到背景後繼續接收一段時間，回來時馬上恢復畫面"
-    },
-    {
       "name": "settings_language",
       "value": "語言"
     },

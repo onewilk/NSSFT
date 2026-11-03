@@ -168,12 +168,17 @@ std::string Session::Start(const SourceFactory& factory, const SessionConfig& co
         decoderBase_ = DecoderCounters();
     }
 
-    VideoPipeline pipeline;
-    std::string error = CreateVideo(config.surfaceId, &pipeline);
-    if (!error.empty()) return error;
-    {
+    display_ = config.display;
+    std::string error;
+    if (display_) {
+        VideoPipeline pipeline;
+        error = CreateVideo(config.surfaceId, &pipeline);
+        if (!error.empty()) return error;
         std::lock_guard<std::mutex> lock(videoMutex_);
         InstallVideoLocked(&pipeline, false);
+    }
+    {
+        std::lock_guard<std::mutex> lock(videoMutex_);
         gop_.Clear();
         renderedBase_ = droppedBase_ = 0;
         underrunBase_ = 0;
@@ -181,7 +186,7 @@ std::string Session::Start(const SourceFactory& factory, const SessionConfig& co
     }
 
     audioEnabled_ = false;
-    if (config.audio) {
+    if (config.audio && display_) {
         error = CreateAudio();
         if (error.empty()) {
             audioEnabled_ = true;
@@ -210,15 +215,90 @@ std::string Session::Start(const SourceFactory& factory, const SessionConfig& co
     client_->SetQuickAck(netOpt_);
     client_->SetAudioEnabled(audioEnabled_);
     client_->Start();
+    if (display_) {
+        nssft::StreamSource* src = client_.get();
+        pad_ = std::make_unique<nssft::pad::PadSender>(
+            padState_, [src](const uint8_t* p, size_t n) { return src->SendInput(p, n); },
+            [src] { return src->ConsoleTakesInput(); });
+        ConfigurePad(padConfig_);
+    }
     SetMessage(Format(L("正在连接 %s", "正在連線 %s", "Connecting to %s"), config.label.c_str()));
     return "";
+}
+
+// ---------------------------------------------------------------- 手柄
+
+void Session::ConfigurePad(const PadConfig& config) {
+    padConfig_ = config;
+    padState_.Tune(config.deadZone, config.triggerPoint);
+    padState_.SetFaceByLabel(config.faceByLabel);
+    if (pad_) {
+        pad_->SetEnabled(config.enabled);
+        pad_->Poke();
+    }
+}
+
+void Session::SetPadDevicePresent(bool present) {
+    if (pad_) pad_->SetDevicePresent(present);
+}
+
+void Session::SetPadPlaying(bool playing) {
+    if (pad_) pad_->SetPlaying(playing);
+}
+
+bool Session::PadKey(int32_t keyCode, bool down) {
+    if (!pad_ || !padConfig_.enabled) return false;
+    if (!padState_.Key(keyCode, down)) return false;
+    pad_->Poke();
+    return client_ && client_->ConsoleTakesInput();
+}
+
+bool Session::PadAxes(const nssft::pad::Axes& axes) {
+    if (!pad_ || !padConfig_.enabled) return false;
+    if (padState_.SetAxes(axes)) pad_->Poke();
+    return client_ && client_->ConsoleTakesInput();
+}
+
+void Session::SetPadTouchShown(bool shown) {
+    if (pad_) pad_->SetTouchShown(shown);
+}
+
+void Session::PadTouch(uint64_t buttons, double lx, double ly, double rx, double ry) {
+    if (!pad_ || !padConfig_.enabled) return;
+    if (padState_.SetTouch(buttons, lx, ly, rx, ry)) pad_->Poke();
+}
+
+void Session::ResetPad() {
+    padState_.Reset();
+    if (pad_) pad_->Poke();
+}
+
+PadStatus Session::PadStats() const {
+    PadStatus s;
+    s.takesInput = client_ && client_->ConsoleTakesInput();
+    if (pad_) {
+        s.attached = pad_->Attached();
+        s.sent = pad_->Sent();
+    }
+    s.now = padState_.Get();
+    return s;
 }
 
 void Session::OnVideo(const nssft::VideoFrame& f) {
     const uint8_t* data = f.data;
     const size_t size = f.size;
     const uint64_t ts = f.timestampUs;
-    std::lock_guard<std::mutex> lock(videoMutex_);
+    {
+        std::lock_guard<std::mutex> lock(videoMutex_);
+        OnVideoLocked(f, data, size, ts);
+    }
+    if (recording_) {
+        std::lock_guard<std::mutex> lock(recordMutex_);
+        if (recorder_) recorder_->OnVideo(f);
+    }
+}
+
+void Session::OnVideoLocked(const nssft::VideoFrame& f, const uint8_t* data, size_t size, uint64_t ts) {
     // 时间戳只用来估计帧间隔（给上屏卡顿判断）；丢帧以包头序号为准，由收流线程通过 onVideoLoss 报告
     gap_.OnFrame(ts);
     if (int(f.width) != streamWidth_ || int(f.height) != streamHeight_) {
@@ -251,6 +331,10 @@ void Session::OnVideo(const nssft::VideoFrame& f) {
 void Session::HandleLossLocked(nssft::LossCause cause) {
     ++lossEvents_[int(cause)];
     RequestKeyframe();
+    if (recording_) {
+        std::lock_guard<std::mutex> lock(recordMutex_);
+        if (recorder_) recorder_->OnLoss();
+    }
     // 缓存里的 GOP 从这里断了：作废，切回前台时从下一个关键帧开始，而不是重放一段花屏
     gop_.Clear();
     if (video_) video_->OnFrameLoss(cause);
@@ -263,8 +347,15 @@ void Session::SetFreezeOnLoss(bool on) {
 }
 
 void Session::OnAudio(const uint8_t* data, size_t size) {
-    std::lock_guard<std::mutex> lock(audioMutex_);
-    if (audio_) audio_->Write(data, size);  // 后台时 audio_ 为空，数据直接丢弃
+    {
+        std::lock_guard<std::mutex> lock(audioMutex_);
+        // 后台、关了声音、只录制时 audio_ 为空：本机不播放（录像时为了录声音，游戏机的声音照常收）
+        if (audio_) audio_->Write(data, size);
+    }
+    if (recording_) {
+        std::lock_guard<std::mutex> lock(recordMutex_);
+        if (recorder_) recorder_->OnAudio(data, size);
+    }
 }
 
 void Session::ReleaseRendering() {
@@ -387,7 +478,8 @@ std::string Session::SetAudioEnabled(bool enabled) {
         client_->SetAudioEnabled(true);
     } else {
         audioEnabled_ = false;
-        client_->SetAudioEnabled(false);  // SFT 的声音和画面同一条连接：游戏机照常发，本地不再播放
+        // SFT 的声音和画面同一条连接：游戏机照常发，本地不再播放；录像中仍要收（录进文件）
+        client_->SetAudioEnabled(recording_);
         ReleaseAudio();
     }
     return "";
@@ -404,7 +496,7 @@ std::vector<nssft::SocketFlow> Session::SocketFlows() const {
 }
 
 void Session::PauseRendering() {
-    if (!client_ || paused_) return;
+    if (!client_ || paused_ || !display_) return;
     paused_ = true;
     ReleaseRendering();
     Logf(LogLevel::Info, "已暂停渲染，后台继续接收");
@@ -414,7 +506,7 @@ void Session::PauseRendering() {
 
 std::string Session::ResumeRendering(uint64_t surfaceId) {
     if (!client_) return L("没有进行中的串流", "沒有進行中的串流", "no active stream");
-    if (!paused_) return "";
+    if (!paused_ || !display_) return "";
 
     const int64_t t0 = NowMs();
     VideoPipeline pipeline;
@@ -443,11 +535,25 @@ std::string Session::ResumeRendering(uint64_t surfaceId) {
 }
 
 void Session::Stop() {
+    // 手柄先停：接着的话发一次“拔掉”（发送线程用着 client_）
+    if (pad_) {
+        pad_->Stop();
+        pad_.reset();
+    }
+    padState_.Reset();
     // 顺序很重要：先停网络线程（之后不再有回调），再释放解码器/音频/窗口
     if (client_) {
         client_->Stop();
         client_.reset();
     }
+    // 还在录：同步收尾（调用方一般会先 StopRecording 放到工作线程做，这里是兜底）
+    std::unique_ptr<Recorder> rec;
+    {
+        std::lock_guard<std::mutex> lock(recordMutex_);
+        rec = std::move(recorder_);
+        recording_ = false;
+    }
+    if (rec) rec->Finish();
     ReleaseRendering();
     std::lock_guard<std::mutex> lock(videoMutex_);
     gop_.Clear();
@@ -457,6 +563,15 @@ void Session::Stop() {
 SessionStats Session::Stats() {
     // 开着画质增强时画面尺寸变了：在主线程整条链路重建（新尺寸、重放缓存）
     if (resizePending_ && client_ && !paused_) RebuildVideo();
+    // 录像中画面尺寸变了：换一个文件（主线程，约每秒一次）；新链路要从关键帧开始
+    if (recording_) {
+        bool reopened = false;
+        {
+            std::lock_guard<std::mutex> lock(recordMutex_);
+            if (recorder_) reopened = recorder_->Poll();
+        }
+        if (reopened) RequestKeyframe();
+    }
     CheckEnhancerStall();  // 统计每秒轮询一次（主线程），顺便检查画质增强是否在出画面
     UpdateResumeMessage();
     SessionStats s;
@@ -545,4 +660,52 @@ void Session::UpdateResumeMessage() {
 void Session::SetMessage(const std::string& msg) {
     std::lock_guard<std::mutex> lock(messageMutex_);
     message_ = msg;
+}
+
+std::string Session::StartRecording(RecordConfig config) {
+    if (!client_) return L("没有进行中的串流", "沒有進行中的串流", "no active stream");
+    if (recording_) return "";
+    const nssft::SourceStats src = client_->GetStats();
+    // 游戏机在发声音才加声音轨（SFT 的 config.ini 可以关掉声音）
+    config.audio = config.audio && src.audioPackets > 0;
+    int w = 0, h = 0;
+    {
+        std::lock_guard<std::mutex> lock(videoMutex_);
+        if (src.videoPackets > 0) {
+            w = streamWidth_;
+            h = streamHeight_;
+        }
+    }
+    auto rec = std::make_unique<Recorder>();
+    const std::string error = rec->Start(config, w, h);
+    if (!error.empty()) return error;
+    {
+        std::lock_guard<std::mutex> lock(recordMutex_);
+        recorder_ = std::move(rec);
+        recording_ = true;
+    }
+    client_->SetAudioEnabled(true);    // 关了声音也要收，才能录进去
+    client_->SetRecordSizeLock(true);  // 请游戏机保持一种画面尺寸，录像不用中途换文件
+    RequestKeyframe();                 // 录像从关键帧开始，不等游戏机的下一个
+    Logf(LogLevel::Info, "开始录像（%s声音）", config.audio ? "带" : "不带");
+    return "";
+}
+
+std::unique_ptr<Recorder> Session::StopRecording() {
+    std::unique_ptr<Recorder> rec;
+    {
+        std::lock_guard<std::mutex> lock(recordMutex_);
+        rec = std::move(recorder_);
+        recording_ = false;
+    }
+    if (client_) {
+        client_->SetRecordSizeLock(false);
+        client_->SetAudioEnabled(audioEnabled_);
+    }
+    return rec;
+}
+
+RecordStats Session::RecordingStats() {
+    std::lock_guard<std::mutex> lock(recordMutex_);
+    return recorder_ ? recorder_->Stats() : RecordStats();
 }

@@ -111,11 +111,107 @@ export interface ConnectConfig {
   freezeOnLoss?: boolean;
   /** 画质增强 0 关闭 / 1 标准 / 2 高 */
   enhanceLevel?: number;
+  /** true：只录制，不显示画面也不播放声音（surfaceId 可以为空） */
+  recordOnly?: boolean;
 }
 
 /** 返回空串表示已开始连接，否则为错误信息 */
 export const connect: (config: ConnectConfig) => string;
+
+// ---------------------------------------------------------------- 录像（边收边压，见 recorder.h）
+
+export interface RecordSupport {
+  /** 硬件 H.264 解码器最多能同时开几个：边播边录要 2 个，只录制要 1 个 */
+  decoders: number;
+  /** 有硬件 H.265 编码器（没有时用 H.264） */
+  hevc: boolean;
+  avc: boolean;
+  /** 有视频处理引擎：省空间档把 1080p 缩到 720p 要用 */
+  scaler: boolean;
+}
+
+export interface RecordConfig {
+  /** 录像目录（沙箱路径） */
+  dir: string;
+  /** 文件名，不含扩展名；画面尺寸中途变了会另起 name_2.mp4… */
+  name: string;
+  /** 输出画面高度上限：1080 或 720 */
+  maxHeight: number;
+  /** 输出 1080p 时的码率；输出 720p 时按 0.6 倍（fixedBitrate 为 true 时不折算） */
+  bitrateKbps: number;
+  fixedBitrate?: boolean;
+}
+
+export interface RecordStats {
+  active: boolean;
+  /** 还在等关键帧（刚开始或刚换文件） */
+  waitingKeyframe: boolean;
+  durationMs: number;
+  bytes: number;
+  framesIn: number;
+  framesEncoded: number;
+  /** 等关键帧、积压时没录进去的帧 */
+  framesDropped: number;
+  width: number;
+  height: number;
+  bitrateKbps: number;
+  hevc: boolean;
+  /** 用视频处理引擎缩小了画面 */
+  scaled: boolean;
+  /** 非空时应停止录制 */
+  error: string;
+  /** 已写完和正在写的文件（完整路径） */
+  files: string[];
+}
+
+export const recordSupport: () => RecordSupport;
+/** 返回空串表示已开始 */
+export const startRecording: (config: RecordConfig) => string;
+/** 收尾并写完文件；结果里的 files 是录好的文件 */
+export const stopRecording: () => Promise<RecordStats>;
+export const getRecordStats: () => RecordStats;
 export const disconnect: () => void;
+
+// 手柄（SFT 0.7.20 起，游戏机上打开 “Controls from the viewer”）：本机手柄和键盘合成游戏机上的一个手柄
+export interface PadConfig {
+  /** 用户打开了手柄功能，并且播放页在前台 */
+  enabled: boolean;
+  /** A/B/X/Y 按标签对应；默认按位置（下面那个是 B） */
+  faceByLabel: boolean;
+  /** 摇杆死区 0..0.5 */
+  deadZone: number;
+  /** 扳机按下点 0.05..0.95 */
+  triggerPoint: number;
+}
+
+export interface PadStatus {
+  /** 游戏机接受手柄 */
+  takesInput: boolean;
+  /** 游戏机上已接上这个虚拟手柄 */
+  attached: boolean;
+  sent: number;
+  /** 正在按的键，例如 “A ZL ↑” */
+  buttons: string;
+  lx: number;
+  ly: number;
+  rx: number;
+  ry: number;
+}
+
+export const padConfigure: (config: PadConfig) => void;
+export const padDevicePresent: (present: boolean) => void;
+export const padPlaying: (on: boolean) => void;
+/** 返回 true：这个键交给了游戏机，界面别再处理 */
+export const padKey: (keyCode: number, down: boolean) => boolean;
+/** 摇杆 -1..1（y 向下为正）、扳机 0..1、十字键 -1..1；这次没报的轴传 NaN */
+export const padAxes: (lx: number, ly: number, rx: number, ry: number, lt: number, rt: number, hx: number,
+  hy: number) => boolean;
+export const padReset: () => void;
+/** 触屏手柄显示着（显示着就算有手柄，接上游戏机） */
+export const padTouchShown: (shown: boolean) => void;
+/** 触屏手柄的整体状态：按键位（HidNpadButton 位）、两个摇杆 -1..1（y 向下为正） */
+export const padTouch: (buttons: number, lx: number, ly: number, rx: number, ry: number) => void;
+export const getPadStatus: () => PadStatus;
 /** 切后台：释放解码器和音频，照常接收 */
 export const pauseVideo: () => void;
 /** 回前台：重建解码器并重放缓存的画面；返回空串表示成功 */

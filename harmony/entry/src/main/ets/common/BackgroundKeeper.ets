@@ -13,10 +13,13 @@ export interface LiveViewState {
   text: string;
   // 0~100
   progress: number;
+  // 正计时的起点（毫秒，录像已录时长）；给了就在系统实况窗上加计时（systemLiveView.time），系统每秒自己走
+  elapsedMs?: number;
 }
 
 /**
- * 后台保持连接：DATA_TRANSFER 长时任务 + 它自带的系统实况窗（下载进度模板）。
+ * 录像时在后台继续接收：DATA_TRANSFER 长时任务 + 它自带的系统实况窗（下载进度模板）。
+ * 只在录像时申请（不录制时切到后台就断开，或转入小窗）。
  *
  * 为什么是这个组合：
  * - 后台“接收但不渲染”本质是持续的数据下载，对应 DATA_TRANSFER；
@@ -47,6 +50,8 @@ export class BackgroundKeeper {
   private stopAgent: WantAgent | undefined = undefined;
   private subscriber: commonEventManager.CommonEventSubscriber | undefined = undefined;
   private publishErrors: number = 0;
+  // 本机的系统实况窗不接受计时字段（发布失败过）：之后都不再带
+  private timeRejected: boolean = false;
   private listeningCancel: boolean = false;
   private cancelCallback = (info: backgroundTaskManager.ContinuousTaskCancelInfo): void => {
     hilog.info(DOMAIN, TAG, 'continuous task canceled, reason=%{public}d', info.reason);
@@ -120,16 +125,23 @@ export class BackgroundKeeper {
         progressValue: Math.max(0, Math.min(100, Math.round(state.progress)))
       }
     };
+    const live: notificationManager.NotificationSystemLiveViewContent = {
+      typeCode: 8, // 上传下载类型，系统要求固定为 8
+      title: state.title,
+      text: state.text
+    };
+    // 模板只能是 downloadTemplate（系统限制），但系统实况窗内容本身有计时字段：试着带上正计时，
+    // 被拒（发布失败）就去掉重发，并且之后不再带，保证进度照常更新（10 分钟不更新长时任务会被取消）
+    const withTime = state.elapsedMs !== undefined && !this.timeRejected;
+    if (withTime) {
+      live.time = { initialTime: state.elapsedMs, isCountDown: false, isPaused: false, isInTitle: false };
+    }
     const request: notificationManager.NotificationRequest = {
       id: this.notificationId,
       notificationSlotType: notificationManager.SlotType.LIVE_VIEW,
       content: {
         notificationContentType: notificationManager.ContentType.NOTIFICATION_CONTENT_SYSTEM_LIVE_VIEW,
-        systemLiveView: {
-          typeCode: 8, // 上传下载类型，系统要求固定为 8
-          title: state.title,
-          text: state.text
-        }
+        systemLiveView: live
       },
       template: template,
       wantAgent: open,
@@ -143,6 +155,18 @@ export class BackgroundKeeper {
       await notificationManager.publish(request);
     } catch (e) {
       const err = e as BusinessError;
+      if (withTime) {
+        hilog.warn(DOMAIN, TAG, 'live view timer rejected (%{public}d %{public}s), updating without it',
+          err.code, err.message);
+        this.timeRejected = true;
+        live.time = undefined;
+        try {
+          await notificationManager.publish(request);
+          return;
+        } catch (e2) {
+          // 落到下面记日志
+        }
+      }
       // 未授权通知时每次都会失败，只记前几次
       if (this.publishErrors++ < 3) {
         hilog.warn(DOMAIN, TAG, 'update live view failed: %{public}d %{public}s', err.code, err.message);

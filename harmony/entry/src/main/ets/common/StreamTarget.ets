@@ -10,4 +10,6 @@ export interface StreamTarget {
   version: string;
   /** USB 连接（已申请权限、打开端点）；网络时为 null */
   usb: UsbLink | null;
+  /** true：只录制，不显示画面也不出声（首页主机卡片菜单里的“只录制”） */
+  recordOnly?: boolean;
 }

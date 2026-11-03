@@ -76,6 +76,8 @@ public:
     DecoderCounters Counters() const;
     // 每成功送出一帧上屏（或送进画质增强）时回调，在解码输出线程调用；须在 Init 之前设置
     void SetFrameQueuedHook(std::function<void()> hook) { frameQueuedHook_ = std::move(hook); }
+    // 解出来就立即交给输出 surface，不按 VSync 错开、也不为降低延迟跳帧（录制用：输出接的是编码器）；须在 Init 之前设置
+    void SetDirectRender(bool on) { directRender_ = on; }
     RenderTiming TakeRenderTiming();
 
     uint64_t FramesRendered() const { return framesRendered_; }
@@ -147,6 +149,7 @@ private:
     int64_t maxGapUs_ = 0;
 
     std::function<void()> frameQueuedHook_;
+    bool directRender_ = false;
     std::atomic<uint64_t> framesRendered_{0};
     std::atomic<uint64_t> framesSkipped_{0};
     std::atomic<uint64_t> packetsDropped_{0};

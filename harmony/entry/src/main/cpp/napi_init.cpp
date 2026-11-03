@@ -3,6 +3,7 @@
 #include <hilog/log.h>
 #include <napi/native_api.h>
 
+#include <cmath>
 #include <cstdlib>
 #include <cstring>
 #include <memory>
@@ -26,6 +27,10 @@ std::unique_ptr<Session> g_session;
 // USB 退回 ArkTS 兼容传输时：泵归串流来源所有，这里只留一个指针给 NAPI 喂数据（都在主线程访问）
 JsPumpTransport* g_pump = nullptr;
 napi_threadsafe_function g_usbWriteFn = nullptr;
+// 手柄的设置和本机有没有手柄：与会话无关，新会话开始时带上
+PadConfig g_padConfig;
+bool g_padPresent = false;
+bool g_padTouchShown = false;
 
 std::string GetString(napi_env env, napi_value v) {
     size_t len = 0;
@@ -152,7 +157,11 @@ napi_value Connect(napi_env env, napi_callback_info info) {
     config.netOpt = flag("netOpt", true);
     config.freezeOnLoss = flag("freezeOnLoss", true);
     config.enhanceLevel = num("enhanceLevel", 0);
-    if (config.surfaceId == 0) return MakeString(env, L("surfaceId 无效", "surfaceId 無效", "invalid surfaceId"));
+    // 只录制：不显示画面、不播放声音，不需要 surface
+    config.display = !flag("recordOnly", false);
+    if (!config.display) config.audio = false;
+    if (config.display && config.surfaceId == 0)
+        return MakeString(env, L("surfaceId 无效", "surfaceId 無效", "invalid surfaceId"));
 
     StopSession();
     SourceFactory factory;
@@ -196,8 +205,14 @@ napi_value Connect(napi_env env, napi_callback_info info) {
         config.label = host;
     }
     g_session = std::make_unique<Session>();
+    g_session->ConfigurePad(g_padConfig);
     std::string err = g_session->Start(factory, config);
-    if (!err.empty()) StopSession();
+    if (!err.empty()) {
+        StopSession();
+    } else {
+        g_session->SetPadDevicePresent(g_padPresent);
+        g_session->SetPadTouchShown(g_padTouchShown);
+    }
     return MakeString(env, err);
 }
 
@@ -360,6 +375,215 @@ napi_value UsbWriteDone(napi_env env, napi_callback_info info) {
     return Undefined(env);
 }
 
+// ---------------------------------------------------------------- 录像
+
+// recordSupport(): RecordSupport —— 本机能不能边播边录（要两路硬件解码）、只录制（一路）、用哪种编码
+napi_value RecordSupportInfo(napi_env env, napi_callback_info) {
+    const RecordSupport s = Recorder::Support();
+    napi_value obj;
+    napi_create_object(env, &obj);
+    Set(env, obj, "decoders", MakeNumber(env, s.decoders));
+    Set(env, obj, "hevc", MakeBool(env, s.hevc));
+    Set(env, obj, "avc", MakeBool(env, s.avc));
+    Set(env, obj, "scaler", MakeBool(env, s.scaler));
+    return obj;
+}
+
+// startRecording(config: RecordConfig): string —— 空串 = 已开始
+napi_value StartRecording(napi_env env, napi_callback_info info) {
+    size_t argc = 1;
+    napi_value args[1] = {nullptr};
+    napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
+    if (argc < 1) return MakeString(env, L("参数不足", "參數不足", "missing arguments"));
+    if (!g_session) return MakeString(env, L("没有进行中的串流", "沒有進行中的串流", "no active stream"));
+    const napi_value cfg = args[0];
+    RecordConfig c;
+    napi_value v = Prop(env, cfg, "dir");
+    c.dir = v ? GetString(env, v) : "";
+    v = Prop(env, cfg, "name");
+    c.baseName = v ? GetString(env, v) : "";
+    v = Prop(env, cfg, "maxHeight");
+    c.maxHeight = v ? GetInt(env, v, 1080) : 1080;
+    v = Prop(env, cfg, "bitrateKbps");
+    c.bitrateKbps = v ? GetInt(env, v, 8000) : 8000;
+    v = Prop(env, cfg, "fixedBitrate");
+    c.fixedBitrate = v ? GetBool(env, v, false) : false;
+    if (c.dir.empty() || c.baseName.empty())
+        return MakeString(env, L("录像路径无效", "錄影路徑無效", "invalid recording path"));
+    return MakeString(env, g_session->StartRecording(c));
+}
+
+napi_value MakeRecordStats(napi_env env, const RecordStats& s) {
+    napi_value obj;
+    napi_create_object(env, &obj);
+    Set(env, obj, "active", MakeBool(env, s.active));
+    Set(env, obj, "waitingKeyframe", MakeBool(env, s.waitingKeyframe));
+    Set(env, obj, "durationMs", MakeNumber(env, double(s.durationMs)));
+    Set(env, obj, "bytes", MakeNumber(env, double(s.bytes)));
+    Set(env, obj, "framesIn", MakeNumber(env, double(s.framesIn)));
+    Set(env, obj, "framesEncoded", MakeNumber(env, double(s.framesEncoded)));
+    Set(env, obj, "framesDropped", MakeNumber(env, double(s.framesDropped)));
+    Set(env, obj, "width", MakeNumber(env, s.width));
+    Set(env, obj, "height", MakeNumber(env, s.height));
+    Set(env, obj, "bitrateKbps", MakeNumber(env, s.bitrateKbps));
+    Set(env, obj, "hevc", MakeBool(env, s.hevc));
+    Set(env, obj, "scaled", MakeBool(env, s.scaled));
+    Set(env, obj, "error", MakeString(env, s.error));
+    napi_value files;
+    napi_create_array_with_length(env, s.files.size(), &files);
+    for (size_t i = 0; i < s.files.size(); ++i) napi_set_element(env, files, uint32_t(i), MakeString(env, s.files[i]));
+    Set(env, obj, "files", files);
+    return obj;
+}
+
+// getRecordStats(): RecordStats
+napi_value GetRecordStats(napi_env env, napi_callback_info) {
+    return MakeRecordStats(env, g_session ? g_session->RecordingStats() : RecordStats());
+}
+
+// stopRecording(): Promise<RecordStats> —— 收尾（编码器吐完、写文件尾）放到工作线程，不卡界面
+struct StopRecordingWork {
+    napi_async_work work = nullptr;
+    napi_deferred deferred = nullptr;
+    std::unique_ptr<Recorder> recorder;
+    RecordStats result;
+};
+
+napi_value StopRecording(napi_env env, napi_callback_info) {
+    napi_value promise;
+    auto* w = new StopRecordingWork();
+    napi_create_promise(env, &w->deferred, &promise);
+    if (g_session) w->recorder = g_session->StopRecording();
+    napi_value name;
+    napi_create_string_utf8(env, "stopRecording", NAPI_AUTO_LENGTH, &name);
+    napi_create_async_work(
+        env, nullptr, name,
+        [](napi_env, void* data) {
+            auto* w = static_cast<StopRecordingWork*>(data);
+            if (w->recorder) {
+                w->recorder->Finish();
+                w->result = w->recorder->Stats();
+                w->recorder.reset();
+            }
+        },
+        [](napi_env env, napi_status, void* data) {
+            auto* w = static_cast<StopRecordingWork*>(data);
+            napi_resolve_deferred(env, w->deferred, MakeRecordStats(env, w->result));
+            napi_delete_async_work(env, w->work);
+            delete w;
+        },
+        w, &w->work);
+    napi_queue_async_work(env, w->work);
+    return promise;
+}
+
+double GetDouble(napi_env env, napi_value v, double fallback) {
+    double d = fallback;
+    if (v == nullptr || napi_get_value_double(env, v, &d) != napi_ok) return fallback;
+    return d;
+}
+
+// padConfigure({ enabled, faceByLabel, deadZone, triggerPoint }): void —— 手柄设置（enabled：用户打开了、且播放页在前台）
+napi_value PadConfigure(napi_env env, napi_callback_info info) {
+    size_t argc = 1;
+    napi_value args[1] = {nullptr};
+    napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
+    if (argc < 1) return Undefined(env);
+    napi_value v = Prop(env, args[0], "enabled");
+    g_padConfig.enabled = v ? GetBool(env, v, false) : false;
+    v = Prop(env, args[0], "faceByLabel");
+    g_padConfig.faceByLabel = v ? GetBool(env, v, false) : false;
+    g_padConfig.deadZone = GetDouble(env, Prop(env, args[0], "deadZone"), nssft::pad::kDefaultDeadZone);
+    g_padConfig.triggerPoint = GetDouble(env, Prop(env, args[0], "triggerPoint"), nssft::pad::kDefaultTriggerPoint);
+    if (g_session) g_session->ConfigurePad(g_padConfig);
+    return Undefined(env);
+}
+
+// padDevicePresent(present: boolean): void —— 本机连着手柄（系统输入设备里有手柄）
+napi_value PadDevicePresent(napi_env env, napi_callback_info info) {
+    size_t argc = 1;
+    napi_value args[1] = {nullptr};
+    napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
+    g_padPresent = argc >= 1 && GetBool(env, args[0], false);
+    if (g_session) g_session->SetPadDevicePresent(g_padPresent);
+    return Undefined(env);
+}
+
+// padPlaying(on: boolean): void —— false：菜单或对话框开着，手柄接着但什么都不按
+napi_value PadPlaying(napi_env env, napi_callback_info info) {
+    size_t argc = 1;
+    napi_value args[1] = {nullptr};
+    napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
+    if (g_session) g_session->SetPadPlaying(argc >= 1 && GetBool(env, args[0], true));
+    return Undefined(env);
+}
+
+// padKey(keyCode: number, down: boolean): boolean —— 返回 true：这个键交给了游戏机，界面别再处理
+napi_value PadKey(napi_env env, napi_callback_info info) {
+    size_t argc = 2;
+    napi_value args[2] = {nullptr, nullptr};
+    napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
+    if (argc < 2 || !g_session) return MakeBool(env, false);
+    return MakeBool(env, g_session->PadKey(GetInt(env, args[0], 0), GetBool(env, args[1], false)));
+}
+
+// padAxes(lx, ly, rx, ry, lt, rt, hx, hy): boolean —— 摇杆 -1..1（y 向下为正）、扳机 0..1、十字键；这次没报的轴传 NaN
+napi_value PadAxes(napi_env env, napi_callback_info info) {
+    size_t argc = 8;
+    napi_value args[8] = {nullptr};
+    napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
+    if (!g_session) return MakeBool(env, false);
+    double v[8];
+    for (size_t i = 0; i < 8; ++i) v[i] = i < argc ? GetDouble(env, args[i], NAN) : NAN;
+    const nssft::pad::Axes a{v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7]};
+    return MakeBool(env, g_session->PadAxes(a));
+}
+
+// padTouchShown(shown: boolean): void —— 触屏手柄显示着（显示着就算有手柄，接上游戏机）
+napi_value PadTouchShown(napi_env env, napi_callback_info info) {
+    size_t argc = 1;
+    napi_value args[1] = {nullptr};
+    napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
+    g_padTouchShown = argc >= 1 && GetBool(env, args[0], false);
+    if (g_session) g_session->SetPadTouchShown(g_padTouchShown);
+    return Undefined(env);
+}
+
+// padTouch(buttons, lx, ly, rx, ry): void —— 触屏手柄的整体状态：按键位（HidNpadButton）、摇杆 -1..1（y 向下为正）
+napi_value PadTouch(napi_env env, napi_callback_info info) {
+    size_t argc = 5;
+    napi_value args[5] = {nullptr};
+    napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
+    if (!g_session || argc < 5) return Undefined(env);
+    const double b = GetDouble(env, args[0], 0);
+    g_session->PadTouch(b > 0 ? uint64_t(b) : 0, GetDouble(env, args[1], 0), GetDouble(env, args[2], 0),
+                        GetDouble(env, args[3], 0), GetDouble(env, args[4], 0));
+    return Undefined(env);
+}
+
+// padReset(): void —— 松开一切（失去焦点、切后台时按着的键不会再报松开）
+napi_value PadReset(napi_env env, napi_callback_info) {
+    if (g_session) g_session->ResetPad();
+    return Undefined(env);
+}
+
+// getPadStatus(): PadStatus
+napi_value GetPadStatus(napi_env env, napi_callback_info) {
+    PadStatus s;
+    if (g_session) s = g_session->PadStats();
+    napi_value obj;
+    napi_create_object(env, &obj);
+    Set(env, obj, "takesInput", MakeBool(env, s.takesInput));
+    Set(env, obj, "attached", MakeBool(env, s.attached));
+    Set(env, obj, "sent", MakeNumber(env, double(s.sent)));
+    Set(env, obj, "buttons", MakeString(env, nssft::pad::ButtonNames(s.now.buttons)));
+    Set(env, obj, "lx", MakeNumber(env, s.now.lx));
+    Set(env, obj, "ly", MakeNumber(env, s.now.ly));
+    Set(env, obj, "rx", MakeNumber(env, s.now.rx));
+    Set(env, obj, "ry", MakeNumber(env, s.now.ry));
+    return obj;
+}
+
 // getStats(): SessionStats
 napi_value GetStats(napi_env env, napi_callback_info) {
     SessionStats s;
@@ -461,6 +685,19 @@ static napi_value Init(napi_env env, napi_value exports) {
         {"setEnhanceLevel", nullptr, SetEnhanceLevel, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"getSocketFlows", nullptr, GetSocketFlows, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"getStats", nullptr, GetStats, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"recordSupport", nullptr, RecordSupportInfo, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"startRecording", nullptr, StartRecording, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"stopRecording", nullptr, StopRecording, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"getRecordStats", nullptr, GetRecordStats, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"padConfigure", nullptr, PadConfigure, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"padDevicePresent", nullptr, PadDevicePresent, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"padPlaying", nullptr, PadPlaying, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"padKey", nullptr, PadKey, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"padAxes", nullptr, PadAxes, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"padReset", nullptr, PadReset, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"padTouchShown", nullptr, PadTouchShown, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"padTouch", nullptr, PadTouch, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"getPadStatus", nullptr, GetPadStatus, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"usbProbe", nullptr, UsbProbe, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"usbFeed", nullptr, UsbFeed, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"usbFeedError", nullptr, UsbFeedError, nullptr, nullptr, nullptr, napi_default, nullptr},

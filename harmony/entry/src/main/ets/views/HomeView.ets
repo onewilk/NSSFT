@@ -8,6 +8,7 @@ import { Breakpoint, hotspotSupported, isValidIPv4, sftVersionOf } from '../comm
 import { HotspotSheet } from './HotspotSheet';
 import { agoText, forgetHost, parseRecentHosts, RecentHost, renameHost } from '../common/RecentHosts';
 import { StreamTarget } from '../common/StreamTarget';
+import { formatBytes, listRecordings, RECORDINGS_EPOCH_KEY } from '../common/Recording';
 import { FOCUS_BOX } from '../common/Focus';
 import { TextPromptDialog } from './TextPromptDialog';
 import { UsbConsole, usbHostSupported, UsbWatcher } from '../common/UsbConsole';
@@ -33,6 +34,10 @@ export struct HomeView {
   @StorageProp('hs.on') hotspotOn: boolean = false;
   @StorageProp('hs.summary') hotspotSummary: string = '';
   @StorageProp('ui.safeBottom') safeBottom: number = 0;
+  // 录像卡片：个数和总大小（录完、删除、存到图库后刷新）
+  @StorageProp(RECORDINGS_EPOCH_KEY) @Watch('refreshRecordings') recordingsEpoch: number = 0;
+  @State recordingCount: number = 0;
+  @State recordingBytes: number = 0;
   @State devices: DeviceInfo[] = [];
   @State discoveryOk: boolean = true;
   onConnect: (t: StreamTarget) => void = () => {
@@ -40,6 +45,8 @@ export struct HomeView {
   onOpenSettings: () => void = () => {
   };
   onOpenGuide: () => void = () => {
+  };
+  onOpenRecordings: () => void = () => {
   };
   private timer: number = -1;
   private promptController: CustomDialogController | null = null;
@@ -65,6 +72,7 @@ export struct HomeView {
     if (!this.playing) {
       this.startDiscovery();
     }
+    this.refreshRecordings();
     if (this.usbSupported) {
       this.usbPresent = UsbConsole.find() !== undefined;
       this.usbWatcher.start(() => {
@@ -104,7 +112,8 @@ export struct HomeView {
     }, PULL_SEARCH_MS);
   }
 
-  private async connectUsb(): Promise<void> {
+  // recordOnly：长按 USB 卡片选“只录制”
+  private async connectUsb(recordOnly: boolean = false): Promise<void> {
     if (!this.usbSupported || this.usbOpening) {
       return;
     }
@@ -126,7 +135,7 @@ export struct HomeView {
       promptAction.showToast({ message: r.error, duration: 4000 });
       return;
     }
-    this.onConnect({ host: '', label: 'USB', version: '', usb: r.link });
+    this.onConnect({ host: '', label: 'USB', version: '', usb: r.link, recordOnly: recordOnly });
   }
 
   onPlayingChange(): void {
@@ -135,7 +144,18 @@ export struct HomeView {
       this.stopDiscovery();
     } else {
       this.startDiscovery();
+      this.refreshRecordings();
     }
+  }
+
+  refreshRecordings(): void {
+    const files = listRecordings(getContext(this));
+    let bytes = 0;
+    for (const f of files) {
+      bytes += f.bytes;
+    }
+    this.recordingCount = files.length;
+    this.recordingBytes = bytes;
   }
 
   private startDiscovery(): void {
@@ -193,8 +213,8 @@ export struct HomeView {
     return parts.join(' · ');
   }
 
-  private connect(item: HostItem): void {
-    this.onConnect({ host: item.host, label: this.titleOf(item), version: item.version, usb: null });
+  private connect(item: HostItem, recordOnly: boolean = false): void {
+    this.onConnect({ host: item.host, label: this.titleOf(item), version: item.version, usb: null, recordOnly: recordOnly });
   }
 
   private openPrompt(title: string, placeholder: string, confirmText: string, initial: string, numeric: boolean,
@@ -255,6 +275,11 @@ export struct HomeView {
   @Builder
   HostMenu(item: HostItem) {
     Menu() {
+      // 只录制：不显示画面，后台照常录
+      MenuItem({ symbolStartIcon: new SymbolGlyphModifier($r('sys.symbol.record_circle')), content: tr('home_record_only') })
+        .onClick(() => {
+          this.connect(item, true);
+        })
       MenuItem({ symbolStartIcon: new SymbolGlyphModifier($r('sys.symbol.square_and_pencil')), content: tr('home_rename') })
         .onClick(() => {
           this.askRename(item);
@@ -432,6 +457,57 @@ export struct HomeView {
     .onClick(() => {
       this.connectUsb();
     })
+    // 长按：只录制
+    .bindContextMenu(this.UsbMenu(), ResponseType.LongPress)
+  }
+
+  @Builder
+  UsbMenu() {
+    Menu() {
+      MenuItem({ symbolStartIcon: new SymbolGlyphModifier($r('sys.symbol.record_circle')), content: tr('home_record_only') })
+        .onClick(() => {
+          this.connectUsb(true);
+        })
+    }
+  }
+
+  // 录像管理：录好的视频先存在应用里（图库里看不到），在这里查看、存到图库或删除
+  @Builder
+  RecordingsEntry() {
+    Button({ type: ButtonType.Normal }) {
+      Row({ space: 12 }) {
+        SymbolGlyph($r('sys.symbol.film'))
+          .fontSize(20)
+          .fontColor([$r('app.color.accent')])
+        Column({ space: 2 }) {
+          Text(tr('home_recordings'))
+            .fontSize(15)
+            .fontColor($r('app.color.text_primary'))
+          Text(this.recordingCount > 0 ? tr('home_recordings_desc', this.recordingCount, formatBytes(this.recordingBytes)) :
+            tr('home_recordings_empty'))
+            .fontSize(12)
+            .fontColor($r('app.color.text_secondary'))
+            .maxLines(2)
+            .textOverflow({ overflow: TextOverflow.Ellipsis })
+        }
+        .alignItems(HorizontalAlign.Start)
+        .layoutWeight(1)
+
+        SymbolGlyph($r('sys.symbol.chevron_right'))
+          .fontSize(16)
+          .fontColor([$r('app.color.text_tertiary')])
+      }
+      .width('100%')
+      .padding({ left: 16, right: 16, top: 14, bottom: 14 })
+    }
+    .width('100%')
+    .height('auto')
+    .borderRadius(20)
+    .backgroundColor($r('app.color.card_bg'))
+    .focusBox(FOCUS_BOX)
+    .onClick(() => {
+      this.onOpenRecordings();
+    })
   }
 
   @Builder
@@ -606,6 +682,7 @@ export struct HomeView {
               this.UsbEntry()
               this.HotspotEntry()
             }
+            this.RecordingsEntry()
           }
           .padding({ left: 16, right: 16, top: 8, bottom: this.safeBottom + (this.landscape ? 8 : 24) })
           .constraintSize({ maxWidth: 1080 })

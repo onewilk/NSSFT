@@ -52,12 +52,64 @@ void SftReceiver::BeginConnection() {
     lastKeyRequestMs_ = 0;
     keyRetryAtMs_ = 0;
     keyTries_ = 0;
+    takesInput_ = false;  // 等新连接的包头说
     keyWanted_ = true;  // 连上就要一个关键帧，不用等游戏机的下一个（网络下最长 4 秒一个）
+    requestRetryAtMs_ = 0;
+    requestTries_ = 0;
+    std::lock_guard<std::mutex> lock(requestMutex_);
+    requests_.clear();  // 上一条连接没发出去的请求作废
+    // 正在录制：新连接游戏机默认不锁尺寸，再请求一次
+    if (sizeLocked_) requests_.emplace_back(sft::kRequestRecordLock, sizeof(sft::kRequestRecordLock));
+}
+
+void SftReceiver::SetRecordSizeLock(bool on) {
+    if (sizeLocked_.exchange(on) == on) return;
+    if (on) {
+        QueueRequest(sft::kRequestRecordLock, sizeof(sft::kRequestRecordLock));
+    } else {
+        QueueRequest(sft::kRequestRecordUnlock, sizeof(sft::kRequestRecordUnlock));
+    }
+}
+
+void SftReceiver::QueueRequest(const char* bytes, size_t n) {
+    std::lock_guard<std::mutex> lock(requestMutex_);
+    requests_.emplace_back(bytes, n);
+}
+
+void SftReceiver::FlushRequests(ByteChannel& ch) {
+    const int64_t now = NowMs();
+    if (now < requestRetryAtMs_) return;
+    std::unique_lock<std::mutex> write(writeMutex_, std::try_to_lock);
+    if (!write.owns_lock()) return;  // 手柄线程正在写：下一轮再发
+    std::lock_guard<std::mutex> lock(requestMutex_);
+    while (!requests_.empty()) {
+        const std::string& r = requests_.front();
+        const int n = ch.Write(reinterpret_cast<const uint8_t*>(r.data()), r.size(), 20);
+        if (n != int(r.size())) {
+            // USB：游戏机这一刻没在收请求，过一会再试；试够次数就放弃这一条
+            if (++requestTries_ < kKeyMaxTries) {
+                requestRetryAtMs_ = now + kKeyRetryMs;
+                return;
+            }
+            Logf(LogLevel::Warn, "请求 %s 一直发不出去，放弃", r.c_str());
+        }
+        requests_.erase(requests_.begin());
+        requestTries_ = 0;
+        requestRetryAtMs_ = 0;
+    }
+}
+
+bool SftReceiver::SendInput(const uint8_t* data, size_t size) {
+    std::lock_guard<std::mutex> lock(writeMutex_);
+    if (channel_ == nullptr || stop_) return false;
+    return channel_->Write(data, size, 20) == int(size);
 }
 
 void SftReceiver::SetConnected(bool connected) {
+    if (!connected) takesInput_ = false;
     std::lock_guard<std::mutex> lock(statsMutex_);
     stats_.connected = connected;
+    if (!connected) stats_.consoleTakesInput = false;
 }
 
 void SftReceiver::AddReconnect() {
@@ -78,7 +130,10 @@ void SftReceiver::FlushKeyRequest(ByteChannel& ch) {
     if (!keyWanted_) return;
     const int64_t now = NowMs();
     if (now - lastKeyRequestMs_ < kKeyRequestGapMs || now < keyRetryAtMs_) return;  // 先留着，过一会再发
+    std::unique_lock<std::mutex> write(writeMutex_, std::try_to_lock);
+    if (!write.owns_lock()) return;  // 手柄线程正在写：下一轮再发
     const int n = ch.Write(reinterpret_cast<const uint8_t*>(sft::kRequestKeyframe), sizeof(sft::kRequestKeyframe), 20);
+    write.unlock();
     if (n == int(sizeof(sft::kRequestKeyframe))) {
         keyWanted_ = false;
         keyTries_ = 0;
@@ -102,6 +157,7 @@ void SftReceiver::FlushKeyRequest(ByteChannel& ch) {
 
 void SftReceiver::Idle(ByteChannel& ch) {
     FlushKeyRequest(ch);
+    FlushRequests(ch);
     if (streaming_ && NowMs() - lastVideoMs_ > kVideoPauseMs) {
         // 游戏机回到主菜单（SFT 默认按 HOME 就停流）：连接还在，等下一段画面，不当作断开
         streaming_ = false;
@@ -173,12 +229,25 @@ bool SftReceiver::Resync(ByteChannel& ch, uint8_t* header) {
 }
 
 std::string SftReceiver::Run(ByteChannel& ch) {
+    // 这条连接在 Run 期间给手柄线程用（SendInput）；返回前摘掉
+    struct ChannelScope {
+        SftReceiver& r;
+        ChannelScope(SftReceiver& receiver, ByteChannel& c) : r(receiver) {
+            std::lock_guard<std::mutex> lock(r.writeMutex_);
+            r.channel_ = &c;
+        }
+        ~ChannelScope() {
+            std::lock_guard<std::mutex> lock(r.writeMutex_);
+            r.channel_ = nullptr;
+        }
+    } scope(*this, ch);
     std::vector<uint8_t> payload;
     payload.reserve(512 * 1024);
     uint8_t hdr[sft::kHeaderSize];
 
     while (!stop_) {
         FlushKeyRequest(ch);
+        FlushRequests(ch);
         // 等包头时允许长时间没数据（没有游戏在屏幕上时游戏机什么都不发）；断线由底层通道发现
         if (!RecvExact(ch, hdr, sizeof(hdr), true)) break;
         uint64_t receivedUs = NowUs();
@@ -230,6 +299,12 @@ std::string SftReceiver::Run(ByteChannel& ch) {
                 break;
             }
             case sft::PacketKind::Status:
+                // 状态包（游戏机在主菜单等没有画面时）也带 kFlagInput
+                takesInput_ = h.input;
+                {
+                    std::lock_guard<std::mutex> lock(statsMutex_);
+                    stats_.consoleTakesInput = h.input;
+                }
                 HandleStatus(payload.data(), h.length);
                 break;
             default:
@@ -278,6 +353,7 @@ void SftReceiver::HandleVideo(const sft::Header& h, const uint8_t* payload, uint
         }
         stats_.consoleTakesInput = h.input;
     }
+    takesInput_ = h.input;
     streaming_ = true;
     lastVideoMs_ = NowMs();
 

@@ -12,6 +12,8 @@
 
 #include "audio_player.h"
 #include "gop_cache.h"
+#include "recorder.h"
+#include "sft_pad.h"
 #include "stream_source.h"
 #include "video_decoder.h"
 #include "video_enhancer.h"
@@ -55,6 +57,21 @@ struct SessionStats {
     std::string enhanceError;
 };
 
+// 手柄（见 core/sft_pad.h）的设置：enabled 是用户打开了手柄功能、并且播放页在前台
+struct PadConfig {
+    bool enabled = false;
+    bool faceByLabel = false;
+    double deadZone = nssft::pad::kDefaultDeadZone;
+    double triggerPoint = nssft::pad::kDefaultTriggerPoint;
+};
+
+struct PadStatus {
+    bool takesInput = false;  // 游戏机接受手柄（打开了 “Controls from the viewer”）
+    bool attached = false;    // 游戏机上已经接上了这个虚拟手柄
+    uint64_t sent = 0;
+    nssft::pad::PadState::Snapshot now;  // 正在按的（给测试框看）
+};
+
 // 按选项和回调创建串流来源（由 NAPI 层决定用哪种传输）
 using SourceFactory = std::function<std::unique_ptr<nssft::StreamSource>(const nssft::StreamCallbacks&)>;
 
@@ -65,6 +82,7 @@ struct SessionConfig {
     bool netOpt = true;
     bool freezeOnLoss = true;  // 丢帧后定格到下一个关键帧，不花屏
     int enhanceLevel = 0;      // 画质增强：0 关闭 / 1 标准 / 2 高
+    bool display = true;       // false：只录制，不显示画面、不播放声音（没有 surface）
 };
 
 class Session {
@@ -86,9 +104,31 @@ public:
     std::vector<nssft::SocketFlow> SocketFlows() const;
     SessionStats Stats();
 
+    // 录像（主线程）：和显示链路分开的另一条链路，见 recorder.h。返回空串表示已开始
+    std::string StartRecording(RecordConfig config);
+    // 摘下录像器交给调用方收尾（Finish 会阻塞几百毫秒到几秒，调用方放到工作线程做）；没在录时返回空
+    std::unique_ptr<Recorder> StopRecording();
+    bool Recording() const { return recording_; }
+    RecordStats RecordingStats();
+
+    // 手柄（主线程）：按键和轴来自界面的按键事件、焦点轴事件；发送在手柄自己的线程。只录制模式下没有手柄。
+    void ConfigurePad(const PadConfig& config);
+    void SetPadDevicePresent(bool present);
+    // false：菜单或对话框开着（手柄接着，但什么都不按）
+    void SetPadPlaying(bool playing);
+    // 返回 true 表示这次输入交给了游戏机（调用方就不再让界面处理，免得手柄按键移动界面焦点）
+    bool PadKey(int32_t keyCode, bool down);
+    bool PadAxes(const nssft::pad::Axes& axes);
+    // 触屏手柄：显示着就算有手柄；状态是整体给的（按键位 + 两个摇杆）
+    void SetPadTouchShown(bool shown);
+    void PadTouch(uint64_t buttons, double lx, double ly, double rx, double ry);
+    void ResetPad();
+    PadStatus PadStats() const;
+
 private:
     // 网络线程回调
     void OnVideo(const nssft::VideoFrame& frame);
+    void OnVideoLocked(const nssft::VideoFrame& frame, const uint8_t* data, size_t size, uint64_t ts);
     void OnAudio(const uint8_t* data, size_t size);
     // 视频数据丢失（持 videoMutex_ 调用）：计数、作废 GOP 缓存、通知解码器定格、请求关键帧
     void HandleLossLocked(nssft::LossCause cause);
@@ -163,6 +203,17 @@ private:
 
     std::mutex audioMutex_;
     std::unique_ptr<AudioPlayer> audio_;
+
+    // 录像器：网络线程送数据，主线程开始/停止（锁顺序：videoMutex_ → recordMutex_，反过来不行）
+    std::mutex recordMutex_;
+    std::unique_ptr<Recorder> recorder_;
+    std::atomic<bool> recording_{false};
+    bool display_ = true;  // 只录制模式下为 false（主线程读写）
+
+    // 手柄：padState_ 主线程写、发送线程读（自带锁）；pad_ 在 client_ 之后建、之前停（发送线程要用 client_）
+    nssft::pad::PadState padState_;
+    std::unique_ptr<nssft::pad::PadSender> pad_;
+    PadConfig padConfig_;
 
     std::mutex messageMutex_;
     std::string message_;

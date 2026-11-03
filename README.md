@@ -15,7 +15,8 @@ NSSFT receives the stream sent by the console side of [SFT](https://github.com/T
 - **Freeze on frame loss**: when the video sequence skips, the last good picture is held and a keyframe is requested at once (`SFTK`), so the picture never smears.
 - **Picture enhancement** with the system video processing engine, where supported.
 - **Dedicated 5 GHz hotspot** for the console over Wi-Fi Direct.
-- **Background keep-alive and picture-in-picture**: keep receiving after leaving the app (with a live view), back to live instantly.
+- **Picture-in-picture**: keep watching in a small window when you leave the app.
+- **Recording**: record while streaming, or record only with no picture on screen (it keeps going in the background and with the screen locked). A second hardware decoder feeds the hardware encoder, so the stream is compressed on the device into an H.265 MP4 without touching playback. Three quality levels (about 90 / 60 / 30 MB a minute); recordings can be saved to Gallery.
 - **Devices**: phones, tablets, PCs/2-in-1s and TVs (remote control). The AppGallery build leaves out TVs; see Build.
 - **Three languages** (Simplified Chinese, Traditional Chinese, English) and dark mode.
 
@@ -104,6 +105,16 @@ python3 tools/mock_sft.py --h264 build/test.h264 --audio
 ```
 
 With the device and the computer on the same Wi-Fi, "mock console" appears on the home screen; otherwise enter the computer's IP address.
+
+## Support this project
+
+NSSFT is a free, open-source project built in spare time. If it helps you, you can buy the author a coffee by scanning one of these codes:
+
+| WeChat Pay | Alipay |
+| :---: | :---: |
+| <img src="docs/donate/wechat.png" alt="WeChat Pay tip code" width="200"> | <img src="docs/donate/alipay.png" alt="Alipay payment code" width="200"> |
+
+These go to the author of NSSFT. NSSFT only works because [SFT](https://github.com/TomasUribe/switch-frame-tap) captures and sends the picture on the console, and SFT is a separate, independent project. To support SFT's author as well, star the SFT repository or [buy them a coffee](https://www.buymeacoffee.com/papux200).
 
 ## License
 

@@ -18,10 +18,12 @@ add_library(entry SHARED
     vsync_monitor.cpp
     display_rate.cpp
     audio_player.cpp
+    recorder.cpp
     ${NSSFT_CORE_DIR}/sft_protocol.cpp
     ${NSSFT_CORE_DIR}/sft_receiver.cpp
     ${NSSFT_CORE_DIR}/sft_net_source.cpp
     ${NSSFT_CORE_DIR}/sft_usb_source.cpp
+    ${NSSFT_CORE_DIR}/sft_pad.cpp
     ${NSSFT_CORE_DIR}/h264.cpp
     ${NSSFT_CORE_DIR}/gop_cache.cpp
     ${NSSFT_CORE_DIR}/frame_loss.cpp
@@ -37,6 +39,9 @@ target_link_libraries(entry PUBLIC
     libnative_media_codecbase.so
     libnative_media_core.so
     libnative_media_vdec.so
+    libnative_media_venc.so
+    libnative_media_acodec.so
+    libnative_media_avmuxer.so
     libohaudio.so
     libnative_window.so
     libnative_vsync.so

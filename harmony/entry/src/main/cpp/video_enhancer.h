@@ -21,6 +21,8 @@ public:
     // outWindow：屏幕窗口（调用方负责它的生命周期，且必须比本对象活得久）
     // level：1 标准（速度快）/ 2 高（效果好、更慢）
     bool Init(OHNativeWindow* outWindow, int level, std::string* error);
+    // 本机有没有可用的视频处理引擎（录像的省空间档也用它缩小画面）
+    static bool Supported();
     // 解码器应输出到这个窗口
     OHNativeWindow* InputWindow() const { return input_; }
     void SetLevel(int level);

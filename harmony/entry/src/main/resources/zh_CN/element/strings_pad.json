@@ -1,0 +1,416 @@
+{
+  "string": [
+    {
+      "name": "pad_title",
+      "value": "手柄"
+    },
+    {
+      "name": "pad_beta",
+      "value": "测试中"
+    },
+    {
+      "name": "pad_status_off",
+      "value": "手柄功能已关闭。打开后，本机的手柄和键盘可以直接操作游戏机。"
+    },
+    {
+      "name": "pad_status_console_off",
+      "value": "游戏机还没打开手柄输入：在游戏机的 SFT 里打开 Beta 页的“Controls from the viewer”（需要 SFT 0.7.20 或更新版本）。"
+    },
+    {
+      "name": "pad_status_no_device",
+      "value": "没有找到手柄。用蓝牙或 USB 连接一个手柄，或者直接用键盘（按键见使用说明）。"
+    },
+    {
+      "name": "pad_status_connecting",
+      "value": "%s 已就绪，正在接上游戏机…"
+    },
+    {
+      "name": "pad_status_ready",
+      "value": "%s 已接上游戏机，可以直接玩了。"
+    },
+    {
+      "name": "pad_device_keyboard",
+      "value": "键盘"
+    },
+    {
+      "name": "pad_device_generic",
+      "value": "手柄"
+    },
+    {
+      "name": "pad_pressing",
+      "value": "正在按"
+    },
+    {
+      "name": "pad_pressing_none",
+      "value": "没有按键"
+    },
+    {
+      "name": "pad_sticks",
+      "value": "左摇杆 %d, %d　右摇杆 %d, %d"
+    },
+    {
+      "name": "pad_menu_hint",
+      "value": "菜单开着时手柄不会操作游戏机。玩的时候同时按住开始键和选择键（游戏机上的 + 和 −）1.5 秒，可以打开菜单。"
+    },
+    {
+      "name": "pad_enable",
+      "value": "使用手柄"
+    },
+    {
+      "name": "pad_enable_desc",
+      "value": "用本机的手柄和键盘操作游戏机（游戏机上会多出一个手柄）"
+    },
+    {
+      "name": "pad_layout",
+      "value": "按键布局"
+    },
+    {
+      "name": "pad_layout_place",
+      "value": "按位置"
+    },
+    {
+      "name": "pad_layout_label",
+      "value": "按标签"
+    },
+    {
+      "name": "pad_layout_desc",
+      "value": "按位置：手柄最下面的键是 B，和游戏机手柄的位置一样；按标签：手柄上写着 A 的键就是 A"
+    },
+    {
+      "name": "pad_deadzone",
+      "value": "摇杆死区"
+    },
+    {
+      "name": "pad_deadzone_desc",
+      "value": "死区内的轻微移动不算；摇杆松开后角色还会自己动时调大"
+    },
+    {
+      "name": "pad_deadzone_default",
+      "value": "%s（默认）"
+    },
+    {
+      "name": "pad_axis_unsupported",
+      "value": "本机系统版本较低，摇杆和模拟扳机用不了（需要 HarmonyOS 5.0.3 或更新版本），按键可以用。"
+    },
+    {
+      "name": "pad_record_only",
+      "value": "只录制时不能用手柄"
+    },
+    {
+      "name": "guide_pad_title",
+      "value": "手柄（测试中）"
+    },
+    {
+      "name": "guide_pad_intro",
+      "value": "用本机的手柄或键盘直接玩游戏机上的游戏。"
+    },
+    {
+      "name": "guide_pad_enable_title",
+      "value": "先在游戏机上打开"
+    },
+    {
+      "name": "guide_pad_enable_body",
+      "value": "手柄要游戏机同意才能用：在游戏机的 SFT 里打开 Beta 页的“Controls from the viewer”（SFT 0.7.20 或更新版本）。打开后，串流时在顶部中间的菜单里点“手柄”，会显示“已接上游戏机”。"
+    },
+    {
+      "name": "guide_pad_connect_title",
+      "value": "连接手柄"
+    },
+    {
+      "name": "guide_pad_connect_body",
+      "value": "在系统设置里用蓝牙配对手柄，或用 USB 线接上。菜单里“手柄”页的“正在按”会实时显示按下的键和摇杆，可以先在这里确认每个键都对。"
+    },
+    {
+      "name": "guide_pad_one_title",
+      "value": "只对应一个手柄"
+    },
+    {
+      "name": "guide_pad_one_body",
+      "value": "SFT 让每个客户端在游戏机上对应一个手柄。本机接了几个手柄、再加上键盘，都会合并成这一个，按哪个都算。两个人一起玩时，第二个人请用游戏机自己的手柄。"
+    },
+    {
+      "name": "guide_pad_layout_title",
+      "value": "按键对应"
+    },
+    {
+      "name": "guide_pad_layout_body",
+      "value": "默认“按位置”：手柄最下面的键是 B、右边的是 A，和游戏机手柄的位置一样；更习惯手柄上的字时，在设置里改成“按标签”。开始键是 +，选择键是 −，中间的主页键是 HOME，肩键和扳机是 L / R / ZL / ZR。"
+    },
+    {
+      "name": "guide_pad_keyboard_title",
+      "value": "键盘"
+    },
+    {
+      "name": "guide_pad_keyboard_body",
+      "value": "没有手柄也可以用键盘：WASD 是左摇杆，IJKL 是右摇杆，方向键是十字键；Z X C V 是 A B X Y；Q / E 是 ZL / L，O / U 是 ZR / R；F / H 按下左 / 右摇杆；= 是 +，- 是 −，Home 是 HOME。按下第一个键时接上游戏机。"
+    },
+    {
+      "name": "guide_pad_menu_title",
+      "value": "玩的时候打开菜单"
+    },
+    {
+      "name": "guide_pad_menu_body",
+      "value": "菜单开着时，手柄不会操作游戏机。只用手柄时，同时按住开始键和选择键（+ 和 −）1.5 秒可以打开菜单。切到后台或退出串流时，游戏机上的这个手柄会自动拔掉。"
+    },
+    {
+      "name": "guide_pad_trouble_title",
+      "value": "摇杆不动或键不对"
+    },
+    {
+      "name": "guide_pad_trouble_body",
+      "value": "摇杆和模拟扳机需要 HarmonyOS 5.0.3 或更新版本，更早的系统上只有按键能用。摇杆松开后角色还会自己动时，把设置里的“摇杆死区”调大。这项功能还在测试中，遇到某个手柄的键不对，欢迎反馈手柄型号。"
+    },
+    {
+      "name": "vpad_name",
+      "value": "触屏手柄"
+    },
+    {
+      "name": "vpad_show",
+      "value": "触屏手柄"
+    },
+    {
+      "name": "vpad_show_desc",
+      "value": "在画面上显示虚拟按键；显示时返回要连按两次"
+    },
+    {
+      "name": "vpad_size",
+      "value": "按键大小"
+    },
+    {
+      "name": "vpad_size_small",
+      "value": "小"
+    },
+    {
+      "name": "vpad_size_medium",
+      "value": "中"
+    },
+    {
+      "name": "vpad_size_large",
+      "value": "大"
+    },
+    {
+      "name": "vpad_opacity",
+      "value": "不透明度"
+    },
+    {
+      "name": "vpad_haptic",
+      "value": "按键震动"
+    },
+    {
+      "name": "vpad_haptic_desc",
+      "value": "按下触屏按键时轻震一下"
+    },
+    {
+      "name": "vpad_autohide",
+      "value": "接上手柄时收起"
+    },
+    {
+      "name": "vpad_autohide_desc",
+      "value": "本机连着实体手柄时不显示触屏手柄"
+    },
+    {
+      "name": "vpad_unavailable",
+      "value": "只在手机和平板上提供"
+    },
+    {
+      "name": "guide_pad_touch_title",
+      "value": "触屏手柄"
+    },
+    {
+      "name": "guide_pad_touch_body",
+      "value": "没有手柄时，在串流时打开顶部中间的菜单，进入“手柄”打开“触屏手柄”，画面上会出现虚拟按键（只在手机和平板上）。左半边空白处按下就是左摇杆，按下的位置就是中心；面向键、十字键、肩键可以滑着换键。显示时菜单按钮一直在顶部中间，点空白处不会有反应；返回要 1 秒内连按两次才断开。在“手柄”页里点“调整键位”可以拖动按键、改大小、隐藏，或打开 L3 / R3，点“保存”生效。宽屏状态下还可以竖屏玩、让按键放到画面下方，见“键位和竖屏”。"
+    },
+    {
+      "name": "vpad_edit",
+      "value": "调整键位"
+    },
+    {
+      "name": "vpad_edit_desc",
+      "value": "拖动每个按键换位置，可以改大小、隐藏，或打开 L3 / R3"
+    },
+    {
+      "name": "vpad_edit_start",
+      "value": "调整"
+    },
+    {
+      "name": "vpad_edit_reset",
+      "value": "重置"
+    },
+    {
+      "name": "vpad_edit_save",
+      "value": "保存"
+    },
+    {
+      "name": "vpad_edit_unsaved",
+      "value": "未保存"
+    },
+    {
+      "name": "vpad_edit_hide",
+      "value": "隐藏"
+    },
+    {
+      "name": "vpad_edit_show",
+      "value": "显示"
+    },
+    {
+      "name": "vpad_edit_hint",
+      "value": "叠在画面上的键位：拖动按键换位置，点一下选中"
+    },
+    {
+      "name": "vpad_edit_hint_split",
+      "value": "分离展示的键位：拖动按键换位置，点一下选中"
+    },
+    {
+      "name": "vpad_edit_hint_selected",
+      "value": "用 − / + 改大小；淡色的是隐藏的按键，选中后可以显示"
+    },
+    {
+      "name": "vpad_split",
+      "value": "分离展示"
+    },
+    {
+      "name": "vpad_split_desc",
+      "value": "画面在上、触屏手柄在下，不挡画面（画面下方要空出足够的位置）"
+    },
+    {
+      "name": "vpad_force_portrait",
+      "value": "强制竖屏"
+    },
+    {
+      "name": "vpad_force_portrait_desc",
+      "value": "串流时竖着显示；打开“分离展示”就是画面在上、按键在下"
+    },
+    {
+      "name": "vpad_wide_only",
+      "value": "只在宽屏状态（阔折叠、折叠屏展开等）下提供"
+    },
+    {
+      "name": "vpad_layouts",
+      "value": "触屏手柄键位"
+    },
+    {
+      "name": "vpad_layouts_desc",
+      "value": "查看、新建、修改、删除自己的键位"
+    },
+    {
+      "name": "vpad_mode_landscape",
+      "value": "横屏"
+    },
+    {
+      "name": "vpad_mode_portrait",
+      "value": "竖屏"
+    },
+    {
+      "name": "vpad_mode_split",
+      "value": "分离展示"
+    },
+    {
+      "name": "vpad_builtin",
+      "value": "默认"
+    },
+    {
+      "name": "vpad_current_tag",
+      "value": "当前"
+    },
+    {
+      "name": "vpad_layout_builtin_desc",
+      "value": "内置，跟着屏幕大小走，不能修改"
+    },
+    {
+      "name": "vpad_layout_custom_desc",
+      "value": "点一下设为当前"
+    },
+    {
+      "name": "vpad_layout_edit",
+      "value": "编辑"
+    },
+    {
+      "name": "vpad_layout_rename",
+      "value": "改名"
+    },
+    {
+      "name": "vpad_layout_copy",
+      "value": "复制"
+    },
+    {
+      "name": "vpad_layout_delete",
+      "value": "删除"
+    },
+    {
+      "name": "vpad_layout_more",
+      "value": "更多操作"
+    },
+    {
+      "name": "vpad_layout_new",
+      "value": "新建键位"
+    },
+    {
+      "name": "vpad_layout_new_from",
+      "value": "基于“%s”"
+    },
+    {
+      "name": "vpad_layout_new_title",
+      "value": "新建键位"
+    },
+    {
+      "name": "vpad_layout_rename_title",
+      "value": "键位改名"
+    },
+    {
+      "name": "vpad_layout_name_placeholder",
+      "value": "键位名称"
+    },
+    {
+      "name": "vpad_layout_default_name",
+      "value": "我的键位 %d"
+    },
+    {
+      "name": "vpad_layout_name_empty",
+      "value": "请输入名称"
+    },
+    {
+      "name": "vpad_layout_name_taken",
+      "value": "已经有叫这个名字的键位了"
+    },
+    {
+      "name": "vpad_layout_delete_title",
+      "value": "删除键位"
+    },
+    {
+      "name": "vpad_layout_delete_message",
+      "value": "删除“%s”？正在用它的话会换回默认键位。"
+    },
+    {
+      "name": "vpad_layout_saveas_title",
+      "value": "默认键位不能修改，另存为新键位"
+    },
+    {
+      "name": "vpad_layout_saved",
+      "value": "键位已保存"
+    },
+    {
+      "name": "vpad_layout_migrated_name",
+      "value": "我的键位"
+    },
+    {
+      "name": "vpad_layouts_note",
+      "value": "横屏、竖屏、分离展示三种摆法的键位分开管理，各自记住当前用哪一个。键位按屏幕比例保存，换了屏幕大小也能用；编辑时会转到这种摆法的方向。"
+    },
+    {
+      "name": "vpad_layout_in_menu",
+      "value": "键位"
+    },
+    {
+      "name": "vpad_editor_picture",
+      "value": "画面"
+    },
+    {
+      "name": "guide_pad_layouts_title",
+      "value": "键位和竖屏"
+    },
+    {
+      "name": "guide_pad_layouts_body",
+      "value": "设置 → 手柄 → 触屏手柄键位：横屏、竖屏、分离展示三种摆法各有一个默认键位，可以基于它新建自己的键位，编辑、改名、删除，每种摆法用哪一个各自记住。串流时也能在菜单的“手柄”页里换键位、点“调整”直接改。阔折叠、折叠屏展开等宽屏状态下，还可以打开“强制竖屏”竖着玩，再打开“分离展示”就是画面在上、按键在下，不挡画面。"
+    }
+  ]
+}

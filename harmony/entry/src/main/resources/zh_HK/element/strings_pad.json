@@ -1,0 +1,416 @@
+{
+  "string": [
+    {
+      "name": "pad_title",
+      "value": "手把"
+    },
+    {
+      "name": "pad_beta",
+      "value": "測試中"
+    },
+    {
+      "name": "pad_status_off",
+      "value": "手把功能已關閉。打開後，本機的手把和鍵盤可以直接操作遊戲機。"
+    },
+    {
+      "name": "pad_status_console_off",
+      "value": "遊戲機還沒打開手把輸入：在遊戲機的 SFT 裡打開 Beta 頁的「Controls from the viewer」（需要 SFT 0.7.20 或更新版本）。"
+    },
+    {
+      "name": "pad_status_no_device",
+      "value": "沒有找到手把。用藍牙或 USB 連接一個手把，或者直接用鍵盤（按鍵見使用說明）。"
+    },
+    {
+      "name": "pad_status_connecting",
+      "value": "%s 已就緒，正在接上遊戲機…"
+    },
+    {
+      "name": "pad_status_ready",
+      "value": "%s 已接上遊戲機，可以直接玩了。"
+    },
+    {
+      "name": "pad_device_keyboard",
+      "value": "鍵盤"
+    },
+    {
+      "name": "pad_device_generic",
+      "value": "手把"
+    },
+    {
+      "name": "pad_pressing",
+      "value": "正在按"
+    },
+    {
+      "name": "pad_pressing_none",
+      "value": "沒有按鍵"
+    },
+    {
+      "name": "pad_sticks",
+      "value": "左搖桿 %d, %d　右搖桿 %d, %d"
+    },
+    {
+      "name": "pad_menu_hint",
+      "value": "選單開著時手把不會操作遊戲機。玩的時候同時按住開始鍵和選擇鍵（遊戲機上的 + 和 −）1.5 秒，可以打開選單。"
+    },
+    {
+      "name": "pad_enable",
+      "value": "使用手把"
+    },
+    {
+      "name": "pad_enable_desc",
+      "value": "用本機的手把和鍵盤操作遊戲機（遊戲機上會多出一個手把）"
+    },
+    {
+      "name": "pad_layout",
+      "value": "按鍵配置"
+    },
+    {
+      "name": "pad_layout_place",
+      "value": "按位置"
+    },
+    {
+      "name": "pad_layout_label",
+      "value": "按標籤"
+    },
+    {
+      "name": "pad_layout_desc",
+      "value": "按位置：手把最下面的鍵是 B，和遊戲機手把的位置一樣；按標籤：手把上寫著 A 的鍵就是 A"
+    },
+    {
+      "name": "pad_deadzone",
+      "value": "搖桿死區"
+    },
+    {
+      "name": "pad_deadzone_desc",
+      "value": "死區內的輕微移動不算；搖桿放開後角色還會自己動時調大"
+    },
+    {
+      "name": "pad_deadzone_default",
+      "value": "%s（預設）"
+    },
+    {
+      "name": "pad_axis_unsupported",
+      "value": "本機系統版本較低，搖桿和類比板機用不了（需要 HarmonyOS 5.0.3 或更新版本），按鍵可以用。"
+    },
+    {
+      "name": "pad_record_only",
+      "value": "只錄製時不能用手把"
+    },
+    {
+      "name": "guide_pad_title",
+      "value": "手把（測試中）"
+    },
+    {
+      "name": "guide_pad_intro",
+      "value": "用本機的手把或鍵盤直接玩遊戲機上的遊戲。"
+    },
+    {
+      "name": "guide_pad_enable_title",
+      "value": "先在遊戲機上打開"
+    },
+    {
+      "name": "guide_pad_enable_body",
+      "value": "手把要遊戲機同意才能用：在遊戲機的 SFT 裡打開 Beta 頁的「Controls from the viewer」（SFT 0.7.20 或更新版本）。打開後，串流時在頂部中間的選單裡點「手把」，會顯示「已接上遊戲機」。"
+    },
+    {
+      "name": "guide_pad_connect_title",
+      "value": "連接手把"
+    },
+    {
+      "name": "guide_pad_connect_body",
+      "value": "在系統設定裡用藍牙配對手把，或用 USB 線接上。選單裡「手把」頁的「正在按」會即時顯示按下的鍵和搖桿，可以先在這裡確認每個鍵都對。"
+    },
+    {
+      "name": "guide_pad_one_title",
+      "value": "只對應一個手把"
+    },
+    {
+      "name": "guide_pad_one_body",
+      "value": "SFT 讓每個客戶端在遊戲機上對應一個手把。本機接了幾個手把、再加上鍵盤，都會合併成這一個，按哪個都算。兩個人一起玩時，第二個人請用遊戲機自己的手把。"
+    },
+    {
+      "name": "guide_pad_layout_title",
+      "value": "按鍵對應"
+    },
+    {
+      "name": "guide_pad_layout_body",
+      "value": "預設「按位置」：手把最下面的鍵是 B、右邊的是 A，和遊戲機手把的位置一樣；更習慣手把上的字時，在設定裡改成「按標籤」。開始鍵是 +，選擇鍵是 −，中間的主頁鍵是 HOME，肩鍵和板機是 L / R / ZL / ZR。"
+    },
+    {
+      "name": "guide_pad_keyboard_title",
+      "value": "鍵盤"
+    },
+    {
+      "name": "guide_pad_keyboard_body",
+      "value": "沒有手把也可以用鍵盤：WASD 是左搖桿，IJKL 是右搖桿，方向鍵是十字鍵；Z X C V 是 A B X Y；Q / E 是 ZL / L，O / U 是 ZR / R；F / H 按下左 / 右搖桿；= 是 +，- 是 −，Home 是 HOME。按下第一個鍵時接上遊戲機。"
+    },
+    {
+      "name": "guide_pad_menu_title",
+      "value": "玩的時候打開選單"
+    },
+    {
+      "name": "guide_pad_menu_body",
+      "value": "選單開著時，手把不會操作遊戲機。只用手把時，同時按住開始鍵和選擇鍵（+ 和 −）1.5 秒可以打開選單。切到背景或退出串流時，遊戲機上的這個手把會自動拔掉。"
+    },
+    {
+      "name": "guide_pad_trouble_title",
+      "value": "搖桿不動或鍵不對"
+    },
+    {
+      "name": "guide_pad_trouble_body",
+      "value": "搖桿和類比板機需要 HarmonyOS 5.0.3 或更新版本，更早的系統上只有按鍵能用。搖桿放開後角色還會自己動時，把設定裡的「搖桿死區」調大。這項功能還在測試中，遇到某個手把的鍵不對，歡迎回報手把型號。"
+    },
+    {
+      "name": "vpad_name",
+      "value": "觸控手把"
+    },
+    {
+      "name": "vpad_show",
+      "value": "觸控手把"
+    },
+    {
+      "name": "vpad_show_desc",
+      "value": "在畫面上顯示虛擬按鍵；顯示時返回要連按兩次"
+    },
+    {
+      "name": "vpad_size",
+      "value": "按鍵大小"
+    },
+    {
+      "name": "vpad_size_small",
+      "value": "小"
+    },
+    {
+      "name": "vpad_size_medium",
+      "value": "中"
+    },
+    {
+      "name": "vpad_size_large",
+      "value": "大"
+    },
+    {
+      "name": "vpad_opacity",
+      "value": "不透明度"
+    },
+    {
+      "name": "vpad_haptic",
+      "value": "按鍵震動"
+    },
+    {
+      "name": "vpad_haptic_desc",
+      "value": "按下觸控按鍵時輕震一下"
+    },
+    {
+      "name": "vpad_autohide",
+      "value": "接上手把時收起"
+    },
+    {
+      "name": "vpad_autohide_desc",
+      "value": "本機連著實體手把時不顯示觸控手把"
+    },
+    {
+      "name": "vpad_unavailable",
+      "value": "只在手機和平板上提供"
+    },
+    {
+      "name": "guide_pad_touch_title",
+      "value": "觸控手把"
+    },
+    {
+      "name": "guide_pad_touch_body",
+      "value": "沒有手把時，在串流時打開頂部中間的選單，進入「手把」打開「觸控手把」，畫面上會出現虛擬按鍵（只在手機和平板上）。左半邊空白處按下就是左搖桿，按下的位置就是中心；面向鍵、十字鍵、肩鍵可以滑著換鍵。顯示時選單按鈕一直在頂部中間，點空白處不會有反應；返回要 1 秒內連按兩次才斷開。在「手把」頁裡點「調整鍵位」可以拖動按鍵、改大小、隱藏，或打開 L3 / R3，點「儲存」生效。寬螢幕狀態下還可以直向玩、讓按鍵放到畫面下方，見「鍵位和直向」。"
+    },
+    {
+      "name": "vpad_edit",
+      "value": "調整鍵位"
+    },
+    {
+      "name": "vpad_edit_desc",
+      "value": "拖動每個按鍵換位置，可以改大小、隱藏，或打開 L3 / R3"
+    },
+    {
+      "name": "vpad_edit_start",
+      "value": "調整"
+    },
+    {
+      "name": "vpad_edit_reset",
+      "value": "重設"
+    },
+    {
+      "name": "vpad_edit_save",
+      "value": "儲存"
+    },
+    {
+      "name": "vpad_edit_unsaved",
+      "value": "未儲存"
+    },
+    {
+      "name": "vpad_edit_hide",
+      "value": "隱藏"
+    },
+    {
+      "name": "vpad_edit_show",
+      "value": "顯示"
+    },
+    {
+      "name": "vpad_edit_hint",
+      "value": "疊在畫面上的鍵位：拖動按鍵換位置，點一下選中"
+    },
+    {
+      "name": "vpad_edit_hint_split",
+      "value": "分離顯示的鍵位：拖動按鍵換位置，點一下選中"
+    },
+    {
+      "name": "vpad_edit_hint_selected",
+      "value": "用 − / + 改大小；淡色的是隱藏的按鍵，選中後可以顯示"
+    },
+    {
+      "name": "vpad_split",
+      "value": "分離顯示"
+    },
+    {
+      "name": "vpad_split_desc",
+      "value": "畫面在上、觸控手把在下，不擋畫面（畫面下方要空出足夠的位置）"
+    },
+    {
+      "name": "vpad_force_portrait",
+      "value": "強制直向"
+    },
+    {
+      "name": "vpad_force_portrait_desc",
+      "value": "串流時直向顯示；打開「分離顯示」就是畫面在上、按鍵在下"
+    },
+    {
+      "name": "vpad_wide_only",
+      "value": "只在寬螢幕狀態（闊摺疊、摺疊螢幕展開等）下提供"
+    },
+    {
+      "name": "vpad_layouts",
+      "value": "觸控手把鍵位"
+    },
+    {
+      "name": "vpad_layouts_desc",
+      "value": "查看、新增、修改、刪除自己的鍵位"
+    },
+    {
+      "name": "vpad_mode_landscape",
+      "value": "橫向"
+    },
+    {
+      "name": "vpad_mode_portrait",
+      "value": "直向"
+    },
+    {
+      "name": "vpad_mode_split",
+      "value": "分離顯示"
+    },
+    {
+      "name": "vpad_builtin",
+      "value": "預設"
+    },
+    {
+      "name": "vpad_current_tag",
+      "value": "目前"
+    },
+    {
+      "name": "vpad_layout_builtin_desc",
+      "value": "內建，跟著螢幕大小走，不能修改"
+    },
+    {
+      "name": "vpad_layout_custom_desc",
+      "value": "點一下設為目前"
+    },
+    {
+      "name": "vpad_layout_edit",
+      "value": "編輯"
+    },
+    {
+      "name": "vpad_layout_rename",
+      "value": "重新命名"
+    },
+    {
+      "name": "vpad_layout_copy",
+      "value": "複製"
+    },
+    {
+      "name": "vpad_layout_delete",
+      "value": "刪除"
+    },
+    {
+      "name": "vpad_layout_more",
+      "value": "更多操作"
+    },
+    {
+      "name": "vpad_layout_new",
+      "value": "新增鍵位"
+    },
+    {
+      "name": "vpad_layout_new_from",
+      "value": "基於「%s」"
+    },
+    {
+      "name": "vpad_layout_new_title",
+      "value": "新增鍵位"
+    },
+    {
+      "name": "vpad_layout_rename_title",
+      "value": "鍵位重新命名"
+    },
+    {
+      "name": "vpad_layout_name_placeholder",
+      "value": "鍵位名稱"
+    },
+    {
+      "name": "vpad_layout_default_name",
+      "value": "我的鍵位 %d"
+    },
+    {
+      "name": "vpad_layout_name_empty",
+      "value": "請輸入名稱"
+    },
+    {
+      "name": "vpad_layout_name_taken",
+      "value": "已經有叫這個名稱的鍵位了"
+    },
+    {
+      "name": "vpad_layout_delete_title",
+      "value": "刪除鍵位"
+    },
+    {
+      "name": "vpad_layout_delete_message",
+      "value": "刪除「%s」？正在用它的話會換回預設鍵位。"
+    },
+    {
+      "name": "vpad_layout_saveas_title",
+      "value": "預設鍵位不能修改，另存為新鍵位"
+    },
+    {
+      "name": "vpad_layout_saved",
+      "value": "鍵位已儲存"
+    },
+    {
+      "name": "vpad_layout_migrated_name",
+      "value": "我的鍵位"
+    },
+    {
+      "name": "vpad_layouts_note",
+      "value": "橫向、直向、分離顯示三種擺法的鍵位分開管理，各自記住目前用哪一個。鍵位按螢幕比例儲存，換了螢幕大小也能用；編輯時會轉到這種擺法的方向。"
+    },
+    {
+      "name": "vpad_layout_in_menu",
+      "value": "鍵位"
+    },
+    {
+      "name": "vpad_editor_picture",
+      "value": "畫面"
+    },
+    {
+      "name": "guide_pad_layouts_title",
+      "value": "鍵位和直向"
+    },
+    {
+      "name": "guide_pad_layouts_body",
+      "value": "設定 → 手把 → 觸控手把鍵位：橫向、直向、分離顯示三種擺法各有一個預設鍵位，可以基於它新增自己的鍵位，編輯、重新命名、刪除，每種擺法用哪一個各自記住。串流時也能在選單的「手把」頁裡換鍵位、點「調整」直接改。闊摺疊、摺疊螢幕展開等寬螢幕狀態下，還可以打開「強制直向」直著玩，再打開「分離顯示」就是畫面在上、按鍵在下，不擋畫面。"
+    }
+  ]
+}

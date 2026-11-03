@@ -1,0 +1,4 @@
+# 仓库页顶部的“Sponsor”按钮：指向 README 里的打赏段落（微信赞赏码、支付宝收款码）
+custom:
+  - "https://github.com/onewilk/NSSFT#support-this-project"
+  - "https://github.com/onewilk/NSSFT/blob/main/README.zh-CN.md#支持这个项目"

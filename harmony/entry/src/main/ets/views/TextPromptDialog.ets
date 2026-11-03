@@ -1,4 +1,6 @@
-// 单行输入弹窗：手动输入主机地址、给主机起备注名共用
+// 单行输入弹窗：手动输入主机地址、给主机起备注名、给触屏手柄键位起名共用
+import { inputMethod } from '@kit.IMEKit';
+
 @CustomDialog
 export struct TextPromptDialog {
   controller?: CustomDialogController;
@@ -17,7 +19,14 @@ export struct TextPromptDialog {
       this.error = err;
       return;
     }
+    this.close();
+  }
+
+  // 关弹窗时把输入法键盘也收起来（有的设备上弹窗关了键盘还留着，挡住后面的页面）
+  private close(): void {
     this.controller?.close();
+    inputMethod.getController().stopInputSession().catch(() => {
+    });
   }
 
   build() {
@@ -56,7 +65,7 @@ export struct TextPromptDialog {
           .fontColor($r('app.color.accent'))
           .backgroundColor($r('app.color.accent_soft'))
           .onClick(() => {
-            this.controller?.close();
+            this.close();
           })
         Button(this.confirmText)
           .layoutWeight(1)

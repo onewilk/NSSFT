@@ -1,0 +1,416 @@
+{
+  "string": [
+    {
+      "name": "pad_title",
+      "value": "Controller"
+    },
+    {
+      "name": "pad_beta",
+      "value": "Beta"
+    },
+    {
+      "name": "pad_status_off",
+      "value": "Off. Turn it on to play the console with a controller or keyboard on this device."
+    },
+    {
+      "name": "pad_status_console_off",
+      "value": "The console is not taking a controller yet. In SFT on the console, turn on \"Controls from the viewer\" on the Beta page (SFT 0.7.20 or later)."
+    },
+    {
+      "name": "pad_status_no_device",
+      "value": "No controller found. Connect one by Bluetooth or USB, or use a keyboard (keys are in the guide)."
+    },
+    {
+      "name": "pad_status_connecting",
+      "value": "%s is ready. Connecting it to the console…"
+    },
+    {
+      "name": "pad_status_ready",
+      "value": "%s is connected to the console. Play away."
+    },
+    {
+      "name": "pad_device_keyboard",
+      "value": "The keyboard"
+    },
+    {
+      "name": "pad_device_generic",
+      "value": "A controller"
+    },
+    {
+      "name": "pad_pressing",
+      "value": "Pressing"
+    },
+    {
+      "name": "pad_pressing_none",
+      "value": "Nothing"
+    },
+    {
+      "name": "pad_sticks",
+      "value": "Left stick %d, %d   Right stick %d, %d"
+    },
+    {
+      "name": "pad_menu_hint",
+      "value": "While the menu is open the controller does not play the console. While playing, hold Start and Select (+ and − on the console) for 1.5 seconds to open the menu."
+    },
+    {
+      "name": "pad_enable",
+      "value": "Use a controller"
+    },
+    {
+      "name": "pad_enable_desc",
+      "value": "Play the console with a controller or keyboard on this device (the console sees one more controller)"
+    },
+    {
+      "name": "pad_layout",
+      "value": "Button layout"
+    },
+    {
+      "name": "pad_layout_place",
+      "value": "By position"
+    },
+    {
+      "name": "pad_layout_label",
+      "value": "By label"
+    },
+    {
+      "name": "pad_layout_desc",
+      "value": "By position: the bottom button is B, as on the console's own controller. By label: the button marked A is A."
+    },
+    {
+      "name": "pad_deadzone",
+      "value": "Stick dead zone"
+    },
+    {
+      "name": "pad_deadzone_desc",
+      "value": "Small movements inside the dead zone are ignored. Raise it if the character moves on its own."
+    },
+    {
+      "name": "pad_deadzone_default",
+      "value": "%s (default)"
+    },
+    {
+      "name": "pad_axis_unsupported",
+      "value": "This system is too old for sticks and analog triggers (HarmonyOS 5.0.3 or later is needed). Buttons still work."
+    },
+    {
+      "name": "pad_record_only",
+      "value": "The controller is not available while recording only"
+    },
+    {
+      "name": "guide_pad_title",
+      "value": "Controller (beta)"
+    },
+    {
+      "name": "guide_pad_intro",
+      "value": "Play the console's games with a controller or keyboard on this device."
+    },
+    {
+      "name": "guide_pad_enable_title",
+      "value": "Turn it on on the console first"
+    },
+    {
+      "name": "guide_pad_enable_body",
+      "value": "The console has to allow it: in SFT on the console, turn on \"Controls from the viewer\" on the Beta page (SFT 0.7.20 or later). Then open the menu at the top center while streaming and tap Controller; it says it is connected."
+    },
+    {
+      "name": "guide_pad_connect_title",
+      "value": "Connect a controller"
+    },
+    {
+      "name": "guide_pad_connect_body",
+      "value": "Pair the controller by Bluetooth in the system settings, or plug it in by USB. \"Pressing\" on the Controller page of the menu shows the buttons and sticks live, so you can check every button first."
+    },
+    {
+      "name": "guide_pad_one_title",
+      "value": "One controller only"
+    },
+    {
+      "name": "guide_pad_one_body",
+      "value": "SFT gives each client one controller on the console. Every controller on this device, and the keyboard, are merged into that one. For two players, the second one uses the console's own controller."
+    },
+    {
+      "name": "guide_pad_layout_title",
+      "value": "Which button is which"
+    },
+    {
+      "name": "guide_pad_layout_body",
+      "value": "By default buttons go by position: the bottom one is B and the right one is A, as on the console's own controller. Choose \"By label\" in Settings if you prefer the letters. Start is +, Select is −, the middle button is HOME, and the shoulder buttons and triggers are L / R / ZL / ZR."
+    },
+    {
+      "name": "guide_pad_keyboard_title",
+      "value": "Keyboard"
+    },
+    {
+      "name": "guide_pad_keyboard_body",
+      "value": "No controller? Use a keyboard: WASD is the left stick, IJKL the right stick, the arrow keys the D-pad; Z X C V are A B X Y; Q / E are ZL / L, O / U are ZR / R; F / H click the left / right stick; = is +, - is −, Home is HOME. The first key you press connects it to the console."
+    },
+    {
+      "name": "guide_pad_menu_title",
+      "value": "Menus while playing"
+    },
+    {
+      "name": "guide_pad_menu_body",
+      "value": "While the menu is open, the controller does not play the console. With only a controller in hand, hold Start and Select (+ and −) for 1.5 seconds to open the menu. When the app goes to the background or the stream ends, this controller is unplugged from the console."
+    },
+    {
+      "name": "guide_pad_trouble_title",
+      "value": "Sticks not moving, or wrong buttons"
+    },
+    {
+      "name": "guide_pad_trouble_body",
+      "value": "Sticks and analog triggers need HarmonyOS 5.0.3 or later; on older systems only the buttons work. If the character keeps moving after you let go, raise \"Stick dead zone\" in Settings. This feature is still in testing; if a controller's buttons come out wrong, please tell us its model."
+    },
+    {
+      "name": "vpad_name",
+      "value": "The touch controller"
+    },
+    {
+      "name": "vpad_show",
+      "value": "Touch controller"
+    },
+    {
+      "name": "vpad_show_desc",
+      "value": "On-screen buttons over the picture; press back twice to leave while they are shown"
+    },
+    {
+      "name": "vpad_size",
+      "value": "Button size"
+    },
+    {
+      "name": "vpad_size_small",
+      "value": "Small"
+    },
+    {
+      "name": "vpad_size_medium",
+      "value": "Medium"
+    },
+    {
+      "name": "vpad_size_large",
+      "value": "Large"
+    },
+    {
+      "name": "vpad_opacity",
+      "value": "Opacity"
+    },
+    {
+      "name": "vpad_haptic",
+      "value": "Vibrate on press"
+    },
+    {
+      "name": "vpad_haptic_desc",
+      "value": "A light buzz when you press an on-screen button"
+    },
+    {
+      "name": "vpad_autohide",
+      "value": "Hide when a controller connects"
+    },
+    {
+      "name": "vpad_autohide_desc",
+      "value": "Hide the on-screen buttons while a real controller is connected"
+    },
+    {
+      "name": "vpad_unavailable",
+      "value": "Available on phones and tablets only"
+    },
+    {
+      "name": "guide_pad_touch_title",
+      "value": "Touch controller"
+    },
+    {
+      "name": "guide_pad_touch_body",
+      "value": "No controller? While streaming, open the menu at the top center, go to Controller and turn on \"Touch controller\" to get on-screen buttons (phones and tablets). Touch anywhere on the empty left half for the left stick; where you touch is its center. You can slide between the face buttons, the D-pad directions and the shoulder buttons. The menu button stays at the top center while they are shown, and tapping the picture does nothing; press back twice within a second to leave. \"Arrange buttons\" on the Controller page lets you move, resize or hide buttons, or turn on L3 / R3; tap Save to keep it. Wide screens can also play upright with the buttons below the picture; see \"Layouts and portrait\"."
+    },
+    {
+      "name": "vpad_edit",
+      "value": "Arrange buttons"
+    },
+    {
+      "name": "vpad_edit_desc",
+      "value": "Drag each button to move it; resize, hide, or turn on L3 / R3"
+    },
+    {
+      "name": "vpad_edit_start",
+      "value": "Arrange"
+    },
+    {
+      "name": "vpad_edit_reset",
+      "value": "Reset"
+    },
+    {
+      "name": "vpad_edit_save",
+      "value": "Save"
+    },
+    {
+      "name": "vpad_edit_unsaved",
+      "value": "Not saved"
+    },
+    {
+      "name": "vpad_edit_hide",
+      "value": "Hide"
+    },
+    {
+      "name": "vpad_edit_show",
+      "value": "Show"
+    },
+    {
+      "name": "vpad_edit_hint",
+      "value": "Buttons over the picture: drag to move, tap to select"
+    },
+    {
+      "name": "vpad_edit_hint_split",
+      "value": "Picture-above-buttons layout: drag to move, tap to select"
+    },
+    {
+      "name": "vpad_edit_hint_selected",
+      "value": "Use − / + to resize. Faded buttons are hidden; select one to show it"
+    },
+    {
+      "name": "vpad_split",
+      "value": "Picture above buttons"
+    },
+    {
+      "name": "vpad_split_desc",
+      "value": "The picture on top and the touch controller below it, not over it (there has to be room below the picture)"
+    },
+    {
+      "name": "vpad_force_portrait",
+      "value": "Portrait while streaming"
+    },
+    {
+      "name": "vpad_force_portrait_desc",
+      "value": "Show the stream upright; with \"Picture above buttons\" the picture sits on top and the buttons below"
+    },
+    {
+      "name": "vpad_wide_only",
+      "value": "Only in a wide-screen state (wide foldable, unfolded foldable and the like)"
+    },
+    {
+      "name": "vpad_layouts",
+      "value": "Touch controller layouts"
+    },
+    {
+      "name": "vpad_layouts_desc",
+      "value": "View, create, change and delete your own layouts"
+    },
+    {
+      "name": "vpad_mode_landscape",
+      "value": "Landscape"
+    },
+    {
+      "name": "vpad_mode_portrait",
+      "value": "Portrait"
+    },
+    {
+      "name": "vpad_mode_split",
+      "value": "Picture above buttons"
+    },
+    {
+      "name": "vpad_builtin",
+      "value": "Default"
+    },
+    {
+      "name": "vpad_current_tag",
+      "value": "In use"
+    },
+    {
+      "name": "vpad_layout_builtin_desc",
+      "value": "Built in, follows the screen size; cannot be changed"
+    },
+    {
+      "name": "vpad_layout_custom_desc",
+      "value": "Tap to use"
+    },
+    {
+      "name": "vpad_layout_edit",
+      "value": "Edit"
+    },
+    {
+      "name": "vpad_layout_rename",
+      "value": "Rename"
+    },
+    {
+      "name": "vpad_layout_copy",
+      "value": "Copy"
+    },
+    {
+      "name": "vpad_layout_delete",
+      "value": "Delete"
+    },
+    {
+      "name": "vpad_layout_more",
+      "value": "More"
+    },
+    {
+      "name": "vpad_layout_new",
+      "value": "New layout"
+    },
+    {
+      "name": "vpad_layout_new_from",
+      "value": "Based on \"%s\""
+    },
+    {
+      "name": "vpad_layout_new_title",
+      "value": "New layout"
+    },
+    {
+      "name": "vpad_layout_rename_title",
+      "value": "Rename layout"
+    },
+    {
+      "name": "vpad_layout_name_placeholder",
+      "value": "Layout name"
+    },
+    {
+      "name": "vpad_layout_default_name",
+      "value": "My layout %d"
+    },
+    {
+      "name": "vpad_layout_name_empty",
+      "value": "Enter a name"
+    },
+    {
+      "name": "vpad_layout_name_taken",
+      "value": "A layout with that name already exists"
+    },
+    {
+      "name": "vpad_layout_delete_title",
+      "value": "Delete layout"
+    },
+    {
+      "name": "vpad_layout_delete_message",
+      "value": "Delete \"%s\"? If it is in use, the default layout takes its place."
+    },
+    {
+      "name": "vpad_layout_saveas_title",
+      "value": "The default layout cannot be changed. Save as a new layout"
+    },
+    {
+      "name": "vpad_layout_saved",
+      "value": "Layout saved"
+    },
+    {
+      "name": "vpad_layout_migrated_name",
+      "value": "My layout"
+    },
+    {
+      "name": "vpad_layouts_note",
+      "value": "Landscape, portrait and picture-above-buttons each keep their own layouts and remember which one is in use. Layouts are saved as proportions of the screen, so they work on other screen sizes; editing turns the screen to that placement."
+    },
+    {
+      "name": "vpad_layout_in_menu",
+      "value": "Layout"
+    },
+    {
+      "name": "vpad_editor_picture",
+      "value": "Picture"
+    },
+    {
+      "name": "guide_pad_layouts_title",
+      "value": "Layouts and portrait"
+    },
+    {
+      "name": "guide_pad_layouts_body",
+      "value": "Settings → Controller → Touch controller layouts: landscape, portrait and picture-above-buttons each have a default layout you can base your own on, then edit, rename or delete; each placement remembers which one it uses. While streaming you can change layouts on the Controller page of the menu and tap Arrange to change one. On a wide foldable or an unfolded foldable you can also turn on \"Portrait while streaming\" to play upright, and \"Picture above buttons\" to keep the buttons off the picture."
+    }
+  ]
+}

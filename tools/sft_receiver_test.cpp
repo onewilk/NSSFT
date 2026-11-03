@@ -12,6 +12,7 @@
 #include <thread>
 #include <vector>
 
+#include "../core/sft_pad.h"
 #include "../core/sft_protocol.h"
 #include "../core/sft_receiver.h"
 #include "../core/sft_usb_source.h"
@@ -62,8 +63,9 @@ public:
 };
 
 static void Append(std::vector<uint8_t>& out, uint16_t flags, uint32_t w, uint32_t h, uint32_t seq,
-                   const std::vector<uint8_t>& payload) {
+                   const std::vector<uint8_t>& payload, bool input = false) {
     sft::Header hd;
+    hd.input = input;
     hd.magic = sft::kMagic;
     hd.version = sft::kVersion;
     hd.flags = flags;
@@ -121,6 +123,7 @@ static void TestUsbStream() {
     };
     SftUsbSource src(std::move(ch), cb);
     src.Start();
+    src.SetRecordSizeLock(true);  // 录制开始：请游戏机锁定尺寸
     for (int i = 0; i < 50 && raw->pos < raw->data.size(); ++i) std::this_thread::sleep_for(std::chrono::milliseconds(20));
     std::this_thread::sleep_for(std::chrono::milliseconds(800));  // 等关键帧请求重试发出去
     raw->endWithError = true;                                       // 拔线
@@ -141,6 +144,9 @@ static void TestUsbStream() {
         bool sawKey = false;
         for (const auto& w : raw->writes) sawKey |= w == "SFTK";
         CHECK(sawKey);                                             // 前两次写失败后重试成功
+        bool sawLock = false;
+        for (const auto& w : raw->writes) sawLock |= w == "SFTKSFTL";
+        CHECK(sawLock);                                            // 录制的尺寸锁定请求也发出去了
         CHECK(!raw->writes.empty() && raw->writes.back() == "SFTQ");  // 停止时告别
     }
     std::lock_guard<std::mutex> lock(statusMutex);
@@ -177,9 +183,37 @@ static void TestPauseNotice() {
     CHECK(statuses.back().find("打开一款游戏") != std::string::npos);
 }
 
+static void TestPadInput() {
+    std::printf("手柄：包头带 kFlagInput 时游戏机接受手柄，SFTI 直接写到连接上；断开后不再接受\n");
+    auto ch = std::make_unique<FakeChannel>();
+    ch->chunk = 1 << 20;
+    ch->endWithError = false;
+    Append(ch->data, sft::kFlagVideo | sft::kFlagKey, 1280, 720, 1, Frame(true, 2000), true);
+    FakeChannel* raw = ch.get();
+    SftUsbSource src(std::move(ch), StreamCallbacks());
+    CHECK(!src.SendInput(reinterpret_cast<const uint8_t*>("SFTI"), 4));  // 还没开始收：没有连接
+    src.Start();
+    for (int i = 0; i < 50 && !src.ConsoleTakesInput(); ++i) std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    CHECK(src.ConsoleTakesInput());
+    CHECK(src.GetStats().consoleTakesInput);
+    uint8_t m[pad::kMessageSize];
+    pad::BuildMessage(true, pad::kA, 0, 0, 0, 0, m);
+    CHECK(src.SendInput(m, sizeof(m)));
+    raw->endWithError = true;  // 拔线
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    CHECK(!src.ConsoleTakesInput());
+    CHECK(!src.SendInput(m, sizeof(m)));
+    src.Stop();
+    std::lock_guard<std::mutex> lock(raw->mutex);
+    bool sawPad = false;
+    for (const auto& w : raw->writes) sawPad |= w.size() == pad::kMessageSize && w.compare(0, 4, "SFTI") == 0;
+    CHECK(sawPad);
+}
+
 int main() {
     TestUsbStream();
     TestPauseNotice();
+    TestPadInput();
     if (g_failed) {
         std::printf("sft_receiver_test: %d 项失败\n", g_failed);
         return 1;

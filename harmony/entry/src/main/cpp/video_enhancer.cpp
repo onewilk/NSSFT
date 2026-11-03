@@ -117,6 +117,8 @@ void OnVpeOutput(OH_VideoProcessing*, uint32_t index, void* userData) {
 
 VideoEnhancer::~VideoEnhancer() { Release(); }
 
+bool VideoEnhancer::Supported() { return EnsureEnvironment(); }
+
 bool VideoEnhancer::Init(OHNativeWindow* outWindow, int level, std::string* error) {
     if (!EnsureEnvironment()) {
         *error = L("本机不支持画质增强（视频处理环境初始化失败）", "本機不支援畫質增強（視訊處理環境初始化失敗）",

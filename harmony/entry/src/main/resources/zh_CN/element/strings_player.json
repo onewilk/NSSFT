@@ -9,30 +9,6 @@
       "value": "停止串流"
     },
     {
-      "name": "app_live_receiving",
-      "value": "后台接收中"
-    },
-    {
-      "name": "app_live_reconnecting",
-      "value": "重连中"
-    },
-    {
-      "name": "app_live_text_bg",
-      "value": "%s · %s · 已收 %s MB · %s 后断开"
-    },
-    {
-      "name": "app_live_text_fg",
-      "value": "%s · 前台播放"
-    },
-    {
-      "name": "app_live_title_bg",
-      "value": "%s 后台保持连接"
-    },
-    {
-      "name": "app_live_title_fg",
-      "value": "%s 串流中"
-    },
-    {
       "name": "player_badge",
       "value": "%s · %d 帧"
     },
@@ -85,20 +61,16 @@
       "value": "断开"
     },
     {
-      "name": "player_toast_coming_soon",
-      "value": "%s功能正在开发，敬请期待"
-    },
-    {
       "name": "player_toast_enhance_unavailable",
       "value": "画质增强不可用：%s"
     },
     {
       "name": "player_toast_keepalive_off",
-      "value": "已关闭后台保持"
+      "value": "已关闭后台录制，切到后台时录制会停止"
     },
     {
       "name": "player_toast_keepalive_unavailable",
-      "value": "后台保持不可用：%s"
+      "value": "后台录制不可用：%s。切到后台时录制会停止"
     },
     {
       "name": "player_toast_locked",
@@ -167,6 +139,22 @@
     {
       "name": "tv_on",
       "value": "开"
+    },
+    {
+      "name": "player_menu",
+      "value": "菜单"
+    },
+    {
+      "name": "player_toast_menu_hint",
+      "value": "点顶部中间的菜单按钮，可以开关声音、录制、手柄、小窗等"
+    },
+    {
+      "name": "tv_guide_title",
+      "value": "遥控器怎么用"
+    },
+    {
+      "name": "tv_guide_body",
+      "value": "菜单键或长按确认键：打开、收起菜单\n方向键：在菜单里移动；确认键：选择\n返回键：先回到上一级、收起菜单；菜单收起时再按返回，断开串流回到首页\n接着手柄时：同时按住开始键和选择键（+ 和 −）1.5 秒也能打开菜单"
     }
   ]
 }

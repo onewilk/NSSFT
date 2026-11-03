@@ -1,0 +1,296 @@
+{
+  "string": [
+    {
+      "name": "player_record_stop",
+      "value": "停止錄製"
+    },
+    {
+      "name": "player_record_waiting",
+      "value": "等待畫面"
+    },
+    {
+      "name": "player_toast_record_started",
+      "value": "開始錄製"
+    },
+    {
+      "name": "player_toast_record_saved",
+      "value": "已錄製 %s（%s），可在首頁的「錄影」裡查看"
+    },
+    {
+      "name": "player_toast_record_empty",
+      "value": "沒有錄到畫面，未儲存檔案"
+    },
+    {
+      "name": "player_toast_record_failed",
+      "value": "無法開始錄製：%s"
+    },
+    {
+      "name": "player_toast_record_unsupported",
+      "value": "本機無法錄製：%s"
+    },
+    {
+      "name": "player_toast_record_error",
+      "value": "錄製出錯，已停止：%s"
+    },
+    {
+      "name": "player_toast_record_low_space",
+      "value": "儲存空間快滿了，已停止錄製"
+    },
+    {
+      "name": "app_live_title_rec",
+      "value": "%s 正在錄製"
+    },
+    {
+      "name": "app_live_text_rec",
+      "value": "%s · 已錄 %s · %s"
+    },
+    {
+      "name": "record_info_dropped",
+      "value": "%d 幀未錄入"
+    },
+    {
+      "name": "record_only_title",
+      "value": "只錄製"
+    },
+    {
+      "name": "record_only_recording",
+      "value": "正在錄製"
+    },
+    {
+      "name": "record_only_waiting",
+      "value": "正在等待畫面…"
+    },
+    {
+      "name": "record_only_hint",
+      "value": "錄製時可以鎖定螢幕或切到其他應用程式，錄製會在背景繼續。"
+    },
+    {
+      "name": "record_only_stop",
+      "value": "停止錄製"
+    },
+    {
+      "name": "record_only_stop_title",
+      "value": "停止錄製？"
+    },
+    {
+      "name": "record_only_stop_message",
+      "value": "已經錄下的部分會儲存。"
+    },
+    {
+      "name": "record_only_continue",
+      "value": "繼續錄製"
+    },
+    {
+      "name": "home_record_only",
+      "value": "只錄製（不顯示畫面）"
+    },
+    {
+      "name": "settings_group_record",
+      "value": "錄影"
+    },
+    {
+      "name": "settings_record_quality",
+      "value": "錄製畫質"
+    },
+    {
+      "name": "record_quality_high",
+      "value": "高畫質"
+    },
+    {
+      "name": "record_quality_standard",
+      "value": "標準"
+    },
+    {
+      "name": "record_quality_small",
+      "value": "省空間"
+    },
+    {
+      "name": "record_quality_high_desc",
+      "value": "1080p · H.265 12 Mbps，每分鐘約 90 MB"
+    },
+    {
+      "name": "record_quality_standard_desc",
+      "value": "1080p · H.265 8 Mbps，每分鐘約 60 MB"
+    },
+    {
+      "name": "record_quality_small_desc",
+      "value": "720p · H.265 4 Mbps，每分鐘約 30 MB"
+    },
+    {
+      "name": "record_quality_small_noscale",
+      "value": "本機無法縮放畫面：遊戲機傳 1080p 時以 1080p 錄製"
+    },
+    {
+      "name": "record_unsupported_encoder",
+      "value": "本機沒有硬體視訊編碼器"
+    },
+    {
+      "name": "record_unsupported_two_decoders",
+      "value": "本機無法同時執行兩路硬體解碼，邊播邊錄不可用，可以改用「只錄製」"
+    },
+    {
+      "name": "record_unsupported_decoder",
+      "value": "本機沒有可用的硬體解碼器"
+    },
+    {
+      "name": "record_error_dir",
+      "value": "無法建立錄影目錄：%s"
+    },
+    {
+      "name": "record_error_space",
+      "value": "剩餘空間不足（%s），至少需要 1 GB"
+    },
+    {
+      "name": "recordings_title",
+      "value": "錄影檔案"
+    },
+    {
+      "name": "recordings_empty",
+      "value": "還沒有錄影"
+    },
+    {
+      "name": "recordings_empty_hint",
+      "value": "在播放頁點「錄製」，或在首頁主機卡片的選單裡選「只錄製」"
+    },
+    {
+      "name": "recordings_summary",
+      "value": "共 %d 個，%s"
+    },
+    {
+      "name": "recordings_save",
+      "value": "存到圖庫"
+    },
+    {
+      "name": "recordings_saved",
+      "value": "已存到圖庫"
+    },
+    {
+      "name": "recordings_save_failed",
+      "value": "存到圖庫失敗：%s"
+    },
+    {
+      "name": "recordings_delete",
+      "value": "刪除"
+    },
+    {
+      "name": "recordings_delete_title",
+      "value": "刪除這個錄影？"
+    },
+    {
+      "name": "recordings_delete_message",
+      "value": "%s，%s。刪除後無法復原。"
+    },
+    {
+      "name": "recordings_note",
+      "value": "錄影先儲存在應用程式裡，存到圖庫後會從這裡移走。解除安裝應用程式會刪除還沒存到圖庫的錄影。"
+    },
+    {
+      "name": "guide_record_title",
+      "value": "錄影"
+    },
+    {
+      "name": "guide_record_intro",
+      "value": "在本機邊收邊壓縮成 MP4（H.265），和串流畫面互不影響。"
+    },
+    {
+      "name": "guide_record_live_title",
+      "value": "邊播邊錄"
+    },
+    {
+      "name": "guide_record_live_body",
+      "value": "播放時在頂部中間的選單裡點「錄製」開始，再點一次停止；錄製中右上角顯示紅點和時長，通知列也會顯示錄製時長和大小。切到背景或鎖定螢幕時會繼續錄。"
+    },
+    {
+      "name": "guide_record_only_title",
+      "value": "只錄製"
+    },
+    {
+      "name": "guide_record_only_body",
+      "value": "首頁主機卡片右上角的選單裡選「只錄製」（USB 長按卡片）：不顯示畫面、不出聲，收到畫面後自動開始錄。可以鎖定螢幕放著，比邊播邊錄更省電。"
+    },
+    {
+      "name": "guide_record_quality_title",
+      "value": "錄製畫質"
+    },
+    {
+      "name": "guide_record_quality_body",
+      "value": "在「設定 > 錄影」裡選：高畫質 1080p 12 Mbps（每分鐘約 90 MB）、標準 1080p 8 Mbps（約 60 MB）、省空間 720p 4 Mbps（約 30 MB）。遊戲機傳 720p 時以 720p 錄，位元率相應降低。本機沒有 H.265 編碼器時改用 H.264，檔案會大一些。"
+    },
+    {
+      "name": "guide_record_files_title",
+      "value": "錄好的影片在哪"
+    },
+    {
+      "name": "guide_record_files_body",
+      "value": "在首頁「專用熱點」下方的「錄影」卡片裡，可以播放、存到圖庫或刪除。錄好的影片先儲存在應用程式裡，系統圖庫裡看不到；點「存到圖庫」確認後才會移到圖庫。解除安裝應用程式會刪除還沒存到圖庫的錄影。"
+    },
+    {
+      "name": "guide_record_enhance_title",
+      "value": "畫質增強與錄製"
+    },
+    {
+      "name": "guide_record_enhance_body",
+      "value": "畫質增強可能會影響錄製效果，如發現錄製內容出現異常，可嘗試關閉畫質增強選項。"
+    },
+    {
+      "name": "guide_record_loss_title",
+      "value": "錄影裡的停頓和分段"
+    },
+    {
+      "name": "guide_record_loss_body",
+      "value": "錄影存的是收到的畫面：網路掉幀時錄影裡也會缺那一段，用 USB 連線最穩定。錄製時會請遊戲機保持一種畫面尺寸（SFT 0.7.18 及以上）；更早的版本在 720p 與 1080p 之間切換時，會另存為一個新檔案。"
+    },
+    {
+      "name": "guide_record_power_title",
+      "value": "空間、耗電和發熱"
+    },
+    {
+      "name": "guide_record_power_body",
+      "value": "開始錄製要至少 1 GB 剩餘空間，錄製中剩餘空間低於 300 MB 會自動停止。邊播邊錄要多跑一路硬體解碼和編碼，會更耗電、發熱，長時間錄製建議接上電源或改用「只錄製」。"
+    },
+    {
+      "name": "guide_record_sound_title",
+      "value": "錄影的聲音"
+    },
+    {
+      "name": "guide_record_sound_body",
+      "value": "遊戲聲音會一起錄進去，本機關了「播放遊戲聲音」也照樣錄（只是本機不播放）。如果在 SFT 裡關了聲音，錄影就沒有聲音。"
+    },
+    {
+      "name": "home_recordings",
+      "value": "錄影"
+    },
+    {
+      "name": "home_recordings_desc",
+      "value": "%d 個錄影 · %s"
+    },
+    {
+      "name": "home_recordings_empty",
+      "value": "錄好的影片在這裡播放、存到圖庫或刪除"
+    },
+    {
+      "name": "recordings_play",
+      "value": "播放"
+    },
+    {
+      "name": "recordings_play_failed",
+      "value": "無法開啟這個錄影：%s"
+    },
+    {
+      "name": "live_rec_stop",
+      "value": "停止錄製"
+    },
+    {
+      "name": "live_rec_state_recording",
+      "value": "錄製中"
+    },
+    {
+      "name": "live_rec_content",
+      "value": "錄製中 · 已錄 %s"
+    },
+    {
+      "name": "app_live_text_rec_wait",
+      "value": "%s · 等待畫面"
+    }
+  ]
+}

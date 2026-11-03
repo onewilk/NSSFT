@@ -57,14 +57,6 @@
       "value": "准备游戏机、连接方法和常见问题"
     },
     {
-      "name": "settings_keepalive",
-      "value": "后台保持连接"
-    },
-    {
-      "name": "settings_keepalive_desc",
-      "value": "切到后台后继续接收一段时间，回来时马上恢复画面"
-    },
-    {
       "name": "settings_language",
       "value": "语言"
     },

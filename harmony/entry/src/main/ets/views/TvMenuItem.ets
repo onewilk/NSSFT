@@ -5,9 +5,11 @@ const ITEM_ACCENT = '#26C6B0';
 const ITEM_DANGER = '#FF8A5C';
 
 /**
- * 智慧屏播放菜单里的一行：图标 + 标题（+ 说明）+ 右侧当前值或箭头。
- * 用透明 Button 承载：Row/Column 拿不到遥控器焦点，Button 获焦后按确认键直接触发点击。
- * 有多个取值的选项（画质增强、后台保持）设置 onStep 后，左右键可以直接切换上一个/下一个值。
+ * 播放菜单（右侧侧滑菜单，各种设备共用）里的一行：图标 + 标题（+ 说明）+ 右侧当前值或箭头。
+ * 触屏设备用紧凑的行高（compact），手机横屏一屏放得下整个一级菜单。
+ * 用透明 Button 承载：Row/Column 拿不到遥控器焦点。注意别给这个 Button 写 .focusable(true)：
+ * 显式写了反而在焦点树里变成不可获焦（智慧屏上遥控器进不了菜单）。
+ * 有多个取值的选项（画质增强）设置 onStep 后，左右键可以直接切换上一个/下一个值。
  */
 @Component
 export struct TvMenuItem {
@@ -22,6 +24,8 @@ export struct TvMenuItem {
   @Prop danger: boolean = false;
   /** 给焦点控制用的组件 id */
   @Prop itemId: string = '';
+  /** 紧凑行高（触屏设备） */
+  @Prop compact: boolean = false;
   icon: Resource | null = null;
   onTap: () => void = () => {
   };
@@ -33,12 +37,12 @@ export struct TvMenuItem {
       Row({ space: 14 }) {
         if (this.icon !== null) {
           SymbolGlyph(this.icon)
-            .fontSize(22)
+            .fontSize(this.compact ? 20 : 22)
             .fontColor([this.danger ? ITEM_DANGER : Color.White])
         }
         Column({ space: 2 }) {
           Text(this.label)
-            .fontSize(16)
+            .fontSize(this.compact ? 15 : 16)
             .fontColor(this.danger ? ITEM_DANGER : Color.White)
           if (this.desc.length > 0) {
             Text(this.desc)
@@ -61,7 +65,8 @@ export struct TvMenuItem {
         }
       }
       .width('100%')
-      .padding({ left: 16, right: 16, top: 12, bottom: 12 })
+      .padding({ left: this.compact ? 12 : 16, right: this.compact ? 12 : 16, top: this.compact ? 8 : 12,
+        bottom: this.compact ? 8 : 12 })
     }
     .width('100%')
     .height('auto')
@@ -78,7 +83,6 @@ export struct TvMenuItem {
         .backgroundColor('#26FFFFFF')
       }
     })
-    .focusable(true)
     .focusBox(FOCUS_BOX)
     .id(this.itemId)
     .accessibilityText(this.value.length > 0 ? `${this.label} ${this.value}` : this.label)
@@ -86,6 +90,14 @@ export struct TvMenuItem {
       this.onTap();
     })
     .onKeyEvent((event: KeyEvent) => {
+      // 遥控器的确认键：按钮默认只认回车，确认键要自己处理（松开时触发，按住不放不会重复）
+      if (event.keyCode === KeyCode.KEYCODE_DPAD_CENTER) {
+        if (event.type === KeyType.Up) {
+          this.onTap();
+        }
+        event.stopPropagation();
+        return;
+      }
       const step = this.onStep;
       if (step === null || event.type !== KeyType.Down) {
         return;

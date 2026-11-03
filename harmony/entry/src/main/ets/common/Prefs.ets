@@ -3,8 +3,6 @@ import { LANGUAGE_INDEX_KEY, tr } from './I18n';
 
 PersistentStorage.persistProp('nssft.enableAudio', true);
 PersistentStorage.persistProp('nssft.netOpt', true);
-// 切到后台后保持连接：关闭 / 2 分钟 / 5 分钟，默认 2 分钟
-PersistentStorage.persistProp('nssft.keepAliveIndex', 1);
 // 切到后台时转入小窗（画中画）继续播放，默认开启；设备不支持时不显示
 PersistentStorage.persistProp('nssft.pipAuto', true);
 // 播放时请求 60Hz 屏幕刷新率（游戏画面最高 60 帧，高刷屏省电），默认开启
@@ -17,6 +15,10 @@ PersistentStorage.persistProp('nssft.freezeOnLoss', true);
 PersistentStorage.persistProp('nssft.enhanceLevel', 0);
 // 播放页统计浮层
 PersistentStorage.persistProp('nssft.showStats', false);
+// 第一次进播放页时提示一次“点右上角的菜单按钮”
+PersistentStorage.persistProp('nssft.menuHintShown', false);
+// 智慧屏第一次进播放页时弹窗说明遥控器按键
+PersistentStorage.persistProp('nssft.tvGuideShown', false);
 // 专用热点的名称和密码固定下来，游戏机记住一次后下次自动连上
 PersistentStorage.persistProp('nssft.hotspotSsid', 'DIRECT-NSSFT');
 PersistentStorage.persistProp('nssft.hotspotPass', '');
@@ -38,13 +40,6 @@ export const SFT_PORT = 9950;
 export function enhanceLabels(): string[] {
   return [tr('app_off'), tr('app_enhance_standard'), tr('app_enhance_high')];
 }
-
-// 切到后台后保持连接的时长；到时自动断开，实况窗进度条显示已用比例
-export function keepAliveLabels(): string[] {
-  return [tr('app_off'), tr('app_minutes', 2), tr('app_minutes', 5)];
-}
-
-export const KEEP_ALIVE_MINUTES: number[] = [0, 2, 5];
 
 /**
  * 画质增强靠系统的视频处理引擎（VPE）：系统声明了这项能力才可用。

@@ -1,6 +1,7 @@
 // 串流来源的公共接口：现在只有 SFT 网络（TCP 9950），以后的 USB 也实现这个接口。
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <string>
@@ -78,6 +79,12 @@ public:
     // 请游戏机马上发一个关键帧（丢帧后、解码器重建后）；同一时间只发一次，频率由实现限制
     virtual void RequestKeyframe() = 0;
     virtual void SetQuickAck(bool) {}
+    // 录制中：请游戏机保持一种画面尺寸（断线重连后会自动再请求一次）；false 时解锁
+    virtual void SetRecordSizeLock(bool) {}
+    // 手柄（SFTI 消息，见 sft_pad.h）：任意线程调用，直接写到连接上；返回是否写出
+    virtual bool SendInput(const uint8_t*, size_t) { return false; }
+    // 游戏机现在接不接受手柄（游戏机上打开了 “Controls from the viewer”）
+    virtual bool ConsoleTakesInput() const { return false; }
     virtual std::vector<SocketFlow> SocketFlows() const { return {}; }
 };
 

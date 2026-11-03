@@ -43,7 +43,9 @@
       // 游戏机专用热点：Wi-Fi 直连建组/查询（普通权限，无需用户授权）
       { "name": "ohos.permission.GET_WIFI_INFO" },
       // 网络加速服务的网络质量评估、网络场景识别（普通权限，无需用户授权）
-      { "name": "ohos.permission.GET_NETWORK_INFO" }
+      { "name": "ohos.permission.GET_NETWORK_INFO" },
+      // 触屏手柄按下时的轻微震动（普通权限，无需用户授权）
+      { "name": "ohos.permission.VIBRATE" }
     ]
   }
 }

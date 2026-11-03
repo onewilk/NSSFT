@@ -96,6 +96,10 @@ bool ParseBeacon(const uint8_t* p, size_t n, Beacon* out);
 
 // 客户端请求（直接写到同一条 TCP 连接上，游戏机按 4 字节一组读）
 constexpr char kRequestKeyframe[4] = {'S', 'F', 'T', 'K'};
+// 录制时请游戏机保持一种画面尺寸（尺寸不同的画面由游戏机缩放），录像就不用中途换文件；录完解锁。
+// SFT 0.7.18 起支持；前 4 字节就是 SFTK，更早的版本只当作一次关键帧请求
+constexpr char kRequestRecordLock[8] = {'S', 'F', 'T', 'K', 'S', 'F', 'T', 'L'};
+constexpr char kRequestRecordUnlock[8] = {'S', 'F', 'T', 'K', 'S', 'F', 'T', 'U'};
 
 bool IsIPv4(const std::string& s);
 

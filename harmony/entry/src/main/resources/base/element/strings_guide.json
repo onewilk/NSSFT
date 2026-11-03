@@ -86,7 +86,7 @@
     },
     {
       "name": "guide_quality_body",
-      "value": "Docked over the network is native 1080p, handheld usually 720p; when the network is tight the console lowers quality to keep the frame rate. Tap the picture for the toolbar and adjust Freeze on frame loss and Picture enhancement under Options."
+      "value": "Docked over the network is native 1080p, handheld usually 720p; when the network is tight the console lowers quality to keep the frame rate. Tap the menu button at the top center and adjust Freeze on frame loss and Picture enhancement under Stream options."
     },
     {
       "name": "guide_quality_tip",
