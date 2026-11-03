@@ -62,7 +62,7 @@
     },
     {
       "name": "player_options_title",
-      "value": "播放選項"
+      "value": "串流選項"
     },
     {
       "name": "player_pip",
@@ -102,7 +102,7 @@
     },
     {
       "name": "player_toast_locked",
-      "value": "已鎖定：點一下螢幕顯示鎖形按鈕，再點按鈕解鎖"
+      "value": "再返回一次斷開"
     },
     {
       "name": "player_toast_pip_failed",

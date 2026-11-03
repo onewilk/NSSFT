@@ -62,7 +62,7 @@
     },
     {
       "name": "player_options_title",
-      "value": "Playback options"
+      "value": "Streaming options"
     },
     {
       "name": "player_pip",
@@ -102,7 +102,7 @@
     },
     {
       "name": "player_toast_locked",
-      "value": "Locked: tap the screen to show the lock button, then tap it to unlock"
+      "value": "Go back again to disconnect"
     },
     {
       "name": "player_toast_pip_failed",

@@ -25,7 +25,9 @@ import { GuideView } from '../views/GuideView';
 import { HomeView } from '../views/HomeView';
 import { SettingsView } from '../views/SettingsView';
 import { TvMenuItem } from '../views/TvMenuItem';
+import { PlayerToolButton } from '../views/PlayerToolButton';
 import { FOCUS_BOX } from '../common/Focus';
+import BuildProfile from 'BuildProfile';
 
 const DOMAIN = 0x5346;
 const TAG = 'NSSFT';
@@ -33,9 +35,10 @@ const LIVE_VIEW_INTERVAL_MS = 5000;
 // 前台时实况窗不可见（沉浸式隐藏了状态栏），每分钟刷新一次满足长时任务的进度更新要求即可
 const FOREGROUND_REFRESH_TICKS = 12;
 const VIDEO_ASPECT = 16 / 9;
-// 锁定后锁形图标亮显多久再变淡
-// 锁定后锁形按钮显示多久自动隐藏
-const LOCK_ICON_MS = 3000;
+// 播放页的 HUD（底部工具条、左上角画面信息、锁定后的锁形按钮）没有操作多久后自动隐藏
+const HUD_HIDE_MS = 3000;
+// 锁定时连续两次返回的间隔不超过这么久，就直接断开并退出播放页
+const LOCKED_BACK_MS = 1000;
 // 切后台后等多久还没转入小窗（例如系统设置里关了画中画），就按普通切后台处理
 const PIP_WAIT_MS = 1000;
 // 小窗关闭后等一下再按切后台处理：用户也可能是点了桌面图标回到 App
@@ -68,6 +71,8 @@ class StreamSurfaceController extends XComponentController {
 // 智慧屏：确认键按住这么久算长按，打开右侧菜单
 const TV_LONG_PRESS_MS = 500;
 const IS_TV: boolean = deviceInfo.deviceType === 'tv';
+/** 是否显示还没做完的功能入口（手柄转发、录制）：应用市场版（STORE_BUILD）不显示 */
+const SHOW_UNFINISHED: boolean = !BuildProfile.STORE_BUILD;
 
 function selectOptions(labels: string[]): SelectOption[] {
   return labels.map((label: string): SelectOption => {
@@ -111,18 +116,23 @@ struct Index {
 
   // 播放页
   @State playing: boolean = false;
-  @State showPanel: boolean = false;
+  // 串流选项面板：打开时 HUD 不自动隐藏，关上后重新计时
+  @State @Watch('onPanelToggled') showPanel: boolean = false;
   // 统计浮层的文字（一块面板，每秒刷新）
   @State statsText: string = '';
   @State statusText: string = '';
   // 左上角的画面信息：“1080p · 60 帧”
   @State badgeText: string = '';
+  // 底部工具条和左上角画面信息是否显示：显示后 HUD_HIDE_MS 内没有操作就自动隐藏，点画面再叫出来
   @State controlsVisible: boolean = true;
+  private hudTimer: number = -1;
   @State locked: boolean = false;
   // 锁定时锁形按钮是否显示：锁定后先显示，几秒后自动隐藏；点画面切换显示/隐藏
   @State lockIconShown: boolean = false;
   private lockIconTimer: number = -1;
-  // 智慧屏：右侧半屏的操作菜单（菜单键呼出），tvSubmenu 为 true 时显示二级的“播放选项”
+  // 锁定时上一次返回的时间（毫秒），用来判断 1 秒内的第二次返回
+  private lockedBackAt: number = 0;
+  // 智慧屏：右侧半屏的操作菜单（菜单键呼出），tvSubmenu 为 true 时显示二级的“串流选项”
   @State tvMenuOpen: boolean = false;
   @State tvSubmenu: boolean = false;
   private target: StreamTarget | null = null;
@@ -198,6 +208,7 @@ struct Index {
       this.languageTimer = -1;
     }
     this.hideLockIcon();
+    this.clearHudTimer();
     this.cancelTvLongPress();
     this.stopPlayback();
   }
@@ -348,7 +359,14 @@ struct Index {
 
   onBackPress(): boolean {
     if (this.playing && this.locked) {
-      // 锁定时返回手势不断开，叫出锁形按钮并提示怎么解锁
+      // 锁定时防误触：第一次返回只叫出锁形按钮并提示，1 秒内再返回一次才断开并退出播放页
+      const now = Date.now();
+      if (now - this.lockedBackAt <= LOCKED_BACK_MS) {
+        this.lockedBackAt = 0;
+        this.leavePlayer();
+        return true;
+      }
+      this.lockedBackAt = now;
       this.showLockIcon();
       promptAction.showToast({ message: tr('player_toast_locked') });
       return true;
@@ -484,12 +502,14 @@ struct Index {
     this.statsText = '';
     this.locked = false;
     this.hideLockIcon();
-    this.controlsVisible = true;
     this.showPanel = false;
+    this.controlsVisible = true;
     this.tvMenuOpen = false;
     this.tvSubmenu = false;
     // 显示 XComponent，surface 就绪后（onSurfaceReady）真正建立连接
     this.playing = true;
+    // 进入播放页先显示工具条，几秒后自动隐藏（要在 playing 置位之后计时）
+    this.armHudTimer();
     this.connecting = false;
     this.setImmersive(true);
     this.focusForRemote();
@@ -912,6 +932,7 @@ struct Index {
     this.stopPlayback();
     this.locked = false;
     this.hideLockIcon();
+    this.clearHudTimer();
     this.controlsVisible = true;
     this.tvMenuOpen = false;
     this.tvSubmenu = false;
@@ -981,7 +1002,56 @@ struct Index {
       this.showPanel = false;
       return;
     }
-    this.controlsVisible = !this.controlsVisible;
+    if (this.controlsVisible) {
+      this.clearHudTimer();
+      this.controlsVisible = false;
+    } else {
+      this.showControls();
+    }
+  }
+
+  // 叫出底部工具条和左上角画面信息，没有操作 HUD_HIDE_MS 后自动隐藏
+  private showControls(): void {
+    this.controlsVisible = true;
+    this.armHudTimer();
+  }
+
+  // 重新计时（工具条上每次操作、面板关上时调用）；面板开着或锁定时不计时
+  private armHudTimer(): void {
+    this.clearHudTimer();
+    if (!this.playing || IS_TV || this.locked || this.showPanel || !this.controlsVisible) {
+      return;
+    }
+    this.hudTimer = setTimeout(() => {
+      this.hudTimer = -1;
+      if (!this.showPanel && !this.locked) {
+        this.controlsVisible = false;
+      }
+    }, HUD_HIDE_MS);
+  }
+
+  private clearHudTimer(): void {
+    if (this.hudTimer >= 0) {
+      clearTimeout(this.hudTimer);
+      this.hudTimer = -1;
+    }
+  }
+
+  // 串流选项面板开关：打开时停止计时，关上后从头计时
+  onPanelToggled(): void {
+    if (this.showPanel) {
+      this.clearHudTimer();
+    } else {
+      this.armHudTimer();
+    }
+  }
+
+  // 工具条按钮的点击：先重新计时，免得刚点完工具条就消失
+  private hudAction(fn: () => void): () => void {
+    return () => {
+      this.armHudTimer();
+      fn();
+    };
   }
 
   private setLocked(on: boolean): void {
@@ -992,10 +1062,11 @@ struct Index {
     this.locked = on;
     this.showPanel = false;
     if (on) {
+      this.clearHudTimer();
       this.showLockIcon();
     } else {
       this.hideLockIcon();
-      this.controlsVisible = true;
+      this.showControls();
     }
   }
 
@@ -1008,7 +1079,7 @@ struct Index {
     this.lockIconTimer = setTimeout(() => {
       this.lockIconTimer = -1;
       this.lockIconShown = false;
-    }, LOCK_ICON_MS);
+    }, HUD_HIDE_MS);
   }
 
   private hideLockIcon(): void {
@@ -1200,56 +1271,54 @@ struct Index {
       .hitTestBehavior(HitTestMode.Transparent)
   }
 
-  // 底部工具条上的一个按钮：图标在上、文字在下
-  @Builder
-  ToolButton(icon: Resource, label: string, danger: boolean, onTap: () => void) {
-    Column({ space: 2 }) {
-      SymbolGlyph(icon).fontSize(20).fontColor([danger ? '#FF8A5C' : Color.White])
-      Text(label).fontSize(10).fontColor(danger ? '#FF8A5C' : '#CCFFFFFF')
-    }
-    .width(58)
-    .height(52)
-    .justifyContent(FlexAlign.Center)
-    .borderRadius(16)
-    .focusable(true)
-    .focusBox(FOCUS_BOX)
-    .onClick(() => {
-      onTap();
-    })
-    .accessibilityText(label)
-  }
-
   // 注意：直接读 this.xxx，不能作为 @Builder 参数按值传入（按值传的参数不会随状态刷新）
   @Builder
   Toolbar() {
     Row({ space: 2 }) {
       // 智慧屏没有触屏，不需要防误触的锁定
       if (!IS_TV) {
-        this.ToolButton($r('sys.symbol.lock_open'), tr('player_lock'), false, () => {
-          this.setLocked(true);
+        PlayerToolButton({
+          icon: $r('sys.symbol.lock_open'), label: tr('player_lock'), onTap: this.hudAction(() => {
+            this.setLocked(true);
+          })
         })
       }
-      this.ToolButton(this.enableAudio ? $r('sys.symbol.speaker_wave_2') : $r('sys.symbol.speaker_slash'),
-        this.enableAudio ? tr('player_sound_on') : tr('player_sound_off'), false, () => {
+      PlayerToolButton({
+        icon: this.enableAudio ? $r('sys.symbol.speaker_wave_2') : $r('sys.symbol.speaker_slash'),
+        label: this.enableAudio ? tr('player_sound_on') : tr('player_sound_off'),
+        onTap: this.hudAction(() => {
           this.applyAudio(!this.enableAudio);
         })
-      // 手柄转发、录制：先放入口，功能还在开发
-      this.ToolButton($r('sys.symbol.gamecontroller'), tr('player_gamepad'), false, () => {
-        promptAction.showToast({ message: tr('player_toast_coming_soon', tr('player_gamepad')) });
       })
-      this.ToolButton($r('sys.symbol.record_circle'), tr('player_record'), false, () => {
-        promptAction.showToast({ message: tr('player_toast_coming_soon', tr('player_record')) });
-      })
-      if (this.pipSupported) {
-        this.ToolButton($r('sys.symbol.rectangle_on_square'), tr('player_pip'), false, () => {
-          this.startPip();
+      // 手柄转发、录制：先放入口，功能还在开发；应用市场版不显示（见 entry/build-profile.json5 的 STORE_BUILD）
+      if (SHOW_UNFINISHED) {
+        PlayerToolButton({
+          icon: $r('sys.symbol.gamecontroller'), label: tr('player_gamepad'), onTap: this.hudAction(() => {
+            promptAction.showToast({ message: tr('player_toast_coming_soon', tr('player_gamepad')) });
+          })
+        })
+        PlayerToolButton({
+          icon: $r('sys.symbol.record_circle'), label: tr('player_record'), onTap: this.hudAction(() => {
+            promptAction.showToast({ message: tr('player_toast_coming_soon', tr('player_record')) });
+          })
         })
       }
-      this.ToolButton($r('sys.symbol.slider_horizontal_2'), tr('player_options'), false, () => {
-        this.showPanel = !this.showPanel;
+      if (this.pipSupported) {
+        PlayerToolButton({
+          icon: $r('sys.symbol.rectangle_on_square'), label: tr('player_pip'), onTap: this.hudAction(() => {
+            this.startPip();
+          })
+        })
+      }
+      PlayerToolButton({
+        icon: $r('sys.symbol.slider_horizontal_2'), label: tr('player_options'), onTap: this.hudAction(() => {
+          this.showPanel = !this.showPanel;
+        })
       })
-      this.ToolButton($r('sys.symbol.power'), tr('player_stop'), true, () => {
-        this.leavePlayer();
+      PlayerToolButton({
+        icon: $r('sys.symbol.power'), label: tr('player_stop'), danger: true, onTap: () => {
+          this.leavePlayer();
+        }
       })
     }
     .padding({ left: 6, right: 6 })
@@ -1363,7 +1432,7 @@ struct Index {
     .defaultFocus(true)
     .id('player-root')
     .onKeyEvent((event: KeyEvent) => {
-      // 外接键盘：Esc 相当于返回（锁定时不断开）
+      // 外接键盘：Esc 相当于返回（锁定时 1 秒内连按两次才断开）
       if (event.type === KeyType.Down && event.keyCode === KeyCode.KEYCODE_ESCAPE) {
         this.onBackPress();
         return;
@@ -1387,16 +1456,16 @@ struct Index {
         event.stopPropagation();
         return;
       }
-      // 菜单键：打开/关闭播放选项
+      // 菜单键：打开/关闭串流选项
       if (event.keyCode === KeyCode.KEYCODE_MENU && !this.locked) {
         this.controlsVisible = true;
-        this.showPanel = !this.showPanel;
+        this.showPanel = !this.showPanel;  // onPanelToggled 负责停止或重新计时
         event.stopPropagation();
       }
     })
   }
 
-  // 智慧屏的操作菜单：屏幕右侧一半宽的半透明面板，纵向列表。一级是常用操作，“选项”进入二级的播放选项。
+  // 智慧屏的操作菜单：屏幕右侧一半宽的半透明面板，纵向列表。一级是常用操作，“选项”进入二级的串流选项。
   // 菜单项直接读 this.xxx 传给 TvMenuItem 的 @Prop，状态变了会跟着刷新
   @Builder
   TvMenu() {
@@ -1447,21 +1516,23 @@ struct Index {
               this.applyAudio(!this.enableAudio);
             }
           })
-          // 手柄转发、录制：先放入口，功能还在开发
-          TvMenuItem({
-            icon: $r('sys.symbol.gamecontroller'),
-            label: tr('player_gamepad'),
-            onTap: () => {
-              promptAction.showToast({ message: tr('player_toast_coming_soon', tr('player_gamepad')) });
-            }
-          })
-          TvMenuItem({
-            icon: $r('sys.symbol.record_circle'),
-            label: tr('player_record'),
-            onTap: () => {
-              promptAction.showToast({ message: tr('player_toast_coming_soon', tr('player_record')) });
-            }
-          })
+          // 手柄转发、录制：先放入口，功能还在开发；应用市场版不显示
+          if (SHOW_UNFINISHED) {
+            TvMenuItem({
+              icon: $r('sys.symbol.gamecontroller'),
+              label: tr('player_gamepad'),
+              onTap: () => {
+                promptAction.showToast({ message: tr('player_toast_coming_soon', tr('player_gamepad')) });
+              }
+            })
+            TvMenuItem({
+              icon: $r('sys.symbol.record_circle'),
+              label: tr('player_record'),
+              onTap: () => {
+                promptAction.showToast({ message: tr('player_toast_coming_soon', tr('player_record')) });
+              }
+            })
+          }
           if (this.pipSupported) {
             TvMenuItem({
               icon: $r('sys.symbol.rectangle_on_square'),
@@ -1603,7 +1674,7 @@ struct Index {
     .layoutWeight(1)
   }
 
-  // 播放选项：从底部弹出的面板，改了立即生效
+  // 串流选项：从底部弹出的面板，改了立即生效
   @Builder
   OptionsSheet() {
     Column() {
