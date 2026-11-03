@@ -103,6 +103,9 @@ def serve_client(client, units, args, log):
     audio_chunk = 1024  # 每包 1024 个采样点（约 21 ms），和游戏机的录像块差不多
     audio_period = audio_chunk / 48000
     audio_phase = 0.0
+    pcm_data = open(args.pcm, "rb").read() if args.pcm else b""
+    pcm_data = pcm_data[:len(pcm_data) // 4 * 4]
+    pcm_pos = 0
     next_audio = time.monotonic()
     started = time.monotonic()
     deadline = started + args.seconds if args.seconds else None
@@ -116,12 +119,19 @@ def serve_client(client, units, args, log):
         now = time.monotonic()
         if deadline and now >= deadline:
             break
-        if args.audio and now >= next_audio:
-            pcm = bytearray()
-            for _ in range(audio_chunk):
-                v = int(6000 * math.sin(audio_phase))
-                audio_phase += 2 * math.pi * 440 / 48000
-                pcm += struct.pack("<hh", v, v)
+        if (args.audio or args.pcm) and now >= next_audio:
+            if pcm_data:
+                n = audio_chunk * 4
+                pcm = bytearray(pcm_data[pcm_pos:pcm_pos + n])
+                pcm_pos = (pcm_pos + n) % len(pcm_data)
+                if len(pcm) < n:  # 文件末尾接回开头
+                    pcm += pcm_data[:n - len(pcm)]
+            else:
+                pcm = bytearray()
+                for _ in range(audio_chunk):
+                    v = int(6000 * math.sin(audio_phase))
+                    audio_phase += 2 * math.pi * 440 / 48000
+                    pcm += struct.pack("<hh", v, v)
             client.sendall(HEADER.pack(MAGIC, 2, AUDIO, 48000, 2, 0, len(pcm), 0, audio_seq) + pcm)
             audio_seq += 1
             next_audio += audio_period
@@ -162,6 +172,7 @@ def main():
     p.add_argument("--bind", default="0.0.0.0")
     p.add_argument("--no-beacon", action="store_true")
     p.add_argument("--audio", action="store_true")
+    p.add_argument("--pcm", help="循环播放这个 48 kHz 立体声 16 位 PCM 文件（不给时 --audio 发 440 Hz 单音）；隐含 --audio")
     p.add_argument("--status", action="store_true")
     p.add_argument("--input", action="store_true", help="包头带“接受手柄输入”标志")
     p.add_argument("--drop-every", type=int, default=0)
