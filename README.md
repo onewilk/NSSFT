@@ -2,9 +2,17 @@
 
 [简体中文](README.zh-CN.md)
 
-NSSFT receives the stream sent by the console side of [SFT](https://github.com/TomasUribe/switch-frame-tap) (over the network or USB) on HarmonyOS phones, tablets, PCs and TVs, at up to 1080p and 60 fps, with game sound.
+NSSFT receives the stream sent by the console side of [SFT](https://github.com/TomasUribe/switch-frame-tap) (over the network or USB) on HarmonyOS phones, tablets, PCs and TVs, at up to 1080p and 60 fps, with game sound. You can also play the console with a controller, a keyboard or an on-screen touch controller, and record your sessions.
 
-> NSSFT is an independent third-party open-source project. It is not affiliated with, endorsed by or sponsored by the console maker or the author of SFT. NSSFT only receives and plays the SFT stream; it does not include or modify any software on the console.
+> NSSFT is an independent third-party open-source project. It is not affiliated with, endorsed by or sponsored by the console maker or the author of SFT. NSSFT only receives and plays the SFT stream and sends controller input back to it; it does not include or modify any software on the console.
+
+## Screenshots
+
+<p>
+<img src="docs/screenshots/en/1_home.jpg" alt="Home screen with a console card" width="260">
+<img src="docs/screenshots/en/2_controller.jpg" alt="Controller settings" width="260">
+<img src="docs/screenshots/en/3_layouts.jpg" alt="Touch controller layouts" width="260">
+</p>
 
 ## Features
 
@@ -15,6 +23,9 @@ NSSFT receives the stream sent by the console side of [SFT](https://github.com/T
 - **Freeze on frame loss**: when the video sequence skips, the last good picture is held and a keyframe is requested at once (`SFTK`), so the picture never smears.
 - **Picture enhancement** with the system video processing engine, where supported.
 - **Dedicated 5 GHz hotspot** for the console over Wi-Fi Direct.
+- **Controllers and keyboards** (beta): play the console with a controller or keyboard connected to the device; they are merged into one controller on the console. Button layout (by position or by label) and the stick dead zone can be adjusted. Needs "Controls from the viewer" turned on in SFT (0.7.20 or later).
+- **Touch controller** (phones and tablets): on-screen buttons over the picture with a floating left stick and a light buzz on press. Make your own layouts by moving, resizing and hiding buttons. On wide screens (wide foldables, unfolded foldables and the like) you can stream in portrait with the picture above the buttons.
+- **Side menu**: the menu button at the top center opens sound, controller, recording, picture-in-picture and streaming options; an optional stats overlay shows the link, frame rate, bitrate and latency.
 - **Picture-in-picture**: keep watching in a small window when you leave the app.
 - **Recording**: record while streaming, or record only with no picture on screen (it keeps going in the background and with the screen locked). A second hardware decoder feeds the hardware encoder, so the stream is compressed on the device into an H.265 MP4 without touching playback. Three quality levels (about 90 / 60 / 30 MB a minute); recordings can be saved to Gallery.
 - **Devices**: phones, tablets, PCs/2-in-1s and TVs (remote control). The AppGallery build leaves out TVs; see Build.
@@ -24,24 +35,29 @@ NSSFT receives the stream sent by the console side of [SFT](https://github.com/T
 
 SFT's stream protocol, SFTR v2 (see `core/sft_protocol.*`):
 
-- The console accepts one receiver on **TCP 9950**; while none is connected it broadcasts `SFTAP1 <ip> 9950 <name>` on **UDP 9951** every second.
+- The console accepts one client on **TCP 9950**; while none is connected it broadcasts `SFTAP1 <ip> 9950 <name>` on **UDP 9951** every second.
 - Each packet is a 32-byte little-endian header (magic `SFTR`, version 2, flags, width, height, console-side age, length, crop, sequence) plus the payload: one H.264 Annex-B access unit, 48 kHz stereo 16-bit PCM, or a status packet that says why there is no picture.
-- The receiver can write requests on the same connection, such as `SFTK` (send a keyframe now).
+- The client can write requests on the same connection, such as `SFTK` (send a keyframe now).
+- When the header flags include 128, the console accepts controller input: 32-byte `SFTI` messages (magic, flags,
+  buttons, both sticks), sent on every change and again every 100 ms (see `core/sft_pad.*`).
 
 ## Layout
 
 ```
 core/                 platform-independent C++ (also built and tested on desktop)
   sft_protocol        header, status packet and broadcast parsing
-  sft_net_source      TCP receiving, reconnects, keyframe requests, UDP discovery
+  sft_receiver        reads and checks packets, keyframe requests and stats, shared by network and USB
+  sft_net_source      TCP receiving, reconnects, UDP discovery
+  sft_usb_source      USB streaming (SFT's USB - PC viewer mode)
+  sft_pad             SFTI controller messages and the thread that sends them
   gop_cache           keeps the latest GOP so the picture is live again right after returning to the app
   frame_loss          frame interval estimate and loss causes
 harmony/              DevEco project
-  entry/src/main/cpp/ session, hardware decoding, enhancement, audio, NAPI
-  entry/src/main/ets/ UI: console cards, player, settings, guide, about
+  entry/src/main/cpp/ session, hardware decoding, enhancement, audio, recording, NAPI
+  entry/src/main/ets/ UI: console cards, player, touch controller, settings, recordings, guide, about
 tools/
-  mock_sft.py         simulates the console (broadcast + TCP stream) for testing without one
-  sft_probe.cpp       desktop receiver built from the same core/
+  mock_sft.py         simulates the console (broadcast + TCP stream, controller input) for testing without one
+  sft_probe.cpp       desktop client built from the same core/
   test_host.sh        unit tests + end-to-end tests against the simulated console
   make_test_h264.swift  test stream with macOS VideoToolbox (1080p60 by default)
 ```
@@ -104,7 +120,7 @@ swift tools/make_test_h264.swift build/test.h264 20
 python3 tools/mock_sft.py --h264 build/test.h264 --audio
 ```
 
-With the device and the computer on the same Wi-Fi, "mock console" appears on the home screen; otherwise enter the computer's IP address.
+With the device and the computer on the same Wi-Fi, "mock console" appears on the home screen; otherwise enter the computer's IP address. Add `--input` to act as if "Controls from the viewer" is on; the controller input the device sends is printed.
 
 ## Support this project
 
