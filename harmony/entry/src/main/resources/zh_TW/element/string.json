@@ -2,7 +2,7 @@
   "string": [
     {
       "name": "module_desc",
-      "value": "NSSFT：遊戲畫面串流接收端"
+      "value": "NSSFT：遊戲畫面串流客戶端"
     },
     {
       "name": "EntryAbility_desc",

@@ -252,9 +252,11 @@ export struct VirtualPad {
     const sh = 32 * k;
     const sy = Math.max(14 + sh / 2, bottom - 326 * k);
     // − ◎ HOME +：叠加时在底部中间（离底边留出距离，免得碰到系统的上滑手势）；画面下方时空间多，
-    // 放到肩键那一行的中间（像实体手柄的 −/+），不和十字键、右摇杆挤在一起
-    const by = this.split ? sy : bottom - 36 * k;
+    // 放到肩键那一行的中间（像实体手柄的 −/+），不和十字键、右摇杆挤在一起。
+    // 叠加时屏幕不够宽（16:9 横屏只有 640vp），底部中间夹不下这一排（半宽 122），就抬到十字键和右摇杆上方
     const cx = W / 2;
+    const roomy = cx - 122 * k >= sl + 244 * k + 4 && cx + 122 * k <= W - sr - 250 * k - 4;
+    const by = this.split ? sy : roomy ? bottom - 36 * k : bottom - 135 * k - 8;
     const lsx = sl + 80 * k;
     const lsy = bottom - 174 * k;
     const rsx = W - sr - 198 * k;
@@ -277,7 +279,8 @@ export struct VirtualPad {
     put('home', cx + 32 * k, by, false);
     put('plus', cx + 96 * k, by, false);
     put('l3', lsx + 66 * k, lsy - 66 * k, true);
-    put('r3', rsx - 66 * k, rsy - 66 * k, true);
+    // R3 平时在右摇杆左上（和 L3 对称）；中间那排抬上来时那里是 HOME，换到右摇杆右上
+    put('r3', this.split || roomy ? rsx - 66 * k : rsx + 66 * k, rsy - 66 * k, true);
     return out;
   }
 

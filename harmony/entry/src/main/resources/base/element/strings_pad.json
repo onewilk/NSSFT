@@ -321,6 +321,10 @@
       "value": "Tap to use"
     },
     {
+      "name": "vpad_layout_custom_active_desc",
+      "value": "Your own layout; tap Edit to change it"
+    },
+    {
       "name": "vpad_layout_edit",
       "value": "Edit"
     },

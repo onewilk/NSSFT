@@ -246,9 +246,47 @@ export struct VpadLayoutsView {
       .padding({ left: 6, right: 6, top: 1, bottom: 1 })
       .borderRadius(6)
       .backgroundColor($r('app.color.accent_soft'))
+      .flexShrink(0)
   }
 
-  // 一行：缩略图、名字（当前在用的有标记），右边是操作；点一行设为当前
+  // 一行的操作：内置键位“复制”，自建键位“编辑”和更多菜单
+  @Builder
+  Actions(mode: string, l: PadLayout | null) {
+    if (l === null) {
+      Button(tr('vpad_layout_copy'))
+        .fontSize(13)
+        .height(32)
+        .fontColor($r('app.color.accent'))
+        .backgroundColor($r('app.color.accent_soft'))
+        .focusBox(FOCUS_BOX)
+        .onClick(() => {
+          this.createFrom(mode, '');
+        })
+    } else {
+      Button(tr('vpad_layout_edit'))
+        .fontSize(13)
+        .height(32)
+        .fontColor($r('app.color.accent'))
+        .backgroundColor($r('app.color.accent_soft'))
+        .enabled(this.supported(mode))
+        .focusBox(FOCUS_BOX)
+        .onClick(() => {
+          this.onEdit(l.id, mode);
+        })
+      Button({ type: ButtonType.Circle }) {
+        SymbolGlyph($r('sys.symbol.dot_grid_2x2')).fontSize(18).fontColor([$r('app.color.text_secondary')])
+      }
+      .width(36)
+      .height(36)
+      .backgroundColor(Color.Transparent)
+      .focusBox(FOCUS_BOX)
+      .bindMenu(this.moreMenu(l))
+      .accessibilityText(tr('vpad_layout_more'))
+    }
+  }
+
+  // 一行：缩略图、名字（当前在用的有标记）、操作；点一行设为当前。
+  // 窄屏（手机竖屏）放不下右边的按钮，名字和说明会被挤掉，操作就放到说明下面
   @Builder
   LayoutRow(mode: string, l: PadLayout | null) {
     Row({ space: 12 }) {
@@ -273,47 +311,30 @@ export struct VpadLayoutsView {
             this.Tag(tr('vpad_current_tag'))
           }
         }
-        Text(l !== null ? tr('vpad_layout_custom_desc') : tr('vpad_layout_builtin_desc'))
+        // 限宽：名字太长时省略，不把“当前”标记挤到右边的按钮上
+        .width('100%')
+        Text(l === null ? tr('vpad_layout_builtin_desc') :
+          this.isActive(mode, l.id) ? tr('vpad_layout_custom_active_desc') : tr('vpad_layout_custom_desc'))
           .fontSize(12)
           .fontColor($r('app.color.text_secondary'))
           .maxLines(2)
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
+        if (this.screenW < 520) {
+          Row({ space: 8 }) {
+            this.Actions(mode, l)
+          }
+          .margin({ top: 4 })
+        }
       }
       .alignItems(HorizontalAlign.Start)
       .layoutWeight(1)
 
-      if (l === null) {
-        Button(tr('vpad_layout_copy'))
-          .fontSize(13)
-          .height(32)
-          .fontColor($r('app.color.accent'))
-          .backgroundColor($r('app.color.accent_soft'))
-          .focusBox(FOCUS_BOX)
-          .onClick(() => {
-            this.createFrom(mode, '');
-          })
-      } else {
-        Button(tr('vpad_layout_edit'))
-          .fontSize(13)
-          .height(32)
-          .fontColor($r('app.color.accent'))
-          .backgroundColor($r('app.color.accent_soft'))
-          .enabled(this.supported(mode))
-          .focusBox(FOCUS_BOX)
-          .onClick(() => {
-            this.onEdit(l.id, mode);
-          })
-        Button({ type: ButtonType.Circle }) {
-          SymbolGlyph($r('sys.symbol.dot_grid_2x2')).fontSize(18).fontColor([$r('app.color.text_secondary')])
-        }
-        .width(36)
-        .height(36)
-        .backgroundColor(Color.Transparent)
-        .focusBox(FOCUS_BOX)
-        .bindMenu(this.moreMenu(l))
-        .accessibilityText(tr('vpad_layout_more'))
+      if (this.screenW >= 520) {
+        this.Actions(mode, l)
       }
     }
     .width('100%')
+    .alignItems(this.screenW < 520 ? VerticalAlign.Top : VerticalAlign.Center)
     .padding({ top: 6, bottom: 6 })
     .onClick(() => {
       if (this.supported(mode)) {

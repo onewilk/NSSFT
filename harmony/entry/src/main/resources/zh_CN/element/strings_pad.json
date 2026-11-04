@@ -321,6 +321,10 @@
       "value": "点一下设为当前"
     },
     {
+      "name": "vpad_layout_custom_active_desc",
+      "value": "自建键位，点“编辑”可以调整"
+    },
+    {
       "name": "vpad_layout_edit",
       "value": "编辑"
     },

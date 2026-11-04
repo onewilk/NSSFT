@@ -2,7 +2,7 @@
   "string": [
     {
       "name": "module_desc",
-      "value": "NSSFT: game streaming receiver"
+      "value": "NSSFT: game streaming client"
     },
     {
       "name": "EntryAbility_desc",

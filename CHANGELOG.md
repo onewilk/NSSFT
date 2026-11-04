@@ -2,6 +2,19 @@
 
 ## 1.0.0 — unreleased
 
+### 1.0.0-pre-release.1
+
+The build submitted to the AppGallery public test.
+
+- Touch controller: on 16:9 landscape screens (640 vp wide) the − ◎ HOME + row at the bottom center overlapped the
+  D-pad and the right stick; when the screen is too narrow the row now sits above them, and R3 moves to the upper
+  right of the right stick.
+- Layouts page: the "In use" tag could overlap the Edit button, and the layout in use still said "Tap to use". On
+  phones in portrait the buttons squeezed the name and description, so on narrow screens they now sit below the
+  description.
+- Wording: the About page, the guide and the app description say "client" instead of "receiver" (it can control
+  the console now).
+
 ### 1.0.0-beta.3
 
 - Recording: record while streaming, or choose "Record only" on the home screen (no picture, less power), with

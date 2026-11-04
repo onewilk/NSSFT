@@ -1,4 +1,4 @@
-# NSSFT: a native HarmonyOS receiver for SFT
+# NSSFT: a native HarmonyOS client for SFT
 
 [简体中文](README.zh-CN.md)
 

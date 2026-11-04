@@ -1,4 +1,4 @@
-# NSSFT：SFT 的鸿蒙原生接收端
+# NSSFT：SFT 的鸿蒙原生客户端
 
 [English](README.md)
 

@@ -2,7 +2,7 @@
   "string": [
     {
       "name": "about_desc",
-      "value": "A native HarmonyOS receiver for the open-source game streaming project SFT"
+      "value": "A native HarmonyOS client for the open-source game streaming project SFT"
     },
     {
       "name": "about_disclaimer",
