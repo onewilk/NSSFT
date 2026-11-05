@@ -18,39 +18,19 @@
     },
     {
       "name": "settings_enhance_desc",
-      "value": "Upscales and sharpens with the system video engine; adds a little latency"
+      "value": "Upscales and sharpens with the system video engine, adding about 20 ms of latency. Only used when the picture needs real upscaling (a 720p picture shown landscape); a 1080p picture doesn't"
     },
     {
       "name": "settings_enhance_unsupported",
       "value": "This device has no video processing engine"
     },
     {
-      "name": "settings_freeze",
-      "value": "Freeze on frame loss"
-    },
-    {
-      "name": "settings_freeze_desc",
-      "value": "After a lost frame, hold the last good picture until the next keyframe instead of showing artifacts"
-    },
-    {
       "name": "settings_group_appearance",
       "value": "Appearance"
     },
     {
-      "name": "settings_group_connection",
-      "value": "Connection"
-    },
-    {
       "name": "settings_group_help",
       "value": "Help"
-    },
-    {
-      "name": "settings_group_picture",
-      "value": "Picture"
-    },
-    {
-      "name": "settings_group_sound",
-      "value": "Sound"
     },
     {
       "name": "settings_guide_desc",
@@ -115,6 +95,58 @@
     {
       "name": "settings_title",
       "value": "Settings"
+    },
+    {
+      "name": "play_orient",
+      "value": "Screen orientation while streaming"
+    },
+    {
+      "name": "play_orient_desc",
+      "value": "Follow system turns with the device and obeys the rotation lock; landscape and portrait each use their own touch controller layout"
+    },
+    {
+      "name": "play_orient_follow",
+      "value": "Follow system"
+    },
+    {
+      "name": "play_orient_landscape",
+      "value": "Landscape"
+    },
+    {
+      "name": "play_orient_portrait",
+      "value": "Portrait"
+    },
+    {
+      "name": "play_orient_phone",
+      "value": "Phones and the outer screen of foldables always stream in landscape; you can choose on wide screens (tablets, unfolded foldables, wide foldables)"
+    },
+    {
+      "name": "play_orient_tv",
+      "value": "TVs always stay landscape"
+    },
+    {
+      "name": "play_orient_pc",
+      "value": "On a computer it follows the window shape: a wide window uses the landscape layout, a tall one the portrait layout"
+    },
+    {
+      "name": "play_orient_phone_short",
+      "value": "Phones and outer screens stay landscape"
+    },
+    {
+      "name": "play_orient_pc_short",
+      "value": "Follows the window shape"
+    },
+    {
+      "name": "play_orient_short",
+      "value": "Orientation"
+    },
+    {
+      "name": "settings_group_av",
+      "value": "Picture and sound"
+    },
+    {
+      "name": "settings_group_stream",
+      "value": "Streaming"
     }
   ]
 }

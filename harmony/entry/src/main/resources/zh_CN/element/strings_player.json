@@ -17,20 +17,8 @@
       "value": "正在连接 %s …"
     },
     {
-      "name": "player_enhance_desc",
-      "value": "切换时画面会闪一下"
-    },
-    {
-      "name": "player_freeze_desc",
-      "value": "丢帧后停在最后一个完好的画面"
-    },
-    {
       "name": "player_gamepad",
       "value": "手柄"
-    },
-    {
-      "name": "player_lock",
-      "value": "锁定"
     },
     {
       "name": "player_options",
@@ -39,10 +27,6 @@
     {
       "name": "player_options_title",
       "value": "串流选项"
-    },
-    {
-      "name": "player_pip",
-      "value": "小窗"
     },
     {
       "name": "player_record",
@@ -73,14 +57,6 @@
       "value": "后台录制不可用：%s。切到后台时录制会停止"
     },
     {
-      "name": "player_toast_locked",
-      "value": "再返回一次断开"
-    },
-    {
-      "name": "player_toast_pip_failed",
-      "value": "无法进入小窗：%s"
-    },
-    {
       "name": "player_toast_resume_failed",
       "value": "恢复画面失败：%s"
     },
@@ -95,10 +71,6 @@
     {
       "name": "player_toast_usb_detached",
       "value": "USB 已断开"
-    },
-    {
-      "name": "player_unlock",
-      "value": "解锁"
     },
     {
       "name": "shortcut_connect_last",
@@ -146,7 +118,7 @@
     },
     {
       "name": "player_toast_menu_hint",
-      "value": "点顶部中间的菜单按钮，可以开关声音、录制、手柄、小窗等"
+      "value": "点顶部中间的菜单按钮，可以开关声音、录制、手柄、小窗等；断开也在菜单里（右上角的退出按钮）"
     },
     {
       "name": "tv_guide_title",
@@ -155,6 +127,58 @@
     {
       "name": "tv_guide_body",
       "value": "菜单键或长按确认键：打开、收起菜单\n方向键：在菜单里移动；确认键：选择\n返回键：先回到上一级、收起菜单；菜单收起时再按返回，断开串流回到首页\n接着手柄时：同时按住开始键和选择键（+ 和 −）1.5 秒也能打开菜单"
+    },
+    {
+      "name": "pic_pos",
+      "value": "画面位置"
+    },
+    {
+      "name": "pic_pos_top",
+      "value": "顶部"
+    },
+    {
+      "name": "pic_pos_center",
+      "value": "居中"
+    },
+    {
+      "name": "pic_pos_bottom",
+      "value": "底部"
+    },
+    {
+      "name": "pic_pos_custom",
+      "value": "自定义"
+    },
+    {
+      "name": "pic_edit_hint",
+      "value": "上下拖动画面，靠近顶部、居中、底部时自动对齐。按键不跟着画面动，要挪按键请用“调整键位”"
+    },
+    {
+      "name": "pic_pos_saved",
+      "value": "画面位置已保存，这种屏幕形态以后都用它"
+    },
+    {
+      "name": "player_toast_back_blocked",
+      "value": "如需退出，请点击顶部中间的菜单按钮"
+    },
+    {
+      "name": "pic_pos_unavailable_short",
+      "value": "画面已占满高度"
+    },
+    {
+      "name": "player_exit_rec_title",
+      "value": "正在录制"
+    },
+    {
+      "name": "player_exit_rec_message",
+      "value": "要停止录制并退出吗？选“继续录制”会转到只录制页面：不显示画面，录制照常进行。"
+    },
+    {
+      "name": "player_exit_rec_keep",
+      "value": "继续录制"
+    },
+    {
+      "name": "player_exit_rec_stop",
+      "value": "停止录制并退出"
     }
   ]
 }

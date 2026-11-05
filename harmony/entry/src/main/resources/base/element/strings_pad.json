@@ -169,8 +169,8 @@
       "value": "Touch controller"
     },
     {
-      "name": "vpad_show_desc",
-      "value": "On-screen buttons over the picture; press back twice to leave while they are shown"
+      "name": "vpad_experimental",
+      "value": "Experimental"
     },
     {
       "name": "vpad_size",
@@ -214,11 +214,19 @@
     },
     {
       "name": "guide_pad_touch_title",
-      "value": "Touch controller"
+      "value": "Touch controller (experimental)"
     },
     {
       "name": "guide_pad_touch_body",
-      "value": "No controller? While streaming, open the menu at the top center, go to Controller and turn on \"Touch controller\" to get on-screen buttons (phones and tablets). Touch anywhere on the empty left half for the left stick; where you touch is its center. You can slide between the face buttons, the D-pad directions and the shoulder buttons. The menu button stays at the top center while they are shown, and tapping the picture does nothing; press back twice within a second to leave. \"Arrange buttons\" on the Controller page lets you move, resize or hide buttons, or turn on L3 / R3; tap Save to keep it. Wide screens can also play upright with the buttons below the picture; see \"Layouts and portrait\"."
+      "value": "This is experimental and still being tuned; see the known issues below. No controller? While streaming, open the menu at the top center, go to Controller and turn on \"Touch controller\" to get on-screen buttons (phones and tablets). Touch anywhere on the empty left half for the left stick; where you touch is its center. You can slide between the face buttons, the D-pad directions and the shoulder buttons. While they are shown, tapping the picture does nothing; after a few seconds the menu button shrinks to a short line at the top center, and tapping it opens the menu. \"Arrange buttons\" on the Controller page lets you move, resize or hide buttons, or turn on L3 / R3; tap Save to keep it. Tablets, unfolded foldables and other wide screens can also play upright; see \"Layouts and portrait\"."
+    },
+    {
+      "name": "guide_pad_touch_issues_title",
+      "value": "Touch controller: known issues"
+    },
+    {
+      "name": "guide_pad_touch_issues_body",
+      "value": "1. A shaky network makes it hard to use: when streaming over the network, the buttons travel on the same connection as the picture, so when the picture stutters, presses arrive late or get lost and the stick can jump around. If the network drops for more than 3 seconds, the console lets go of the controller and takes it back when the stream returns. The dedicated hotspot or a network cable on the console helps a lot; USB is not affected.\n2. Some games ignore it: on the console it is one more controller, and games that only listen to player 1 won't react. Move it to the first place in Controllers > Change Grip/Order on the console's HOME menu.\n3. It has not been tested enough in real games yet; the feel and latency will keep improving. Feedback is welcome."
     },
     {
       "name": "vpad_edit",
@@ -254,39 +262,19 @@
     },
     {
       "name": "vpad_edit_hint",
-      "value": "Buttons over the picture: drag to move, tap to select"
-    },
-    {
-      "name": "vpad_edit_hint_split",
-      "value": "Picture-above-buttons layout: drag to move, tap to select"
+      "value": "Landscape layout: drag to move, tap to select"
     },
     {
       "name": "vpad_edit_hint_selected",
       "value": "Use − / + to resize. Faded buttons are hidden; select one to show it"
     },
     {
-      "name": "vpad_split",
-      "value": "Picture above buttons"
-    },
-    {
-      "name": "vpad_split_desc",
-      "value": "The picture on top and the touch controller below it, not over it (there has to be room below the picture)"
-    },
-    {
-      "name": "vpad_force_portrait",
-      "value": "Portrait while streaming"
-    },
-    {
-      "name": "vpad_force_portrait_desc",
-      "value": "Show the stream upright; with \"Picture above buttons\" the picture sits on top and the buttons below"
-    },
-    {
       "name": "vpad_wide_only",
-      "value": "Only in a wide-screen state (wide foldable, unfolded foldable and the like)"
+      "value": "Only in a wide-screen state (tablet, wide foldable, unfolded foldable and the like)"
     },
     {
       "name": "vpad_layouts",
-      "value": "Touch controller layouts"
+      "value": "Manage layouts"
     },
     {
       "name": "vpad_layouts_desc",
@@ -299,10 +287,6 @@
     {
       "name": "vpad_mode_portrait",
       "value": "Portrait"
-    },
-    {
-      "name": "vpad_mode_split",
-      "value": "Picture above buttons"
     },
     {
       "name": "vpad_builtin",
@@ -398,7 +382,7 @@
     },
     {
       "name": "vpad_layouts_note",
-      "value": "Landscape, portrait and picture-above-buttons each keep their own layouts and remember which one is in use. Layouts are saved as proportions of the screen, so they work on other screen sizes; editing turns the screen to that placement."
+      "value": "Landscape and portrait each keep their own layouts and remember which one is in use, so landscape can put the buttons over the picture and portrait can keep them below it. Layouts are saved as proportions of the screen, so they work on other screen sizes; editing turns the screen to that placement."
     },
     {
       "name": "vpad_layout_in_menu",
@@ -414,7 +398,31 @@
     },
     {
       "name": "guide_pad_layouts_body",
-      "value": "Settings → Controller → Touch controller layouts: landscape, portrait and picture-above-buttons each have a default layout you can base your own on, then edit, rename or delete; each placement remembers which one it uses. While streaming you can change layouts on the Controller page of the menu and tap Arrange to change one. On a wide foldable or an unfolded foldable you can also turn on \"Portrait while streaming\" to play upright, and \"Picture above buttons\" to keep the buttons off the picture."
+      "value": "Settings → Touch controller → Manage layouts: landscape and portrait each have a default layout (around the edges in landscape, below the picture in portrait) you can base your own on, then edit, rename or delete; each remembers which one it uses, so landscape can put the buttons over the picture and portrait can keep the picture on top and the buttons below. While streaming you can change layouts on the Controller page of the menu and tap Arrange to change one. On tablets, unfolded foldables, wide foldables and other wide screens you can stream in landscape or portrait: pick \"Screen orientation while streaming\" (Follow system, Landscape, Portrait) in Settings or under Streaming options in the menu. Phones and the outer screen of foldables stay landscape."
+    },
+    {
+      "name": "guide_pic_pos_title",
+      "value": "Picture position"
+    },
+    {
+      "name": "guide_pic_pos_body",
+      "value": "When there is empty space above and below the picture (a tablet held upright, an unfolded foldable, a tri-fold and so on), tap \"Picture position\" in the menu while streaming and drag the picture up or down; it snaps to the top, center and bottom. Tap Save to keep it. Each screen shape (folded, unfolded, rotated) remembers its own position. The picture and the touch controller are separate layers: moving the picture never moves the buttons. In portrait the picture starts at the top and the buttons at the bottom; if the picture now covers some buttons, drag them clear with \"Arrange buttons\"."
+    },
+    {
+      "name": "vpad_edit_hint_portrait",
+      "value": "Portrait layout: drag to move, tap to select"
+    },
+    {
+      "name": "vpad_layout_from_split_name",
+      "value": "%s (was Picture above buttons)"
+    },
+    {
+      "name": "pad_section_device",
+      "value": "Controller and keyboard"
+    },
+    {
+      "name": "vpad_show_in_menu",
+      "value": "Enable"
     }
   ]
 }

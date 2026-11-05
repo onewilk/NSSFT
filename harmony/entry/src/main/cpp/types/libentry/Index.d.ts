@@ -80,6 +80,8 @@ export interface SessionStats {
   enhanceLevel: number;
   enhanceLatencyUs: number;
   enhanceError: string;
+  // 开着画质增强，但画面已接近显示区域大小、不需要放大，这条链路没用它（不是错误）
+  enhanceIdle: string;
 }
 
 /** 开始监听 UDP 9951 上游戏机的广播；端口被占用时返回 false */

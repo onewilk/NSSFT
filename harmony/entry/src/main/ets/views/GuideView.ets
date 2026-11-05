@@ -57,7 +57,9 @@ export struct GuideView {
       fold(tr('guide_pad_one_title'), tr('guide_pad_one_body')),
       fold(tr('guide_pad_layout_title'), tr('guide_pad_layout_body')),
       fold(tr('guide_pad_touch_title'), tr('guide_pad_touch_body')),
+      fold(tr('guide_pad_touch_issues_title'), tr('guide_pad_touch_issues_body')),
       fold(tr('guide_pad_layouts_title'), tr('guide_pad_layouts_body')),
+      fold(tr('guide_pic_pos_title'), tr('guide_pic_pos_body')),
       fold(tr('guide_pad_keyboard_title'), tr('guide_pad_keyboard_body')),
       fold(tr('guide_pad_menu_title'), tr('guide_pad_menu_body')),
       fold(tr('guide_pad_trouble_title'), tr('guide_pad_trouble_body'))
@@ -184,5 +186,7 @@ export struct GuideView {
     .height('100%')
     .align(Alignment.Top)
     .scrollBar(BarState.Off)
+    // 滚动区域延伸到底部小白条下面（内容末尾已留出 safeBottom），页面底部不再被一条底色挡住
+    .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.BOTTOM])
   }
 }

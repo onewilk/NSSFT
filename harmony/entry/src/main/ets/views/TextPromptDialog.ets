@@ -1,4 +1,4 @@
-// 单行输入弹窗：手动输入主机地址、给主机起备注名、给触屏手柄键位起名共用
+// 单行输入弹窗：手动输入主机地址（IP 或主机名）、给主机起备注名、给触屏手柄键位起名共用
 import { inputMethod } from '@kit.IMEKit';
 
 @CustomDialog
@@ -9,7 +9,8 @@ export struct TextPromptDialog {
   confirmText: string = '';
   @State text: string = '';
   @State error: string = '';
-  numeric: boolean = false;
+  /** 输入主机地址：网址键盘（数字、字母和“.”都在上面），只允许数字、字母、点和连字符 */
+  address: boolean = false;
   /** 返回空串表示通过并关闭弹窗，否则显示为错误提示 */
   onConfirm: (value: string) => string = () => '';
 
@@ -37,19 +38,39 @@ export struct TextPromptDialog {
         .fontColor($r('app.color.text_primary'))
         .width('100%')
 
-      TextInput({ text: this.text, placeholder: this.placeholder })
-        .type(this.numeric ? InputType.NUMBER_DECIMAL : InputType.Normal)
-        .enableAutoFill(false)
-        .defaultFocus(true)
-        .height(44)
-        .borderRadius(12)
-        .onChange((v: string) => {
-          this.text = v;
-          this.error = '';
-        })
-        .onSubmit(() => {
-          this.confirm();
-        })
+      if (this.address) {
+        // 原来用数字小数点键盘（NUMBER_DECIMAL）：只能输一个点，IP 的后两个点输不进去
+        TextInput({ text: this.text, placeholder: this.placeholder })
+          .type(InputType.URL)
+          .inputFilter('[0-9A-Za-z.\\-]')
+          .maxLength(253)
+          .enterKeyType(EnterKeyType.Go)
+          .enableAutoFill(false)
+          .defaultFocus(true)
+          .height(44)
+          .borderRadius(12)
+          .onChange((v: string) => {
+            this.text = v;
+            this.error = '';
+          })
+          .onSubmit(() => {
+            this.confirm();
+          })
+      } else {
+        TextInput({ text: this.text, placeholder: this.placeholder })
+          .type(InputType.Normal)
+          .enableAutoFill(false)
+          .defaultFocus(true)
+          .height(44)
+          .borderRadius(12)
+          .onChange((v: string) => {
+            this.text = v;
+            this.error = '';
+          })
+          .onSubmit(() => {
+            this.confirm();
+          })
+      }
 
       if (this.error.length > 0) {
         Text(this.error)

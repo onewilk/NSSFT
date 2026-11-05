@@ -1,10 +1,12 @@
-// 触屏手柄的键位。三种摆法：横屏（叠在画面上）、竖屏（叠在画面上）、分离（画面在上、按键在下）。
-// 每种摆法有一个内置键位（按屏幕实时计算，不能改），另外可以基于现有键位新建自己的键位，每种摆法记住当前用哪一个。
-// 自建键位按区域比例保存（换屏幕大小、转屏都能用）；新建时 units 为空就和内置一样（跟着屏幕大小走），编辑保存后才定下来。
+// 触屏手柄的键位。两种摆法：横屏、竖屏。触屏手柄是盖满整个播放区的一层，和画面互不影响（画面位置见 PicturePos.ets）。
+// 每种摆法有一个内置键位（按屏幕实时计算，不能改）：横屏时按键分布在四周，竖屏时集中在屏幕下方（画面默认在顶部）。
+// 另外可以基于现有键位新建自己的键位，每种摆法记住当前用哪一个（例如横屏用叠在画面上的，竖屏用按键在下方的）。
+// 自建键位按整个播放区的比例保存（换屏幕大小、转屏都能用）；新建时 units 为空就和内置一样，编辑保存后才定下来。
+// 早期版本还有第三种“分离”（画面贴顶、按键只在画面下面一块），那时的键位按那一块的比例保存，见 migrateSplitLayouts。
 import { tr } from './I18n';
 
-export type VpadMode = 'landscape' | 'portrait' | 'split';
-export const VPAD_MODES: VpadMode[] = ['landscape', 'portrait', 'split'];
+export type VpadMode = 'landscape' | 'portrait';
+export const VPAD_MODES: VpadMode[] = ['landscape', 'portrait'];
 
 /** 一个控件的键位：中心在区域里的比例位置、相对默认大小的倍数、是否隐藏 */
 export interface UnitSave {
@@ -26,7 +28,7 @@ export interface PadLayout {
 interface ActiveMap {
   landscape: string;
   portrait: string;
-  split: string;
+  split: string;  // 旧版“分离”摆法当前用的键位，只在转换时读（migrateSplitLayouts）
 }
 
 PersistentStorage.persistProp('nssft.vpadLayouts', '[]');
@@ -74,13 +76,13 @@ function writeActive(a: ActiveMap): void {
 }
 
 export function vpadModeLabel(mode: string): string {
-  if (mode === 'portrait') {
-    return tr('vpad_mode_portrait');
-  }
-  return mode === 'split' ? tr('vpad_mode_split') : tr('vpad_mode_landscape');
+  return mode === 'portrait' ? tr('vpad_mode_portrait') : tr('vpad_mode_landscape');
 }
 
-/** 宽屏状态（阔折叠、折叠屏展开、三折的双屏/三屏）：短边够宽、长宽比不太长。强制竖屏和分离展示只在这时提供 */
+/**
+ * 宽屏状态（平板、阔折叠、折叠屏展开、三折的双屏/三屏）：短边够宽、长宽比不太长。
+ * 只有这时串流可以竖着用（跟随系统或用户选），竖屏键位也只在这时提供；手机和折叠屏外屏串流时固定横屏
+ */
 export function isWideScreen(w: number, h: number): boolean {
   const s = Math.min(w, h);
   const l = Math.max(w, h);
@@ -101,7 +103,7 @@ export function getLayout(id: string): PadLayout | undefined {
 /** 这种摆法当前用的键位，空串表示内置 */
 export function activeLayoutId(mode: string): string {
   const a = readActive();
-  const id = mode === 'portrait' ? a.portrait : mode === 'split' ? a.split : a.landscape;
+  const id = mode === 'portrait' ? a.portrait : a.landscape;
   return getLayout(id) !== undefined ? id : '';
 }
 
@@ -109,9 +111,7 @@ export function setActiveLayout(mode: string, id: string): void {
   const a = readActive();
   if (mode === 'portrait') {
     a.portrait = id;
-  } else if (mode === 'split') {
-    a.split = id;
-  } else {
+  } else if (mode === 'landscape') {
     a.landscape = id;
   }
   writeActive(a);
@@ -171,6 +171,9 @@ export function deleteLayout(id: string): void {
   }
 }
 
+// 本次运行里旧版“分离”键位已经转完（或本来就没有）：migrateSplitLayouts 不用再读
+let splitMigrated: boolean = false;
+
 interface OldStore {
   overlay: UnitSave[];
   split: UnitSave[];
@@ -196,8 +199,54 @@ export function migrateOldLayouts(): void {
       setActiveLayout('landscape', createLayout('landscape', tr('vpad_layout_migrated_name'), old.overlay));
     }
     if (Array.isArray(old.split) && old.split.length > 0) {
-      setActiveLayout('split', createLayout('split', tr('vpad_layout_migrated_name'), old.split));
+      // 先存成旧的“分离”键位，宽屏时由 migrateSplitLayouts 转成竖屏键位
+      const id = createLayout('split', tr('vpad_layout_migrated_name'), old.split);
+      const a = readActive();
+      a.split = id;
+      writeActive(a);
+      splitMigrated = false;
     }
   }
   AppStorage.setOrCreate('nssft.vpadLayout', '');
+}
+
+/**
+ * 旧版“分离”摆法（画面贴顶、按键只在画面下面一块）的键位转成竖屏键位：那时按“画面下面那一块”的比例保存，
+ * 现在按键盖满整个播放区，纵向换算成整块的比例 y = r0 + y × (1 − r0)，r0 是画面贴顶时画面占的高度比例。
+ * 要按宽屏竖着拿时的大小算 r0，所以在宽屏状态下调用（w、h 是播放区的 vp，横竖都行）。
+ * 原来“分离”正在用的键位，竖屏还在用内置键位时接着用。转完就没有“分离”键位了，不会重复转
+ */
+export function migrateSplitLayouts(w: number, h: number): void {
+  if (splitMigrated) {
+    return;  // 每次窗口大小变化都会调用：转过（或本来就没有）之后不用再解析键位列表
+  }
+  splitMigrated = true;
+  const list = readAll();
+  const a = readActive();
+  const splits = list.filter((l: PadLayout) => l.mode === 'split');
+  if (splits.length === 0 && a.split.length === 0) {
+    return;
+  }
+  const s = Math.min(w, h);
+  const l = Math.max(w, h);
+  const r0 = l > 0 ? Math.max(0, Math.min(0.8, s * 9 / 16 / l)) : 0.5;
+  for (const layout of splits) {
+    layout.mode = 'portrait';
+    layout.units = layout.units.map((u: UnitSave) => {
+      const v: UnitSave = { id: u.id, x: u.x, y: Math.round((r0 + u.y * (1 - r0)) * 10000) / 10000, s: u.s, h: u.h };
+      return v;
+    });
+    // 和已有的竖屏键位重名时加个后缀
+    const others = list.filter((x: PadLayout) => x !== layout && x.mode === 'portrait');
+    if (others.some((x: PadLayout) => x.name === layout.name)) {
+      layout.name = tr('vpad_layout_from_split_name', layout.name);
+    }
+    layout.updated = Date.now();
+  }
+  if (a.split.length > 0 && splits.some((x: PadLayout) => x.id === a.split) && getLayout(a.portrait) === undefined) {
+    a.portrait = a.split;
+  }
+  a.split = '';
+  AppStorage.setOrCreate('nssft.vpadLayouts', JSON.stringify(list));
+  writeActive(a);
 }

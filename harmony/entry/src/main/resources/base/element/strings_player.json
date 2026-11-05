@@ -17,20 +17,8 @@
       "value": "Connecting to %s…"
     },
     {
-      "name": "player_enhance_desc",
-      "value": "The picture blinks once when switching"
-    },
-    {
-      "name": "player_freeze_desc",
-      "value": "Hold the last good picture after a lost frame"
-    },
-    {
       "name": "player_gamepad",
       "value": "Controller"
-    },
-    {
-      "name": "player_lock",
-      "value": "Lock"
     },
     {
       "name": "player_options",
@@ -39,10 +27,6 @@
     {
       "name": "player_options_title",
       "value": "Streaming options"
-    },
-    {
-      "name": "player_pip",
-      "value": "PiP"
     },
     {
       "name": "player_record",
@@ -73,14 +57,6 @@
       "value": "Background recording is not available: %s. Recording stops when you leave the app"
     },
     {
-      "name": "player_toast_locked",
-      "value": "Go back again to disconnect"
-    },
-    {
-      "name": "player_toast_pip_failed",
-      "value": "Cannot enter picture-in-picture: %s"
-    },
-    {
       "name": "player_toast_resume_failed",
       "value": "Failed to restore the picture: %s"
     },
@@ -95,10 +71,6 @@
     {
       "name": "player_toast_usb_detached",
       "value": "USB disconnected"
-    },
-    {
-      "name": "player_unlock",
-      "value": "Unlock"
     },
     {
       "name": "shortcut_connect_last",
@@ -146,7 +118,7 @@
     },
     {
       "name": "player_toast_menu_hint",
-      "value": "Tap the menu button at the top center for sound, recording, the controller, picture-in-picture and more"
+      "value": "Tap the menu button at the top center for sound, recording, the controller, picture-in-picture and more; to stop, tap the exit button at the top right of the menu"
     },
     {
       "name": "tv_guide_title",
@@ -155,6 +127,58 @@
     {
       "name": "tv_guide_body",
       "value": "Menu key, or hold OK: open or close the menu\nArrow keys: move in the menu; OK: select\nBack: up one level, then close the menu; with the menu closed, Back ends the stream and returns home\nWith a controller: hold Start and Select (+ and −) for 1.5 seconds to open the menu"
+    },
+    {
+      "name": "pic_pos",
+      "value": "Picture position"
+    },
+    {
+      "name": "pic_pos_top",
+      "value": "Top"
+    },
+    {
+      "name": "pic_pos_center",
+      "value": "Center"
+    },
+    {
+      "name": "pic_pos_bottom",
+      "value": "Bottom"
+    },
+    {
+      "name": "pic_pos_custom",
+      "value": "Custom"
+    },
+    {
+      "name": "pic_edit_hint",
+      "value": "Drag the picture up or down; it snaps to the top, center and bottom. The buttons stay where they are; move them with \"Arrange buttons\""
+    },
+    {
+      "name": "pic_pos_saved",
+      "value": "Picture position saved for this screen shape"
+    },
+    {
+      "name": "player_toast_back_blocked",
+      "value": "To exit, tap the menu button at the top center"
+    },
+    {
+      "name": "pic_pos_unavailable_short",
+      "value": "The picture fills the height"
+    },
+    {
+      "name": "player_exit_rec_title",
+      "value": "Recording"
+    },
+    {
+      "name": "player_exit_rec_message",
+      "value": "Stop recording and leave? Keep recording moves on to Record only: no picture, and the recording goes on."
+    },
+    {
+      "name": "player_exit_rec_keep",
+      "value": "Keep recording"
+    },
+    {
+      "name": "player_exit_rec_stop",
+      "value": "Stop and leave"
     }
   ]
 }

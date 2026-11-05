@@ -66,11 +66,11 @@
     },
     {
       "name": "home_manual_invalid",
-      "value": "Enter a valid IPv4 address"
+      "value": "Enter a valid IPv4 address or host name"
     },
     {
       "name": "home_manual_placeholder",
-      "value": "e.g. 192.168.1.50"
+      "value": "IP address or host name, e.g. 192.168.1.50"
     },
     {
       "name": "home_manual_title",

@@ -3,6 +3,7 @@
 //    录像没有暂停，节点只有：录制中（录进第一帧时创建）→ 结束（立即撤掉）。
 // 需要在 AGC 开通实况窗服务权益、Profile 里带上，并且用户没关掉实况窗；不可用时不显示（不再另发普通通知：
 // 录像长时任务的系统实况窗已经显示录制时长和大小，两张卡片内容重复，用户 2026-11-03 要求去掉）。
+// 目前整体关闭（TIMER_LIVE_VIEW_ENABLED），代码保留。
 import { liveViewManager } from '@kit.LiveViewKit';
 import { common, wantAgent, WantAgent } from '@kit.AbilityKit';
 import { BusinessError, commonEventManager } from '@kit.BasicServicesKit';
@@ -14,6 +15,10 @@ const TAG = 'NSSFT';
 // 实况窗 id（应用自己定）：一次只有一个录制
 const LIVE_VIEW_ID = 7301;
 const RECORD_RED = '#FFE5484D';
+// 计时实况窗开关。2026-11-04 实况窗服务权益（计时场景）申请被拒：计时场景只给用户自己设的倒计时，
+// 不适用案例里写明了“录音、正计时”。先关掉不执行（start 直接返回，update / stop 也就什么都不做），
+// 代码保留；以后拿到合适场景的权益再改回 true。
+const TIMER_LIVE_VIEW_ENABLED: boolean = false;
 
 /** 要显示的录制状态 */
 export interface RecordStatusInfo {
@@ -50,6 +55,9 @@ export class RecordStatus {
 
   /** 开始显示（应在前台调用：实况窗只能在前台创建） */
   async start(info: RecordStatusInfo): Promise<void> {
+    if (!TIMER_LIVE_VIEW_ENABLED) {
+      return;
+    }
     if (this.mode !== 'none') {
       await this.update(info);
       return;

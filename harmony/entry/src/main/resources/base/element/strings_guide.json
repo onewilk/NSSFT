@@ -34,7 +34,7 @@
     },
     {
       "name": "guide_faq_a4",
-      "value": "When the network drops a frame, the picture holds the last good frame and the console is asked for a keyframe right away, so it usually recovers in a moment. You can turn off Freeze on frame loss in Settings."
+      "value": "Most likely the network stalled for a moment: picture and sound share one connection, so a busy or weak Wi‑Fi stops both. Move the console closer to the router, use 5 GHz Wi‑Fi or the dedicated hotspot; a network cable on the dock is the steadiest. You can also set \"Maximum resolution\" to 720p in SFT on the console to halve what the network carries."
     },
     {
       "name": "guide_faq_a5",
@@ -86,7 +86,7 @@
     },
     {
       "name": "guide_quality_body",
-      "value": "Docked over the network is native 1080p, handheld usually 720p; when the network is tight the console lowers quality to keep the frame rate. Tap the menu button at the top center and adjust Freeze on frame loss and Picture enhancement under Stream options."
+      "value": "Docked over the network is native 1080p, handheld usually 720p; when the network is tight the console lowers quality to keep the frame rate. Tap the menu button at the top center and adjust Picture enhancement under Stream options."
     },
     {
       "name": "guide_quality_tip",

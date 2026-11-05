@@ -9,7 +9,7 @@ const ITEM_DANGER = '#FF8A5C';
  * 触屏设备用紧凑的行高（compact），手机横屏一屏放得下整个一级菜单。
  * 用透明 Button 承载：Row/Column 拿不到遥控器焦点。注意别给这个 Button 写 .focusable(true)：
  * 显式写了反而在焦点树里变成不可获焦（智慧屏上遥控器进不了菜单）。
- * 有多个取值的选项（画质增强）设置 onStep 后，左右键可以直接切换上一个/下一个值。
+ * 有多个取值的选项（画质增强、屏幕方向）点进二级页单选，选中的一项用 checked 打勾。
  */
 @Component
 export struct TvMenuItem {
@@ -17,11 +17,17 @@ export struct TvMenuItem {
   @Prop desc: string = '';
   /** 右侧显示的当前值，空串不显示 */
   @Prop value: string = '';
-  /** 当前值是否处于“开启”状态（用强调色显示） */
+  /** 当前值是否处于“开启”状态（用强调色显示；toggle 时就是开关的状态） */
   @Prop valueOn: boolean = false;
+  /** 开关项：右侧画一个开关（跟着 valueOn），不显示文字值；点整行切换 */
+  @Prop toggle: boolean = false;
+  /** 单选列表（二级选择页）里选中的那一项：右侧画一个勾 */
+  @Prop checked: boolean = false;
   /** 进入下一级时显示右箭头 */
   @Prop chevron: boolean = false;
   @Prop danger: boolean = false;
+  /** 现在用不了：置灰、点不动（原因写在 desc 里） */
+  @Prop disabled: boolean = false;
   /** 给焦点控制用的组件 id */
   @Prop itemId: string = '';
   /** 紧凑行高（触屏设备） */
@@ -29,8 +35,6 @@ export struct TvMenuItem {
   icon: Resource | null = null;
   onTap: () => void = () => {
   };
-  /** 左右键切换取值：dir 为 -1 或 1；为 null 时左右键不处理 */
-  onStep: ((dir: number) => void) | null = null;
 
   build() {
     Button({ type: ButtonType.Normal }) {
@@ -53,10 +57,21 @@ export struct TvMenuItem {
         .alignItems(HorizontalAlign.Start)
         .layoutWeight(1)
 
-        if (this.value.length > 0) {
+        if (this.toggle) {
+          // 只是显示：点击和遥控器焦点都交给整行的 Button
+          Toggle({ type: ToggleType.Switch, isOn: this.valueOn })
+            .selectedColor(ITEM_ACCENT)
+            .hitTestBehavior(HitTestMode.None)
+            .focusable(false)
+        } else if (this.value.length > 0) {
           Text(this.value)
             .fontSize(14)
             .fontColor(this.valueOn ? ITEM_ACCENT : '#B3FFFFFF')
+        }
+        if (this.checked) {
+          SymbolGlyph($r('sys.symbol.checkmark'))
+            .fontSize(18)
+            .fontColor([ITEM_ACCENT])
         }
         if (this.chevron) {
           SymbolGlyph($r('sys.symbol.chevron_right'))
@@ -84,6 +99,8 @@ export struct TvMenuItem {
       }
     })
     .focusBox(FOCUS_BOX)
+    .enabled(!this.disabled)
+    .opacity(this.disabled ? 0.45 : 1)
     .id(this.itemId)
     .accessibilityText(this.value.length > 0 ? `${this.label} ${this.value}` : this.label)
     .onClick(() => {
@@ -95,18 +112,6 @@ export struct TvMenuItem {
         if (event.type === KeyType.Up) {
           this.onTap();
         }
-        event.stopPropagation();
-        return;
-      }
-      const step = this.onStep;
-      if (step === null || event.type !== KeyType.Down) {
-        return;
-      }
-      if (event.keyCode === KeyCode.KEYCODE_DPAD_LEFT) {
-        step(-1);
-        event.stopPropagation();
-      } else if (event.keyCode === KeyCode.KEYCODE_DPAD_RIGHT) {
-        step(1);
         event.stopPropagation();
       }
     })

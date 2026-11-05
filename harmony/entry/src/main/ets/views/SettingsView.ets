@@ -1,12 +1,13 @@
-// 设置页：画面、声音、连接、外观四组，最后是帮助和关于。只在首页打开（不在播放中），改了下次连接生效；
-// 播放中要即时调整的选项在播放页的快捷面板里
+// 设置页：画面与声音、串流、手柄、触屏手柄、录像、外观几组，最后是帮助和关于（分组和串流菜单对齐）。
+// 只在首页打开（不在播放中），改了下次连接生效；播放中要即时调整的选项在串流菜单里
 import { ConfigurationConstant } from '@kit.AbilityKit';
 import { applyAppLanguage, notifyLanguageChanged, tr } from '../common/I18n';
 import { PipSession } from '../common/PipSession';
 import { enhanceAvailable, enhanceLabels } from '../common/Prefs';
 import { recordQualityDesc, recordQualityLabels, recordSupport, recordUnsupportedReason } from '../common/Recording';
 import {
-  padAxisSupported, padDeadZoneLabels, padLayoutLabels, vpadAvailable, vpadOpacityLabels, vpadSizeLabels
+  padAxisSupported, padDeadZoneLabels, padLayoutLabels, playOrientLabels, playOrientReason, vpadAvailable,
+  vpadOpacityLabels, vpadSizeLabels
 } from '../common/Gamepad';
 import { applyColorMode } from '../common/Theme';
 import { isWideScreen } from '../common/VpadLayouts';
@@ -24,7 +25,6 @@ function options(labels: string[]): SelectOption[] {
 
 @Component
 export struct SettingsView {
-  @StorageLink('nssft.freezeOnLoss') freezeOnLoss: boolean = true;
   @StorageLink('nssft.enhanceLevel') enhanceLevel: number = 0;
   @StorageLink('nssft.showStats') showStats: boolean = false;
   @StorageLink('nssft.lowRefresh') lowRefresh: boolean = true;
@@ -43,8 +43,7 @@ export struct SettingsView {
   @StorageLink('nssft.vpadOpacity') vpadOpacity: number = 1;
   @StorageLink('nssft.vpadHaptic') vpadHaptic: boolean = true;
   @StorageLink('nssft.vpadAutoHide') vpadAutoHide: boolean = true;
-  @StorageLink('nssft.vpadSplitMode') vpadSplitMode: boolean = false;
-  @StorageLink('nssft.vpadPortrait') vpadPortrait: boolean = false;
+  @StorageLink('nssft.playOrientation') playOrientation: number = 0;
   @StorageProp('ui.screenW') screenW: number = 0;
   @StorageProp('ui.screenH') screenH: number = 0;
   @StorageProp('ui.safeBottom') safeBottom: number = 0;
@@ -55,12 +54,9 @@ export struct SettingsView {
   onOpenAbout: () => void = () => {
   };
 
-  // 强制竖屏、分离展示不能用的原因：不是手机/平板，或者现在不是宽屏状态
-  private wideReason(): string {
-    if (!vpadAvailable()) {
-      return tr('vpad_unavailable');
-    }
-    return isWideScreen(this.screenW, this.screenH) ? '' : tr('vpad_wide_only');
+  // 串流时的屏幕方向不能选的原因：电视、电脑，或者现在不是宽屏状态（手机、折叠屏外屏固定横屏）
+  private orientReason(): string {
+    return playOrientReason(isWideScreen(this.screenW, this.screenH));
   }
 
   // 录制画质的说明：档位规格；省空间档在本机不能缩放画面时注明按原尺寸录
@@ -102,11 +98,12 @@ export struct SettingsView {
   build() {
     Scroll() {
       Column({ space: 20 }) {
-        Card({ title: tr('settings_group_picture') }) {
-          SettingRow({ title: tr('settings_freeze'), desc: tr('settings_freeze_desc'), icon: $r('sys.symbol.pause') }) {
-            Toggle({ type: ToggleType.Switch, isOn: this.freezeOnLoss })
+        // 和串流菜单的分组对齐：画面与声音、串流（串流时的显示和网络）、手柄、触屏手柄，然后是录像、外观、帮助
+        Card({ title: tr('settings_group_av') }) {
+          SettingRow({ title: tr('settings_audio'), desc: tr('settings_audio_desc'), icon: $r('sys.symbol.speaker_wave_2') }) {
+            Toggle({ type: ToggleType.Switch, isOn: this.enableAudio })
               .onChange((on: boolean) => {
-                this.freezeOnLoss = on;
+                this.enableAudio = on;
               })
           }
           SettingRow({
@@ -129,24 +126,25 @@ export struct SettingsView {
                 this.lowRefresh = on;
               })
           }
-          SettingRow({ title: tr('settings_stats'), desc: tr('settings_stats_desc'), icon: $r('sys.symbol.gauge_with_dots_needle_33percent') }) {
-            Toggle({ type: ToggleType.Switch, isOn: this.showStats })
-              .onChange((on: boolean) => {
-                this.showStats = on;
-              })
-          }
         }
 
-        Card({ title: tr('settings_group_sound') }) {
-          SettingRow({ title: tr('settings_audio'), desc: tr('settings_audio_desc'), icon: $r('sys.symbol.speaker_wave_2') }) {
-            Toggle({ type: ToggleType.Switch, isOn: this.enableAudio })
-              .onChange((on: boolean) => {
-                this.enableAudio = on;
+        Card({ title: tr('settings_group_stream') }) {
+          // 宽屏状态（平板、阔折叠、折叠屏展开等）才能选；别的设备照常列出、置灰并写明原因
+          SettingRow({
+            title: tr('play_orient'),
+            desc: tr('play_orient_desc'),
+            icon: $r('sys.symbol.screen_rotation'),
+            unsupported: this.orientReason()
+          }) {
+            Select(options(playOrientLabels()))
+              .selected(this.playOrientation)
+              .value(playOrientLabels()[this.playOrientation] ?? '')
+              .font({ size: 14 })
+              .enabled(this.orientReason().length === 0)
+              .onSelect((index: number) => {
+                this.playOrientation = index;
               })
           }
-        }
-
-        Card({ title: tr('settings_group_connection') }) {
           SettingRow({ title: tr('settings_netopt'), desc: tr('settings_netopt_desc'), icon: $r('sys.symbol.bolt') }) {
             Toggle({ type: ToggleType.Switch, isOn: this.netOpt })
               .onChange((on: boolean) => {
@@ -164,31 +162,19 @@ export struct SettingsView {
                 this.pipAuto = on;
               })
           }
-        }
-
-        Card({ title: tr('settings_group_record') }) {
-          SettingRow({
-            title: tr('settings_record_quality'),
-            desc: this.recordDesc(),
-            icon: $r('sys.symbol.record_circle'),
-            unsupported: recordUnsupportedReason(false)
-          }) {
-            Select(options(recordQualityLabels()))
-              .selected(this.recordQuality)
-              .value(recordQualityLabels()[this.recordQuality])
-              .font({ size: 14 })
-              .onSelect((index: number) => {
-                this.recordQuality = index;
+          SettingRow({ title: tr('settings_stats'), desc: tr('settings_stats_desc'), icon: $r('sys.symbol.gauge_with_dots_needle_33percent') }) {
+            Toggle({ type: ToggleType.Switch, isOn: this.showStats })
+              .onChange((on: boolean) => {
+                this.showStats = on;
               })
           }
         }
 
-        Card({ title: tr('pad_title') }) {
+        Card({ title: tr('pad_title'), tag: tr('pad_beta') }) {
           SettingRow({
             title: tr('pad_enable'),
             desc: tr('pad_enable_desc'),
-            icon: $r('sys.symbol.gamecontroller'),
-            scope: tr('pad_beta')
+            icon: $r('sys.symbol.gamecontroller')
           }) {
             Toggle({ type: ToggleType.Switch, isOn: this.padEnabled })
               .onChange((on: boolean) => {
@@ -220,11 +206,13 @@ export struct SettingsView {
                 this.padDeadZone = index;
               })
           }
-          // 触屏手柄：电脑和智慧屏上照常列出、置灰并写明原因
+        }
+
+        // 电脑和智慧屏上照常列出、置灰并写明原因；还在调试，整组标“实验性”（已知问题见使用说明）
+        Card({ title: tr('vpad_show'), tag: tr('vpad_experimental') }) {
           SettingRow({
-            title: tr('vpad_show'),
-            desc: tr('vpad_show_desc'),
-            icon: $r('sys.symbol.dot_grid_2x2'),
+            title: tr('vpad_show_in_menu'),
+            icon: $r('sys.symbol.hand_point_up_tap'),
             unsupported: vpadAvailable() ? '' : tr('vpad_unavailable')
           }) {
             Toggle({ type: ToggleType.Switch, isOn: this.vpadShown })
@@ -271,27 +259,27 @@ export struct SettingsView {
                 this.vpadAutoHide = on;
               })
           }
-          // 宽屏状态（阔折叠、折叠屏展开等）下才有的两个选项：别的屏幕上照常列出、置灰并写明原因
-          SettingRow({ title: tr('vpad_force_portrait'), desc: tr('vpad_force_portrait_desc'),
-            icon: $r('sys.symbol.rectangle_on_square'), unsupported: this.wideReason() }) {
-            Toggle({ type: ToggleType.Switch, isOn: this.vpadPortrait })
-              .enabled(this.wideReason().length === 0)
-              .onChange((on: boolean) => {
-                this.vpadPortrait = on;
-              })
-          }
-          SettingRow({ title: tr('vpad_split'), desc: tr('vpad_split_desc'), icon: $r('sys.symbol.rectangle_on_square'),
-            unsupported: this.wideReason() }) {
-            Toggle({ type: ToggleType.Switch, isOn: this.vpadSplitMode })
-              .enabled(this.wideReason().length === 0)
-              .onChange((on: boolean) => {
-                this.vpadSplitMode = on;
-              })
-          }
           NavRow({ title: tr('vpad_layouts'), desc: tr('vpad_layouts_desc'), icon: $r('sys.symbol.dot_grid_2x2'),
             onTap: () => {
               this.onOpenVpadLayouts();
             } })
+        }
+
+        Card({ title: tr('settings_group_record') }) {
+          SettingRow({
+            title: tr('settings_record_quality'),
+            desc: this.recordDesc(),
+            icon: $r('sys.symbol.record_circle'),
+            unsupported: recordUnsupportedReason(false)
+          }) {
+            Select(options(recordQualityLabels()))
+              .selected(this.recordQuality)
+              .value(recordQualityLabels()[this.recordQuality])
+              .font({ size: 14 })
+              .onSelect((index: number) => {
+                this.recordQuality = index;
+              })
+          }
         }
 
         Card({ title: tr('settings_group_appearance') }) {
@@ -342,5 +330,7 @@ export struct SettingsView {
     .height('100%')
     .align(Alignment.Top)
     .scrollBar(BarState.Off)
+    // 滚动区域延伸到底部小白条下面（内容末尾已留出 safeBottom），页面底部不再被一条底色挡住
+    .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.BOTTOM])
   }
 }

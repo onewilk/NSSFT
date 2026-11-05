@@ -9,8 +9,9 @@ PersistentStorage.persistProp('nssft.pipAuto', true);
 PersistentStorage.persistProp('nssft.lowRefresh', true);
 // 最近连接过的主机（见 RecentHosts.ets）
 PersistentStorage.persistProp('nssft.recentHosts', '');
-// 丢帧时定格画面（等下一个关键帧，不花屏）
+// 旧版的“丢帧定格”开关已经去掉（原生层一直开着）：从持久化文件里删掉（deleteProp 只删 persistProp 过的键）
 PersistentStorage.persistProp('nssft.freezeOnLoss', true);
+PersistentStorage.deleteProp('nssft.freezeOnLoss');
 // 画质增强：0 关闭 / 1 标准 / 2 高
 PersistentStorage.persistProp('nssft.enhanceLevel', 0);
 // 播放页统计浮层
@@ -75,6 +76,23 @@ export function isValidIPv4(ip: string): boolean {
     }
   }
   return true;
+}
+
+/**
+ * 主机名（手动输入地址时也可以填，由系统 DNS 解析，见 core/sft_net_source.cpp）：字母、数字、连字符组成的若干段，
+ * 段之间用点隔开，每段 1–63 个字符、不以连字符开头或结尾，总长不超过 253；至少要有一个字母，免得把输了一半的 IP（192.168.1）当成主机名
+ */
+export function isValidHostname(name: string): boolean {
+  if (name.length === 0 || name.length > 253 || !/[A-Za-z]/.test(name)) {
+    return false;
+  }
+  const labels = (name.endsWith('.') ? name.slice(0, -1) : name).split('.');
+  return labels.every((l: string) => /^[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/.test(l));
+}
+
+/** 手动输入的主机地址：IPv4 或主机名 */
+export function isValidHostAddress(v: string): boolean {
+  return isValidIPv4(v) || isValidHostname(v);
 }
 
 export function formatDuration(ms: number): string {

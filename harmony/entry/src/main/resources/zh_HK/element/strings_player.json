@@ -17,20 +17,8 @@
       "value": "正在連線 %s …"
     },
     {
-      "name": "player_enhance_desc",
-      "value": "切換時畫面會閃一下"
-    },
-    {
-      "name": "player_freeze_desc",
-      "value": "掉幀後停在最後一個完好的畫面"
-    },
-    {
       "name": "player_gamepad",
       "value": "手把"
-    },
-    {
-      "name": "player_lock",
-      "value": "鎖定"
     },
     {
       "name": "player_options",
@@ -39,10 +27,6 @@
     {
       "name": "player_options_title",
       "value": "串流選項"
-    },
-    {
-      "name": "player_pip",
-      "value": "小視窗"
     },
     {
       "name": "player_record",
@@ -73,14 +57,6 @@
       "value": "背景錄製不可用：%s。切到背景時錄製會停止"
     },
     {
-      "name": "player_toast_locked",
-      "value": "再返回一次斷開"
-    },
-    {
-      "name": "player_toast_pip_failed",
-      "value": "無法進入小視窗：%s"
-    },
-    {
       "name": "player_toast_resume_failed",
       "value": "恢復畫面失敗：%s"
     },
@@ -95,10 +71,6 @@
     {
       "name": "player_toast_usb_detached",
       "value": "USB 已中斷"
-    },
-    {
-      "name": "player_unlock",
-      "value": "解鎖"
     },
     {
       "name": "shortcut_connect_last",
@@ -146,7 +118,7 @@
     },
     {
       "name": "player_toast_menu_hint",
-      "value": "點頂部中間的選單按鈕，可以開關聲音、錄製、手把、子母畫面等"
+      "value": "點頂部中間的選單按鈕，可以開關聲音、錄製、手把、子母畫面等；中斷也在選單裡（右上角的退出按鈕）"
     },
     {
       "name": "tv_guide_title",
@@ -155,6 +127,58 @@
     {
       "name": "tv_guide_body",
       "value": "選單鍵或長按確認鍵：打開、收起選單\n方向鍵：在選單裡移動；確認鍵：選擇\n返回鍵：先回到上一層、收起選單；選單收起時再按返回，中斷串流回到首頁\n接著手把時：同時按住開始鍵和選擇鍵（+ 和 −）1.5 秒也能打開選單"
+    },
+    {
+      "name": "pic_pos",
+      "value": "畫面位置"
+    },
+    {
+      "name": "pic_pos_top",
+      "value": "頂部"
+    },
+    {
+      "name": "pic_pos_center",
+      "value": "置中"
+    },
+    {
+      "name": "pic_pos_bottom",
+      "value": "底部"
+    },
+    {
+      "name": "pic_pos_custom",
+      "value": "自訂"
+    },
+    {
+      "name": "pic_edit_hint",
+      "value": "上下拖動畫面，靠近頂部、置中、底部時自動對齊。按鍵不跟著畫面動，要移動按鍵請用「調整鍵位」"
+    },
+    {
+      "name": "pic_pos_saved",
+      "value": "畫面位置已儲存，這種螢幕形態之後都用它"
+    },
+    {
+      "name": "player_toast_back_blocked",
+      "value": "如需退出，請點擊頂部中間的選單按鈕"
+    },
+    {
+      "name": "pic_pos_unavailable_short",
+      "value": "畫面已佔滿高度"
+    },
+    {
+      "name": "player_exit_rec_title",
+      "value": "正在錄製"
+    },
+    {
+      "name": "player_exit_rec_message",
+      "value": "要停止錄製並退出嗎？選「繼續錄製」會轉到只錄製頁面：不顯示畫面，錄製照常進行。"
+    },
+    {
+      "name": "player_exit_rec_keep",
+      "value": "繼續錄製"
+    },
+    {
+      "name": "player_exit_rec_stop",
+      "value": "停止錄製並退出"
     }
   ]
 }

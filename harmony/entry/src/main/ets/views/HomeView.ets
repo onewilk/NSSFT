@@ -4,7 +4,7 @@ import { deviceInfo } from '@kit.BasicServicesKit';
 import nssft from 'libentry.so';
 import { DeviceInfo } from 'libentry.so';
 import { tr } from '../common/I18n';
-import { Breakpoint, hotspotSupported, isValidIPv4, sftVersionOf } from '../common/Prefs';
+import { Breakpoint, hotspotSupported, isValidHostAddress, isValidIPv4, sftVersionOf } from '../common/Prefs';
 import { HotspotSheet } from './HotspotSheet';
 import { agoText, forgetHost, parseRecentHosts, RecentHost, renameHost } from '../common/RecentHosts';
 import { StreamTarget } from '../common/StreamTarget';
@@ -217,7 +217,7 @@ export struct HomeView {
     this.onConnect({ host: item.host, label: this.titleOf(item), version: item.version, usb: null, recordOnly: recordOnly });
   }
 
-  private openPrompt(title: string, placeholder: string, confirmText: string, initial: string, numeric: boolean,
+  private openPrompt(title: string, placeholder: string, confirmText: string, initial: string, address: boolean,
     onConfirm: (value: string) => string): void {
     this.promptController = new CustomDialogController({
       builder: TextPromptDialog({
@@ -225,7 +225,7 @@ export struct HomeView {
         placeholder: placeholder,
         confirmText: confirmText,
         text: initial,
-        numeric: numeric,
+        address: address,
         onConfirm: onConfirm
       }),
       alignment: DialogAlignment.Center,
@@ -239,11 +239,11 @@ export struct HomeView {
     const last = parseRecentHosts(this.recentRaw);
     this.openPrompt(tr('home_manual_title'), tr('home_manual_placeholder'), tr('home_manual_connect'),
       last.length > 0 ? last[0].host : '', true, (value: string): string => {
-        if (!isValidIPv4(value)) {
+        if (!isValidHostAddress(value)) {
           return tr('home_manual_invalid');
         }
-        const parts = value.split('.');
-        this.onConnect({ host: value, label: tr('home_host_default', parts[3]), version: '', usb: null });
+        const label = isValidIPv4(value) ? tr('home_host_default', value.split('.')[3]) : value;
+        this.onConnect({ host: value, label: label, version: '', usb: null });
         return '';
       });
   }
@@ -692,9 +692,12 @@ export struct HomeView {
         .height('100%')
         .align(Alignment.Top)
         .scrollBar(BarState.Off)
+        .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.BOTTOM])
       }
       .layoutWeight(1)
       .width('100%')
+      // 列表延伸到底部小白条下面（内容末尾已留出 safeBottom），页面底部不再被一条底色挡住
+      .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.BOTTOM])
       .onRefreshing(() => {
         this.onPullRefresh();
       })

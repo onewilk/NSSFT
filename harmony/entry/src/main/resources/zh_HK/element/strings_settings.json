@@ -18,39 +18,19 @@
     },
     {
       "name": "settings_enhance_desc",
-      "value": "用系統的視訊處理引擎放大和銳化畫面，會增加少量延遲"
+      "value": "用系統的視訊處理引擎放大和銳化畫面，約增加 20 ms 延遲。只在畫面需要明顯放大時生效（720p 畫面橫向顯示時），1080p 畫面不需要"
     },
     {
       "name": "settings_enhance_unsupported",
       "value": "本機不支援視訊處理引擎"
     },
     {
-      "name": "settings_freeze",
-      "value": "掉幀定格"
-    },
-    {
-      "name": "settings_freeze_desc",
-      "value": "掉幀後停在最後一個完好的畫面，等到關鍵影格再繼續，避免破圖"
-    },
-    {
       "name": "settings_group_appearance",
       "value": "外觀"
     },
     {
-      "name": "settings_group_connection",
-      "value": "連線"
-    },
-    {
       "name": "settings_group_help",
       "value": "說明"
-    },
-    {
-      "name": "settings_group_picture",
-      "value": "畫面"
-    },
-    {
-      "name": "settings_group_sound",
-      "value": "聲音"
     },
     {
       "name": "settings_guide_desc",
@@ -115,6 +95,58 @@
     {
       "name": "settings_title",
       "value": "設定"
+    },
+    {
+      "name": "play_orient",
+      "value": "串流時的螢幕方向"
+    },
+    {
+      "name": "play_orient_desc",
+      "value": "跟隨系統時隨裝置轉動，遵守控制中心的旋轉鎖定；橫向和直向各用各的觸控手把鍵位"
+    },
+    {
+      "name": "play_orient_follow",
+      "value": "跟隨系統"
+    },
+    {
+      "name": "play_orient_landscape",
+      "value": "橫向"
+    },
+    {
+      "name": "play_orient_portrait",
+      "value": "直向"
+    },
+    {
+      "name": "play_orient_phone",
+      "value": "手機和摺疊螢幕的外螢幕串流時固定橫向；平板、摺疊螢幕展開、闊摺疊等寬螢幕狀態下才能選"
+    },
+    {
+      "name": "play_orient_tv",
+      "value": "電視固定橫向"
+    },
+    {
+      "name": "play_orient_pc",
+      "value": "電腦上依視窗形狀顯示：橫著用橫向鍵位，直著用直向鍵位"
+    },
+    {
+      "name": "play_orient_phone_short",
+      "value": "手機和摺疊螢幕外螢幕固定橫向"
+    },
+    {
+      "name": "play_orient_pc_short",
+      "value": "電腦上依視窗形狀"
+    },
+    {
+      "name": "play_orient_short",
+      "value": "螢幕方向"
+    },
+    {
+      "name": "settings_group_av",
+      "value": "畫面與聲音"
+    },
+    {
+      "name": "settings_group_stream",
+      "value": "串流"
     }
   ]
 }

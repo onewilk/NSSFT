@@ -21,10 +21,21 @@ PersistentStorage.persistProp('nssft.vpadSize', 1);
 PersistentStorage.persistProp('nssft.vpadOpacity', 1);
 PersistentStorage.persistProp('nssft.vpadHaptic', true);
 PersistentStorage.persistProp('nssft.vpadAutoHide', true);
-// 宽屏状态下（阔折叠、折叠屏展开等，见 VpadLayouts.isWideScreen）的两个选项，默认都关：
-//   强制竖屏：串流时竖着显示；分离展示：画面在上、触屏手柄在下（画面下方空出足够的位置时）
+// 串流时的屏幕方向（PLAY_ORIENT_*）：只在宽屏状态（平板、阔折叠、折叠屏展开等，见 VpadLayouts.isWideScreen）下生效，
+// 手机和折叠屏外屏固定横屏。默认跟随系统（随设备转动，服从控制中心的旋转锁定）
+export const PLAY_ORIENT_FOLLOW = 0;
+export const PLAY_ORIENT_LANDSCAPE = 1;
+export const PLAY_ORIENT_PORTRAIT = 2;
+PersistentStorage.persistProp('nssft.playOrientation', PLAY_ORIENT_FOLLOW);
+// 旧版的两个宽屏选项：“强制竖屏”开着的转成“竖屏”；“分离展示”已经去掉（画面和触屏手柄是独立的两层）
 PersistentStorage.persistProp('nssft.vpadPortrait', false);
+if (AppStorage.get<boolean>('nssft.vpadPortrait') === true) {
+  AppStorage.setOrCreate('nssft.playOrientation', PLAY_ORIENT_PORTRAIT);
+}
+PersistentStorage.deleteProp('nssft.vpadPortrait');
+// deleteProp 只删本次运行里 persistProp 过的键（否则什么都不做），所以先挂上再删，才会从持久化文件里去掉
 PersistentStorage.persistProp('nssft.vpadSplitMode', false);
+PersistentStorage.deleteProp('nssft.vpadSplitMode');
 // 第二版的键位（叠加 / 画面下方两套），只为了第一次启动时转成自建键位（VpadLayouts.migrateOldLayouts）
 PersistentStorage.persistProp('nssft.vpadLayout', '');
 
@@ -56,6 +67,21 @@ export function vpadSizeLabels(): string[] {
 
 export function vpadOpacityLabels(): string[] {
   return ['30%', '50%', '75%'];
+}
+
+export function playOrientLabels(): string[] {
+  return [tr('play_orient_follow'), tr('play_orient_landscape'), tr('play_orient_portrait')];
+}
+
+/** “串流时的屏幕方向”现在不能选的原因（空串：能选）。wide：现在是不是宽屏状态；short：播放菜单里用的一行短句 */
+export function playOrientReason(wide: boolean, short: boolean = false): string {
+  if (deviceInfo.deviceType === 'tv') {
+    return tr('play_orient_tv');
+  }
+  if (deviceInfo.deviceType === '2in1') {
+    return tr(short ? 'play_orient_pc_short' : 'play_orient_pc');
+  }
+  return wide ? '' : tr(short ? 'play_orient_phone_short' : 'play_orient_phone');
 }
 
 /** 摇杆、模拟扳机用的焦点轴事件（onFocusAxisEvent）API 15 起才有；更早的系统只有按键 */

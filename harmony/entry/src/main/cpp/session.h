@@ -55,6 +55,8 @@ struct SessionStats {
     int enhanceLevel = 0;
     int enhanceLatencyUs = 0;
     std::string enhanceError;
+    // 开着画质增强，但这条链路没用它：画面已接近显示区域大小，不需要放大（不是错误，不提示）
+    std::string enhanceIdle;
 };
 
 // 手柄（见 core/sft_pad.h）的设置：enabled 是用户打开了手柄功能、并且播放页在前台
@@ -146,6 +148,7 @@ private:
         std::unique_ptr<VideoEnhancer> enhancer;
         std::unique_ptr<VideoDecoder> decoder;
         std::string enhanceError;  // 画质增强没能启用的原因（不影响播放）
+        std::string enhanceIdle;   // 开着画质增强但不需要放大，这条链路直出
     };
     // 创建视频链路（不持锁，耗时几十毫秒）
     std::string CreateVideo(uint64_t surfaceId, VideoPipeline* out);
@@ -181,6 +184,7 @@ private:
     OHNativeWindow* window_ = nullptr;
     std::unique_ptr<VideoEnhancer> enhancer_;
     std::string enhanceError_;
+    std::string enhanceIdle_;  // 非空：画质增强因为不需要放大而没接上；画面尺寸变了要整条链路重建、重新判断
     std::unique_ptr<VideoDecoder> video_;
     nssft::GopCache gop_;
     // 已释放解码器的累计统计，保证暂停/恢复后数字连续

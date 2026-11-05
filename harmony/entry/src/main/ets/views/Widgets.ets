@@ -54,16 +54,25 @@ export struct Tappable {
 export struct Card {
   @Prop title: string = '';
   @Prop subtitle: string = '';
+  /** 整组的标签（如“测试中”“实验性”），显示在分组标题行最右边 */
+  @Prop tag: string = '';
   @BuilderParam content: () => void = emptyBuilder;
 
   build() {
     Column({ space: 8 }) {
       if (this.title.length > 0) {
         Column({ space: 2 }) {
-          Text(this.title)
-            .fontSize(13)
-            .fontWeight(FontWeight.Medium)
-            .fontColor($r('app.color.accent'))
+          Row({ space: 8 }) {
+            Text(this.title)
+              .fontSize(13)
+              .fontWeight(FontWeight.Medium)
+              .fontColor($r('app.color.accent'))
+              .layoutWeight(1)
+            if (this.tag.length > 0) {
+              Chip({ text: this.tag })
+            }
+          }
+          .width('100%')
           if (this.subtitle.length > 0) {
             Text(this.subtitle)
               .fontSize(12)
@@ -271,5 +280,41 @@ export struct NavRow {
       .width('100%')
       .constraintSize({ minHeight: 48 })
     }
+  }
+}
+
+/** 播放菜单（深色、半透明）里的一组选项：可选的小标题（和标签），下面是半透明圆角底的一组行 */
+@Component
+export struct MenuGroup {
+  @Prop title: string = '';
+  @Prop tag: string = '';
+  @BuilderParam content: () => void = emptyBuilder;
+
+  build() {
+    Column({ space: 6 }) {
+      if (this.title.length > 0) {
+        Row({ space: 6 }) {
+          Text(this.title).fontSize(12).fontColor('#99FFFFFF')
+          if (this.tag.length > 0) {
+            Text(this.tag)
+              .fontSize(10)
+              .fontColor('#FFB74D')
+              .border({ width: 1, color: '#80FFB74D' })
+              .padding({ left: 6, right: 6, top: 1, bottom: 1 })
+              .borderRadius(6)
+          }
+        }
+        .padding({ left: 4 })
+      }
+      Column() {
+        this.content()
+      }
+      .width('100%')
+      .padding({ left: 12, right: 8, top: 2, bottom: 2 })
+      .backgroundColor('#14FFFFFF')
+      .borderRadius(14)
+    }
+    .width('100%')
+    .alignItems(HorizontalAlign.Start)
   }
 }

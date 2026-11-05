@@ -6,7 +6,7 @@ const TAG = 'NSSFT';
 
 /**
  * 每秒把统计写进应用沙箱的 files/stats.csv，便于连着电脑用 hdc 拉出来对比不同设置的效果：
- *   hdc file recv -b wilk.sft.next /data/storage/el2/base/files/stats.csv ./
+ *   hdc file recv -b wilk.sft.next /data/storage/el2/base/haps/entry/files/stats.csv ./
  * 每次连接追加一段，以 “# session” 行分隔；文件超过 4MB 时清空重写。
  */
 export class StatsRecorder {

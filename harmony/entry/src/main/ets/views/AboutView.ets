@@ -132,5 +132,7 @@ export struct AboutView {
     .height('100%')
     .align(Alignment.Top)
     .scrollBar(BarState.Off)
+    // 滚动区域延伸到底部小白条下面（内容末尾已留出 safeBottom），页面底部不再被一条底色挡住
+    .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.BOTTOM])
   }
 }

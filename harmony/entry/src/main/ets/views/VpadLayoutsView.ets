@@ -1,7 +1,7 @@
-// 触屏手柄键位管理（设置 → 手柄 → 触屏手柄键位）：横屏、竖屏、分离三种摆法各一组。
+// 触屏手柄键位管理（设置 → 手柄 → 触屏手柄键位）：横屏、竖屏两种摆法各一组（例如横屏用叠在画面上的，竖屏用按键在下方的）。
 // 每组第一项是内置键位（按屏幕实时计算，不能改，只能复制），后面是自建键位：点一行设为当前，可以编辑、改名、复制、删除。
 // 新建时选一个现有键位做底；编辑在全屏的编辑界面里做（播放页负责，会转到这种摆法的方向）。
-// 竖屏和分离只在宽屏状态（阔折叠、折叠屏展开等）下能用：不是宽屏时照常列出、置灰并写明原因。
+// 竖屏只在宽屏状态（平板、阔折叠、折叠屏展开等）下能用：不是宽屏时照常列出、置灰并写明原因。
 import { promptAction } from '@kit.ArkUI';
 import { FOCUS_BOX } from '../common/Focus';
 import { tr } from '../common/I18n';
@@ -56,7 +56,7 @@ struct LayoutThumb {
     return this.thumbW() * this.refH() / this.refW();
   }
 
-  // 示意画面：横屏时铺满（按实际比例画会在两边留黑边，看着像没对齐）；竖屏是居中的 16:9，分离时 16:9 贴顶
+  // 示意画面：横屏时铺满（按实际比例画会在两边留黑边，看着像没对齐）；竖屏是贴顶的 16:9（竖屏时画面默认在顶部）
   private picW(): number {
     return this.mode === 'landscape' ? this.thumbW() : Math.min(this.thumbW(), this.thumbH() * 16 / 9);
   }
@@ -66,39 +66,23 @@ struct LayoutThumb {
   }
 
   build() {
-    Stack({ alignContent: this.mode === 'split' ? Alignment.Top : Alignment.Center }) {
+    Stack({ alignContent: this.mode === 'portrait' ? Alignment.Top : Alignment.Center }) {
       Column()
         .width(this.picW())
         .height(this.picH())
         .backgroundColor('#3326C6B0')
-      if (this.mode === 'split') {
-        VirtualPad({
-          preview: true,
-          split: true,
-          refW: this.refW(),
-          refH: this.refH() - this.refW() * 9 / 16,
-          layoutId: this.layoutId,
-          layoutKey: this.layoutKey,
-          sizeLevel: this.sizeLevel,
-          interactive: false
-        })
-          .width(this.thumbW())
-          .height(this.thumbH() - this.picH())
-          .position({ x: 0, y: this.picH() })
-      } else {
-        VirtualPad({
-          preview: true,
-          split: false,
-          refW: this.refW(),
-          refH: this.refH(),
-          layoutId: this.layoutId,
-          layoutKey: this.layoutKey,
-          sizeLevel: this.sizeLevel,
-          interactive: false
-        })
-          .width(this.thumbW())
-          .height(this.thumbH())
-      }
+      VirtualPad({
+        preview: true,
+        portrait: this.mode === 'portrait',
+        refW: this.refW(),
+        refH: this.refH(),
+        layoutId: this.layoutId,
+        layoutKey: this.layoutKey,
+        sizeLevel: this.sizeLevel,
+        interactive: false
+      })
+        .width(this.thumbW())
+        .height(this.thumbH())
     }
     .width(this.thumbW())
     .height(this.thumbH())
@@ -141,7 +125,7 @@ export struct VpadLayoutsView {
         placeholder: tr('vpad_layout_name_placeholder'),
         confirmText: tr('common_save'),
         text: initial,
-        numeric: false,
+        address: false,
         onConfirm: (value: string): string => {
           if (value.length === 0) {
             return tr('vpad_layout_name_empty');
@@ -389,5 +373,7 @@ export struct VpadLayoutsView {
     .height('100%')
     .align(Alignment.Top)
     .scrollBar(BarState.Off)
+    // 滚动区域延伸到底部小白条下面（内容末尾已留出 safeBottom），页面底部不再被一条底色挡住
+    .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.BOTTOM])
   }
 }

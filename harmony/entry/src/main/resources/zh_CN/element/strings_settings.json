@@ -18,39 +18,19 @@
     },
     {
       "name": "settings_enhance_desc",
-      "value": "用系统的视频处理引擎放大和锐化画面，会增加少量延迟"
+      "value": "用系统的视频处理引擎放大和锐化画面，约增加 20 ms 延迟。只在画面需要明显放大时生效（720p 画面横屏显示时），1080p 画面不需要"
     },
     {
       "name": "settings_enhance_unsupported",
       "value": "本机不支持视频处理引擎"
     },
     {
-      "name": "settings_freeze",
-      "value": "丢帧定格"
-    },
-    {
-      "name": "settings_freeze_desc",
-      "value": "丢帧后停在最后一个完好的画面，等到关键帧再继续，避免花屏"
-    },
-    {
       "name": "settings_group_appearance",
       "value": "外观"
     },
     {
-      "name": "settings_group_connection",
-      "value": "连接"
-    },
-    {
       "name": "settings_group_help",
       "value": "帮助"
-    },
-    {
-      "name": "settings_group_picture",
-      "value": "画面"
-    },
-    {
-      "name": "settings_group_sound",
-      "value": "声音"
     },
     {
       "name": "settings_guide_desc",
@@ -115,6 +95,58 @@
     {
       "name": "settings_title",
       "value": "设置"
+    },
+    {
+      "name": "play_orient",
+      "value": "串流时的屏幕方向"
+    },
+    {
+      "name": "play_orient_desc",
+      "value": "跟随系统时随设备转动，服从控制中心的旋转锁定；横屏和竖屏各用各的触屏手柄键位"
+    },
+    {
+      "name": "play_orient_follow",
+      "value": "跟随系统"
+    },
+    {
+      "name": "play_orient_landscape",
+      "value": "横屏"
+    },
+    {
+      "name": "play_orient_portrait",
+      "value": "竖屏"
+    },
+    {
+      "name": "play_orient_phone",
+      "value": "手机和折叠屏的外屏串流时固定横屏；平板、折叠屏展开、阔折叠等宽屏状态下才能选"
+    },
+    {
+      "name": "play_orient_tv",
+      "value": "智慧屏固定横屏"
+    },
+    {
+      "name": "play_orient_pc",
+      "value": "电脑上按窗口的形状显示：横着用横屏键位，竖着用竖屏键位"
+    },
+    {
+      "name": "play_orient_phone_short",
+      "value": "手机和折叠屏外屏固定横屏"
+    },
+    {
+      "name": "play_orient_pc_short",
+      "value": "电脑上跟随窗口形状"
+    },
+    {
+      "name": "play_orient_short",
+      "value": "屏幕方向"
+    },
+    {
+      "name": "settings_group_av",
+      "value": "画面与声音"
+    },
+    {
+      "name": "settings_group_stream",
+      "value": "串流"
     }
   ]
 }

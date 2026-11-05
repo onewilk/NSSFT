@@ -26,6 +26,10 @@ Session::~Session() { Stop(); }
 namespace {
 // 视频细节增强的输出宽高都不能超过 2000 像素（开发指南“视频缩放”的约束与限制）
 constexpr int32_t kMaxEnhanceOutput = 2000;
+// 放大不到这个倍数就不用画质增强：画面已接近显示区域大小，增强只剩锐化，看不出区别，还多约 20 ms 延迟
+// （2026-11-04 真机：1080p 放到 2000x1124 只有 1.04 倍，增强耗时中位 25 ms）。输出上限 2000，
+// 所以 1080p 永远不用；720p 要显示区域的 16:9 宽度到 1664 像素以上（横屏手机、平板、PC）才用
+constexpr double kMinEnhanceScale = 1.3;
 
 // 画质增强的输出尺寸：屏幕窗口里 16:9 画面区域的实际像素（放大 + 增强都由系统完成）。
 // 区域超过 2000 像素时（4K 电视、宽屏平板和 PC）按 16:9 缩到上限以内，剩下的放大交给系统合成
@@ -63,9 +67,26 @@ std::string Session::CreateVideo(uint64_t surfaceId, VideoPipeline* out) {
     std::unique_ptr<VideoEnhancer> enhancer;
     std::string enhanceError;
     const int level = enhanceBroken_ ? 0 : int(enhanceLevel_);
+    std::string enhanceIdle;
+    int32_t tw = 0, th = 0;
     if (level > 0) {
-        int32_t tw = 0, th = 0;
         FitVideoGeometry(w, &tw, &th);
+        // 游戏机画面的尺寸：会话刚开始时还是上一次会话的（或默认 1920x1080），第一帧尺寸不同时
+        // OnVideoLocked 会让整条链路重建、按真实尺寸再判断一次
+        int streamW = 0, streamH = 0;
+        {
+            std::lock_guard<std::mutex> lock(videoMutex_);
+            streamW = streamWidth_;
+            streamH = streamHeight_;
+        }
+        if (streamW > 0 && double(tw) < double(streamW) * kMinEnhanceScale) {
+            enhanceIdle = Format(L("画面 %dx%d 已接近显示区域（%dx%d），不需要放大", "畫面 %dx%d 已接近顯示區域（%dx%d），不需要放大",
+                                   "the %dx%d picture is close to the display area (%dx%d), no upscaling needed"),
+                                 streamW, streamH, int(tw), int(th));
+            Logf(LogLevel::Info, "画质增强暂不生效：画面 %dx%d，显示区域 %dx%d", streamW, streamH, int(tw), int(th));
+        }
+    }
+    if (level > 0 && enhanceIdle.empty()) {
         OH_NativeWindow_NativeWindowHandleOpt(w, SET_BUFFER_GEOMETRY, tw, th);
         enhancer = std::make_unique<VideoEnhancer>();
         if (enhancer->Init(w, level, &enhanceError)) {
@@ -95,6 +116,7 @@ std::string Session::CreateVideo(uint64_t surfaceId, VideoPipeline* out) {
     out->enhancer = std::move(enhancer);
     out->decoder = std::move(d);
     out->enhanceError = enhanceError;
+    out->enhanceIdle = enhanceIdle;
     return "";
 }
 
@@ -148,6 +170,7 @@ size_t Session::InstallVideoLocked(VideoPipeline* p, bool replayGop) {
     window_ = p->window;
     enhancer_ = std::move(p->enhancer);
     enhanceError_ = p->enhanceError;
+    enhanceIdle_ = p->enhanceIdle;
     video_ = std::move(p->decoder);
     p->window = nullptr;
     return replayed;
@@ -307,8 +330,10 @@ void Session::OnVideoLocked(const nssft::VideoFrame& f, const uint8_t* data, siz
         streamHeight_ = int(f.height);
     }
     if (video_ && (video_->Width() != streamWidth_ || video_->Height() != streamHeight_)) {
-        if (enhancer_) {
-            resizePending_ = true;  // 增强器的输入尺寸也跟着变，整条链路交给主线程重建
+        if (enhancer_ || (enhanceLevel_ > 0 && !enhanceIdle_.empty())) {
+            // 增强器的输入尺寸也跟着变，整条链路交给主线程重建；因为不需要放大而没接增强器时也一样，
+            // 新尺寸可能需要放大了（1080p → 720p）
+            resizePending_ = true;
         } else {
             SwapDecoderLocked(streamWidth_, streamHeight_);
         }
@@ -394,6 +419,7 @@ std::string Session::SetEnhanceLevel(int level) {
     if (!client_ || paused_) return "";
     {
         std::lock_guard<std::mutex> lock(videoMutex_);
+        if (level == 0) enhanceIdle_.clear();  // 关掉了：之后画面尺寸变化走快速换解码器
         if (enhancer_ && level > 0) {
             enhancer_->SetLevel(level);  // 只是换档：不用重建
             return "";
@@ -613,6 +639,7 @@ SessionStats Session::Stats() {
         }
         s.enhanceRequested = enhanceLevel_;
         s.enhanceError = enhanceError_;
+        s.enhanceIdle = enhanceIdle_;
         if (enhancer_) {
             s.enhanceLevel = enhancer_->Level();
             s.enhanceLatencyUs = enhancer_->AvgLatencyUs();

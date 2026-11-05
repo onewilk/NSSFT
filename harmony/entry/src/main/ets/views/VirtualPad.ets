@@ -1,24 +1,16 @@
-// 触屏手柄：画在一块 Canvas 上，按键位置（单位 vp）由“键位”算出来。两种摆法，键位分别保存：
-//   叠加（overlay）：盖在画面上，Canvas 和播放器一样大；顶部中间留给播放页的菜单按钮（调整时拖不进去）
-//   画面下方（split）：画面下方空间够大时（折叠屏展开），播放页把画面贴顶，Canvas 只占下面一块（regionTop 以下），
-//   不挡画面；调整键位的工具条放到画面上，不压着按键
+// 触屏手柄：画在一块 Canvas 上，盖满整个播放区，和画面是独立的两层（挪画面不影响按键）。按键位置（单位 vp）由“键位”算出来。
+// 两种摆法，键位分别保存：横屏的内置键位分布在四周；竖屏的内置键位集中在屏幕下方（画面默认在顶部），
+// 调整键位的工具条放到顶部。顶部中间留给播放页的菜单按钮（调整时拖不进去）
 // 一个 onTouch 处理所有手指：按下时看落在哪个控件上（落在左半边空白处就是浮动的左摇杆），之后这根手指一直归它；
 // 面向键、十字键、肩键可以滑着换键。所有手指合起来的状态交给原生层（padTouch），和实体手柄、键盘合成同一个手柄。
 // 调整键位（editing）：拖动每个控件换位置，选中后可以改大小、隐藏；点“保存”才写入，“取消”丢掉改动。
 // 键位按区域的比例保存（换设备、转屏都能用），大小是相对默认大小的倍数。
-// 显示期间关掉系统的侧滑返回（拇指贴着屏幕边缘很容易误触），返回改成 1 秒内连按两次才断开（见播放页）。
-import { common } from '@kit.AbilityKit';
-import { window } from '@kit.ArkUI';
-import { deviceInfo } from '@kit.BasicServicesKit';
-import { hilog } from '@kit.PerformanceAnalysisKit';
+// 防误返回由播放页负责：侧滑返回和返回键都只提示、不断开（见 Index.onBackPress）；调整键位时关掉侧滑返回。
 import { vibrator } from '@kit.SensorServiceKit';
 import nssft from 'libentry.so';
 import { FOCUS_BOX } from '../common/Focus';
 import { tr } from '../common/I18n';
 import { getLayout, UnitSave } from '../common/VpadLayouts';
-
-const DOMAIN = 0x5346;
-const TAG = 'NSSFT';
 
 // 游戏机的按键位（HidNpadButton，与 core/sft_pad.h 一致）
 const BIT_A = 1;
@@ -127,10 +119,10 @@ function inKey(k: PadKey, x: number, y: number, pad: number): boolean {
 export struct VirtualPad {
   /** false：工具条或面板开着，触屏手柄变淡、不响应（触摸交给工具条） */
   @Prop @Watch('onInteractiveChanged') interactive: boolean = true;
-  /** 画面下方的摆法（Canvas 只占画面下面一块） */
-  @Prop @Watch('reload') split: boolean = false;
-  /** 按键区从多高开始（vp）：画面下方时是画面的高度，叠加时是 0 */
-  @Prop regionTop: number = 0;
+  /** 竖屏摆法：内置键位集中在下方（−、◎、HOME、+ 和肩键一排），调整工具条在顶部 */
+  @Prop @Watch('reload') portrait: boolean = false;
+  /** 竖屏时内置按键区的上沿（vp，画面贴顶时画面的高度）：左半边空白处的浮动左摇杆从这里往下才响应，按到画面不会推摇杆 */
+  @Prop @Watch('relayout') keysTop: number = 0;
   /** 用哪个自建键位（空串：内置）；layoutKey 变了（换键位、键位被改）就重新读 */
   @Prop layoutId: string = '';
   @Prop @Watch('reload') layoutKey: string = '';
@@ -156,8 +148,6 @@ export struct VirtualPad {
   @State selId: string = '';
   @State selHidden: boolean = false;
   @State dirty: boolean = false;
-  // 整个组件的高度（按键区 = 它减去 regionTop）
-  @State totalH: number = 0;
 
   private ctx: CanvasRenderingContext2D = new CanvasRenderingContext2D(new RenderingContextSettings(true));
   private ready: boolean = false;
@@ -191,7 +181,6 @@ export struct VirtualPad {
       return;
     }
     nssft.padTouchShown(true);
-    this.setGestureBack(false);
   }
 
   aboutToDisappear(): void {
@@ -201,19 +190,6 @@ export struct VirtualPad {
     this.fingers = [];
     this.send(true);
     nssft.padTouchShown(false);
-    this.setGestureBack(true);
-  }
-
-  // 侧滑返回（API 13 起可以按窗口关掉）
-  private setGestureBack(enabled: boolean): void {
-    if (deviceInfo.sdkApiVersion < 13) {
-      return;
-    }
-    window.getLastWindow(getContext(this) as common.UIAbilityContext).then((win: window.Window) => {
-      return win.setGestureBackEnabled(enabled);
-    }).catch((e: Error) => {
-      hilog.warn(DOMAIN, TAG, 'set gesture back failed: %{public}s', JSON.stringify(e));
-    });
   }
 
   onInteractiveChanged(): void {
@@ -237,12 +213,82 @@ export struct VirtualPad {
 
   // ---------------------------------------------------------------- 键位
 
-  private modeKey(): string {
-    return this.split ? 'split' : 'overlay';
+  // 按键的缩放：横屏按 640×360 的区域设计，小了等比缩；竖屏的宽度要放下两列按键和中间一列 −◎HOME+，
+  // 肩键一排也只有左右两组，所以按宽度单独限制（440vp 宽的阔直板约 0.97）
+  private scaleK(): number {
+    const level = VPAD_SCALES[this.sizeLevel] ?? 1;
+    if (this.portrait) {
+      return Math.max(0.5, Math.min(level * Math.min(1, this.areaH / 360), (this.areaW / 2 - 36) / 189,
+        (this.areaW - 80) / 280));
+    }
+    return level * Math.min(1, this.areaH / 360, this.areaW / 640);
   }
 
-  // 默认键位（vp）：叠加时肩键在顶部（平板上挪到摇杆上方够得着的地方），其余贴着底边排；画面下方时一样的排法
+  // 竖屏默认键位：画面默认贴顶，按键排在画面下方的空白里，不再全挤在底边——
+  //   肩键一排（ZL L … R ZR）紧挨画面下沿；
+  //   左边一列左摇杆在上、十字键在下，右边一列 ABXY 在上、右摇杆在下（像左右两只手柄竖着拿）；
+  //   −、◎、HOME、+ 两行两列放在中间；
+  //   上下两行的间距随空白高度拉开（有上限，拇指够得着），整块在空白里上下居中。
+  // 空白不够时退回贴底排，宁可盖住一点画面也不挤出屏幕。keysTop 没给（键位缩略图）时按 16:9 画面贴顶算。
+  private portraitUnits(): Unit[] {
+    const W = this.areaW;
+    const H = this.areaH;
+    const k = this.k;
+    const sl = this.insetLeft + 20;
+    const sr = this.insetRight + 20;
+    const bottom = H - this.insetBottom - 8;
+    const picBottom = this.keysTop > 0 ? this.keysTop : W * 9 / 16;
+    const sh = 32 * k;
+    const up = 63 * k;    // 上一行往上伸多远（ABXY 比左摇杆大）
+    const down = 52 * k;  // 下一行往下伸多远（右摇杆比十字键大）
+    const minGap = 115 * k + 16;
+    const maxGap = 200 * k;
+    let sy = picBottom + 10 + sh / 2;
+    let top = sy + sh / 2 + 12;
+    let gap = Math.min(maxGap, Math.max(minGap, (bottom - top - up - down) * 0.6));
+    let y1 = 0;
+    if (top + up + minGap + down > bottom) {
+      // 放不下：贴底排，肩键跟着往上挪
+      gap = minGap;
+      y1 = bottom - down - gap;
+      sy = Math.max(14 + sh / 2, y1 - up - 12 - sh / 2);
+    } else {
+      gap = Math.min(gap, bottom - top - up - down);
+      y1 = top + up + (bottom - top - up - gap - down) / 2;
+    }
+    const y2 = y1 + gap;
+    const lx = sl + 56 * k;
+    const rx = W - sr - 66 * k;
+    const cx = W / 2;
+    const cy = (y1 + y2) / 2;
+    const out: Unit[] = [];
+    const put = (id: string, x: number, y: number, hidden: boolean) => {
+      const u: Unit = { id: id, fx: x / W, fy: y / H, s: 1, hidden: hidden };
+      out.push(u);
+    };
+    put('zl', sl + 38 * k, sy, false);
+    put('l', sl + 76 * k + 10 + 32 * k, sy, false);
+    put('zr', W - sr - 38 * k, sy, false);
+    put('r', W - sr - 76 * k - 10 - 32 * k, sy, false);
+    put('lstick', lx, y1, false);
+    put('dpad', lx, y2, false);
+    put('face', rx, y1, false);
+    put('rstick', rx, y2, false);
+    put('minus', cx - 32 * k, cy - 20 * k, false);
+    put('plus', cx + 32 * k, cy - 20 * k, false);
+    put('capture', cx - 32 * k, cy + 20 * k, false);
+    put('home', cx + 32 * k, cy + 20 * k, false);
+    // L3 在左摇杆右下、R3 在右摇杆左上，都夹在上下两行之间
+    put('l3', lx + 62 * k, y1 + 62 * k, true);
+    put('r3', rx - 62 * k, y2 - 62 * k, true);
+    return out;
+  }
+
+  // 默认键位（vp）：横屏都贴着底边排，肩键在摇杆上方够得着的地方（横屏手机上就是顶部）；竖屏见 portraitUnits
   private defaultUnits(): Unit[] {
+    if (this.portrait) {
+      return this.portraitUnits();
+    }
     const W = this.areaW;
     const H = this.areaH;
     const k = this.k;
@@ -251,12 +297,11 @@ export struct VirtualPad {
     const bottom = H - this.insetBottom;
     const sh = 32 * k;
     const sy = Math.max(14 + sh / 2, bottom - 326 * k);
-    // − ◎ HOME +：叠加时在底部中间（离底边留出距离，免得碰到系统的上滑手势）；画面下方时空间多，
-    // 放到肩键那一行的中间（像实体手柄的 −/+），不和十字键、右摇杆挤在一起。
-    // 叠加时屏幕不够宽（16:9 横屏只有 640vp），底部中间夹不下这一排（半宽 122），就抬到十字键和右摇杆上方
+    // − ◎ HOME +：在底部中间（离底边留出距离，免得碰到系统的上滑手势）；
+    // 屏幕不够宽（16:9 横屏只有 640vp），底部中间夹不下这一排（半宽 122），就抬到十字键和右摇杆上方
     const cx = W / 2;
     const roomy = cx - 122 * k >= sl + 244 * k + 4 && cx + 122 * k <= W - sr - 250 * k - 4;
-    const by = this.split ? sy : roomy ? bottom - 36 * k : bottom - 135 * k - 8;
+    const by = roomy ? bottom - 36 * k : bottom - 135 * k - 8;
     const lsx = sl + 80 * k;
     const lsy = bottom - 174 * k;
     const rsx = W - sr - 198 * k;
@@ -280,7 +325,7 @@ export struct VirtualPad {
     put('plus', cx + 96 * k, by, false);
     put('l3', lsx + 66 * k, lsy - 66 * k, true);
     // R3 平时在右摇杆左上（和 L3 对称）；中间那排抬上来时那里是 HOME，换到右摇杆右上
-    put('r3', this.split || roomy ? rsx - 66 * k : rsx + 66 * k, rsy - 66 * k, true);
+    put('r3', roomy ? rsx - 66 * k : rsx + 66 * k, rsy - 66 * k, true);
     return out;
   }
 
@@ -289,7 +334,7 @@ export struct VirtualPad {
     if (this.areaW <= 0 || this.areaH <= 0) {
       return;
     }
-    this.k = (VPAD_SCALES[this.sizeLevel] ?? 1) * Math.min(1, this.areaH / 360, this.areaW / 640);
+    this.k = this.scaleK();
     const units = this.defaultUnits();
     const layout = getLayout(this.layoutId);
     const saved: UnitSave[] = layout !== undefined ? layout.units : [];
@@ -313,7 +358,7 @@ export struct VirtualPad {
       this.reload();
       return;
     }
-    this.k = (VPAD_SCALES[this.sizeLevel] ?? 1) * Math.min(1, this.areaH / 360, this.areaW / 640);
+    this.k = this.scaleK();
     this.geometry();
   }
 
@@ -387,7 +432,9 @@ export struct VirtualPad {
     this.lstick = { x: ls.fx * W, y: ls.fy * H, r: 52 * k * ls.s, hidden: ls.hidden };
     const rs = this.unit('rstick');
     this.rstick = { x: rs.fx * W, y: rs.fy * H, r: 52 * k * rs.s, hidden: rs.hidden };
-    this.leftZoneTop = this.split ? 0 : 44;
+    // 浮动左摇杆的区域：横屏时让开顶部；竖屏时从按键区上沿开始（用户把左摇杆挪到更高处时跟着放宽）
+    this.leftZoneTop = this.portrait ?
+      Math.max(44, Math.min(this.keysTop, this.lstick.y - this.lstick.r * 1.6)) : 44;
     this.redraw();
   }
 
@@ -651,8 +698,8 @@ export struct VirtualPad {
         const half = this.unitHalf(u);
         const x = Math.max(half[0], Math.min(this.areaW - half[0], t.x - this.dragDx));
         let y = Math.max(half[1], Math.min(this.areaH - half[1], t.y - this.dragDy));
-        // 叠加时顶部中间留给菜单按钮：拖进去就往下推出来
-        if (!this.split && Math.abs(x - this.areaW / 2) < half[0] + MENU_RESERVE_W / 2 && y - half[1] < MENU_RESERVE_H) {
+        // 顶部中间留给菜单按钮：拖进去就往下推出来
+        if (Math.abs(x - this.areaW / 2) < half[0] + MENU_RESERVE_W / 2 && y - half[1] < MENU_RESERVE_H) {
           y = MENU_RESERVE_H + half[1];
         }
         u.fx = x / this.areaW;
@@ -738,9 +785,7 @@ export struct VirtualPad {
     }
     c.globalAlpha = Math.min(1, alpha * 1.6);
     if (this.editing) {
-      if (!this.split) {
-        this.drawReserved();
-      }
+      this.drawReserved();
       if (this.selId.length > 0) {
         this.drawSelection(this.unit(this.selId));
       }
@@ -891,7 +936,7 @@ export struct VirtualPad {
       }
 
       Text(this.selId.length > 0 ? tr('vpad_edit_hint_selected') :
-        tr(this.split ? 'vpad_edit_hint_split' : 'vpad_edit_hint'))
+        tr(this.portrait ? 'vpad_edit_hint_portrait' : 'vpad_edit_hint'))
         .fontSize(11)
         .fontColor('#CCFFFFFF')
     }
@@ -914,12 +959,11 @@ export struct VirtualPad {
   }
 
   build() {
-    // 调整工具条：画面下方时在顶部（画面上），叠加时在屏幕中间（四周都是按键）
-    Stack({ alignContent: this.split ? Alignment.Top : Alignment.Center }) {
+    // 调整工具条：竖屏时在顶部（按键在下方），横屏时在屏幕中间（四周都是按键）
+    Stack({ alignContent: this.portrait ? Alignment.Top : Alignment.Center }) {
       Canvas(this.ctx)
         .width('100%')
-        .height(Math.max(0, this.totalH - this.regionTop))
-        .position({ x: 0, y: this.regionTop })
+        .height('100%')
         .hitTestBehavior(!this.preview && (this.interactive || this.editing) ? HitTestMode.Default : HitTestMode.None)
         .onReady(() => {
           this.ready = true;
@@ -950,8 +994,5 @@ export struct VirtualPad {
     .width('100%')
     .height('100%')
     .hitTestBehavior(HitTestMode.Transparent)
-    .onAreaChange((_old: Area, area: Area) => {
-      this.totalH = Number(area.height);
-    })
   }
 }

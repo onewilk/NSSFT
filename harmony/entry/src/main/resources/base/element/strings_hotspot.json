@@ -82,7 +82,7 @@
     },
     {
       "name": "hs_fallback_24",
-      "value": "5 GHz failed (%s); switched to 2.4 GHz. "
+      "value": "5 GHz failed (%s); fell back to 2.4 GHz. "
     },
     {
       "name": "hs_reclaimed",

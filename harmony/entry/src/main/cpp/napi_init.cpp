@@ -651,6 +651,7 @@ napi_value GetStats(napi_env env, napi_callback_info) {
     Set(env, obj, "enhanceLevel", MakeNumber(env, double(s.enhanceLevel)));
     Set(env, obj, "enhanceLatencyUs", MakeNumber(env, double(s.enhanceLatencyUs)));
     Set(env, obj, "enhanceError", MakeString(env, s.enhanceError));
+    Set(env, obj, "enhanceIdle", MakeString(env, s.enhanceIdle));
     return obj;
 }
 

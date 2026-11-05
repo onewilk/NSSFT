@@ -11,8 +11,15 @@ NSSFT receives the stream sent by the console side of [SFT](https://github.com/T
 <p>
 <img src="docs/screenshots/en/1_home.jpg" alt="Home screen with a console card" width="260">
 <img src="docs/screenshots/en/2_controller.jpg" alt="Controller settings" width="260">
-<img src="docs/screenshots/en/3_layouts.jpg" alt="Touch controller layouts" width="260">
+<img src="docs/screenshots/en/3_layouts.jpg" alt="Manage layouts" width="260">
 </p>
+
+<p>
+<img src="docs/screenshots/en/4_foldable.jpg" alt="Streaming in portrait on an unfolded foldable: picture at the top, touch controller below" height="300">
+<img src="docs/screenshots/en/5_phone_play.jpg" alt="Streaming in landscape on a phone: touch controller over the picture" height="300">
+</p>
+
+Left: portrait on an unfolded foldable (Mate X7), with the picture at the top and the touch controller in the space below. Right: landscape on a phone, with the touch controller over the picture.
 
 ## Features
 
@@ -20,12 +27,13 @@ NSSFT receives the stream sent by the console side of [SFT](https://github.com/T
 - **Up to 1080p60**: the hardware decoder is configured from the size the console sends and rebuilt when it switches between 720p and 1080p.
 - **USB**: with SFT set to USB - PC viewer, connect a data cable; the console shows up on the home screen.
 - **Low-latency playback**: hardware decoding and low-latency OHAudio; frames are presented on VSync as soon as they are decoded, with no extra buffering.
-- **Freeze on frame loss**: when the video sequence skips, the last good picture is held and a keyframe is requested at once (`SFTK`), so the picture never smears.
+- **Frame loss guard**: if the video sequence ever skips, the last good picture is held and a keyframe is requested at once (`SFTK`), so the picture never smears. SFT's links do not drop frames in practice, so this stays on quietly with no setting.
 - **Picture enhancement** with the system video processing engine, where supported.
 - **Dedicated 5 GHz hotspot** for the console over Wi-Fi Direct.
 - **Controllers and keyboards** (beta): play the console with a controller or keyboard connected to the device; they are merged into one controller on the console. Button layout (by position or by label) and the stick dead zone can be adjusted. Needs "Controls from the viewer" turned on in SFT (0.7.20 or later).
-- **Touch controller** (phones and tablets): on-screen buttons over the picture with a floating left stick and a light buzz on press. Make your own layouts by moving, resizing and hiding buttons. On wide screens (wide foldables, unfolded foldables and the like) you can stream in portrait with the picture above the buttons.
-- **Side menu**: the menu button at the top center opens sound, controller, recording, picture-in-picture and streaming options; an optional stats overlay shows the link, frame rate, bitrate and latency.
+- **Touch controller** (phones and tablets, experimental: still being tuned, and it suffers on a shaky network; see the in-app guide): on-screen buttons over the picture with a floating left stick and a light buzz on press. Make your own layouts by moving, resizing and hiding buttons. Landscape and portrait keep separate layouts: by default the buttons go around the edges in landscape and below the picture in portrait (shoulder buttons right under it, two rows on each side, minus/capture/HOME/plus in the middle). On tablets, unfolded foldables and other wide screens the stream follows the system rotation, or you can fix it to landscape or portrait; phones and the outer screen of foldables stream in landscape.
+- **Picture position**: when there is empty space above and below the picture (a tablet held upright, an unfolded foldable, a tri-fold), drag the picture to the top, the middle or the bottom; each screen shape remembers its own position. The picture and the touch controller are separate layers, so moving one never moves the other.
+- **Side menu**: the menu button at the top center (it shrinks to a thin line after a few seconds) opens sound, controller, picture position, recording and streaming options; back never stops the stream by accident, you leave from the menu. An optional stats overlay shows the link, frame rate, bitrate and latency.
 - **Picture-in-picture**: keep watching in a small window when you leave the app.
 - **Recording**: record while streaming, or record only with no picture on screen (it keeps going in the background and with the screen locked). A second hardware decoder feeds the hardware encoder, so the stream is compressed on the device into an H.265 MP4 without touching playback. Three quality levels (about 90 / 60 / 30 MB a minute); recordings can be saved to Gallery.
 - **Devices**: phones, tablets, PCs/2-in-1s and TVs (remote control). The AppGallery build leaves out TVs; see Build.

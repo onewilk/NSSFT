@@ -66,11 +66,11 @@
     },
     {
       "name": "home_manual_invalid",
-      "value": "请输入有效的 IPv4 地址"
+      "value": "请输入有效的 IPv4 地址或主机名"
     },
     {
       "name": "home_manual_placeholder",
-      "value": "例如 192.168.1.50"
+      "value": "IP 地址或主机名，例如 192.168.1.50"
     },
     {
       "name": "home_manual_title",
