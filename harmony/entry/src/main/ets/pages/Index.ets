@@ -11,7 +11,7 @@ import {
   isPadMinusKey, isPadPlusKey, PAD_BUTTON_B, PadAxisModifier, padAxisSupported, padConfigure, padDeadZoneLabels,
   PadDevices, padForwardAxis, padLayoutLabels, PLAY_ORIENT_FOLLOW, PLAY_ORIENT_LANDSCAPE, PLAY_ORIENT_PORTRAIT,
   playOrientLabels,
-  playOrientReason, vpadAvailable, vpadOpacityLabels, vpadSizeLabels
+  playOrientReason, VPAD_AVAILABLE_KEY, vpadOpacityLabels, vpadSizeLabels, watchTouchscreen
 } from '../common/Gamepad';
 import { VirtualPad } from '../views/VirtualPad';
 import { VpadLayoutsView } from '../views/VpadLayoutsView';
@@ -215,7 +215,8 @@ struct Index {
   @StorageLink('nssft.padEnabled') @Watch('applyPad') padEnabled: boolean = true;
   @StorageLink('nssft.padLayout') @Watch('applyPad') padLayout: number = 0;
   @StorageLink('nssft.padDeadZone') @Watch('applyPad') padDeadZone: number = 1;
-  // 触屏手柄（views/VirtualPad.ets）
+  // 触屏手柄（views/VirtualPad.ets）；本机有没有触摸屏（common/Gamepad.ets watchTouchscreen）
+  @StorageProp(VPAD_AVAILABLE_KEY) vpadOk: boolean = false;
   @StorageLink('nssft.vpadShown') vpadShown: boolean = false;
   @StorageLink('nssft.vpadSize') vpadSize: number = 1;
   @StorageLink('nssft.vpadOpacity') vpadOpacity: number = 1;
@@ -276,6 +277,7 @@ struct Index {
 
   aboutToAppear(): void {
     migrateOldLayouts();
+    watchTouchscreen();
     this.padAxis.handler = (e: FocusAxisEvent) => {
       this.onPadAxis(e);
     };
@@ -810,7 +812,7 @@ struct Index {
 
   // 触屏手柄现在显示不显示：打开了、手柄功能开着、在显示画面；接上实体手柄时按设置自动收起
   private vpadVisible(): boolean {
-    return vpadAvailable() && this.vpadShown && this.padEnabled && this.playing && !this.recordOnly &&
+    return this.vpadOk && this.vpadShown && this.padEnabled && this.playing && !this.recordOnly &&
       !(this.vpadAutoHide && this.padDeviceName.length > 0);
   }
 
@@ -3073,8 +3075,8 @@ struct Index {
             .opacity(this.padEnabled && padAxisSupported() ? 1 : 0.4)
           }
 
-          // 触屏手柄（手机、平板）：组标题带“实验性”标签；打开后才列出大小、透明度、键位
-          if (vpadAvailable()) {
+          // 触屏手柄（本机有触摸屏时）：组标题带“实验性”标签；打开后才列出大小、透明度、键位
+          if (this.vpadOk) {
             MenuGroup({ title: tr('vpad_show'), tag: tr('vpad_experimental') }) {
               Row() {
                 this.OptionRow(tr('vpad_show_in_menu'), '')

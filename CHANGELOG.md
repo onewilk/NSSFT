@@ -2,6 +2,15 @@
 
 ## 1.0.0 — unreleased
 
+### 1.0.0-pre-release.3
+
+The build submitted to AppGallery for the 1.0.0 release (versionCode 1000002).
+
+- The touch controller now depends on whether this device has a touchscreen, not on the device type: PCs and 2-in-1s
+  with a built-in or external touchscreen, and devices that switch between tablet and PC modes, can use it. It is
+  checked again whenever input devices change; without a touchscreen its settings are greyed out with "This device has
+  no touchscreen".
+
 ### 1.0.0-pre-release.2
 
 This build mostly reworks the player: a new side menu, picture position, screen orientation with separate landscape

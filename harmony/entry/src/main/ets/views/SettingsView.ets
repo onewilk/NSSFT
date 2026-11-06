@@ -6,7 +6,7 @@ import { PipSession } from '../common/PipSession';
 import { enhanceAvailable, enhanceLabels } from '../common/Prefs';
 import { recordQualityDesc, recordQualityLabels, recordSupport, recordUnsupportedReason } from '../common/Recording';
 import {
-  padAxisSupported, padDeadZoneLabels, padLayoutLabels, playOrientLabels, playOrientReason, vpadAvailable,
+  padAxisSupported, padDeadZoneLabels, padLayoutLabels, playOrientLabels, playOrientReason, VPAD_AVAILABLE_KEY,
   vpadOpacityLabels, vpadSizeLabels
 } from '../common/Gamepad';
 import { applyColorMode } from '../common/Theme';
@@ -38,6 +38,7 @@ export struct SettingsView {
   @StorageLink('nssft.padEnabled') padEnabled: boolean = true;
   @StorageLink('nssft.padLayout') padLayout: number = 0;
   @StorageLink('nssft.padDeadZone') padDeadZone: number = 1;
+  @StorageProp(VPAD_AVAILABLE_KEY) vpadOk: boolean = false;  // 本机有没有触摸屏
   @StorageLink('nssft.vpadShown') vpadShown: boolean = false;
   @StorageLink('nssft.vpadSize') vpadSize: number = 1;
   @StorageLink('nssft.vpadOpacity') vpadOpacity: number = 1;
@@ -213,48 +214,48 @@ export struct SettingsView {
           SettingRow({
             title: tr('vpad_show_in_menu'),
             icon: $r('sys.symbol.hand_point_up_tap'),
-            unsupported: vpadAvailable() ? '' : tr('vpad_unavailable')
+            unsupported: this.vpadOk ? '' : tr('vpad_unavailable')
           }) {
             Toggle({ type: ToggleType.Switch, isOn: this.vpadShown })
-              .enabled(this.padEnabled && vpadAvailable())
+              .enabled(this.padEnabled && this.vpadOk)
               .onChange((on: boolean) => {
                 this.vpadShown = on;
               })
           }
           SettingRow({ title: tr('vpad_size'), icon: $r('sys.symbol.slider_horizontal_2'),
-            unsupported: vpadAvailable() ? '' : tr('vpad_unavailable') }) {
+            unsupported: this.vpadOk ? '' : tr('vpad_unavailable') }) {
             Select(options(vpadSizeLabels()))
               .selected(this.vpadSize)
               .value(vpadSizeLabels()[this.vpadSize] ?? '')
               .font({ size: 14 })
-              .enabled(vpadAvailable())
+              .enabled(this.vpadOk)
               .onSelect((index: number) => {
                 this.vpadSize = index;
               })
           }
           SettingRow({ title: tr('vpad_opacity'), icon: $r('sys.symbol.slider_horizontal_2'),
-            unsupported: vpadAvailable() ? '' : tr('vpad_unavailable') }) {
+            unsupported: this.vpadOk ? '' : tr('vpad_unavailable') }) {
             Select(options(vpadOpacityLabels()))
               .selected(this.vpadOpacity)
               .value(vpadOpacityLabels()[this.vpadOpacity] ?? '')
               .font({ size: 14 })
-              .enabled(vpadAvailable())
+              .enabled(this.vpadOk)
               .onSelect((index: number) => {
                 this.vpadOpacity = index;
               })
           }
           SettingRow({ title: tr('vpad_haptic'), desc: tr('vpad_haptic_desc'), icon: $r('sys.symbol.bolt'),
-            unsupported: vpadAvailable() ? '' : tr('vpad_unavailable') }) {
+            unsupported: this.vpadOk ? '' : tr('vpad_unavailable') }) {
             Toggle({ type: ToggleType.Switch, isOn: this.vpadHaptic })
-              .enabled(vpadAvailable())
+              .enabled(this.vpadOk)
               .onChange((on: boolean) => {
                 this.vpadHaptic = on;
               })
           }
           SettingRow({ title: tr('vpad_autohide'), desc: tr('vpad_autohide_desc'), icon: $r('sys.symbol.gamecontroller'),
-            unsupported: vpadAvailable() ? '' : tr('vpad_unavailable') }) {
+            unsupported: this.vpadOk ? '' : tr('vpad_unavailable') }) {
             Toggle({ type: ToggleType.Switch, isOn: this.vpadAutoHide })
-              .enabled(vpadAvailable())
+              .enabled(this.vpadOk)
               .onChange((on: boolean) => {
                 this.vpadAutoHide = on;
               })

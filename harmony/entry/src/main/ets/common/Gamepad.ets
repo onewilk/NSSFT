@@ -56,9 +56,58 @@ export function padDeadZoneLabels(): string[] {
   });
 }
 
-/** 触屏手柄只在手机和平板上提供（电脑用键鼠，智慧屏没有触屏） */
+// 触屏手柄能不能用：看本机有没有触摸屏（系统输入设备里带 touchscreen 的），不看设备类型。
+// 有的设备能在平板和电脑两种系统之间切换，电脑也可能自带或外接触摸屏，这些都按触摸屏算；手机、平板一定有，直接算能用。
+// 结果放在 AppStorage（VPAD_AVAILABLE_KEY），界面用 @StorageProp 跟着刷新；插拔输入设备时重查
+export const VPAD_AVAILABLE_KEY = 'nssft.vpadAvailable';
+const TOUCH_BY_TYPE: boolean = deviceInfo.deviceType === 'phone' || deviceInfo.deviceType === 'tablet';
+AppStorage.setOrCreate<boolean>(VPAD_AVAILABLE_KEY, TOUCH_BY_TYPE);
+let touchWatching: boolean = false;
+let touchGeneration: number = 0;
+
 export function vpadAvailable(): boolean {
-  return deviceInfo.deviceType === 'phone' || deviceInfo.deviceType === 'tablet';
+  return AppStorage.get<boolean>(VPAD_AVAILABLE_KEY) ?? TOUCH_BY_TYPE;
+}
+
+/** 开始跟踪本机有没有触摸屏：App 启动时调一次，之后输入设备有变化（插拔、切换系统形态）就重查 */
+export function watchTouchscreen(): void {
+  if (!touchWatching) {
+    try {
+      inputDevice.on('change', (_d: inputDevice.DeviceListener): void => {
+        refreshTouchscreen();
+      });
+      touchWatching = true;
+    } catch (e) {
+      hilog.warn(DOMAIN, TAG, 'listen input devices for touchscreen failed: %{public}s', JSON.stringify(e));
+    }
+  }
+  refreshTouchscreen();
+}
+
+async function refreshTouchscreen(): Promise<void> {
+  const gen = ++touchGeneration;
+  let touch = false;
+  try {
+    const ids = await inputDevice.getDeviceList();
+    for (const id of ids) {
+      const info = await inputDevice.getDeviceInfo(id);
+      if (info.sources.indexOf('touchscreen') >= 0) {
+        touch = true;
+        break;
+      }
+    }
+  } catch (e) {
+    hilog.warn(DOMAIN, TAG, 'list input devices for touchscreen failed: %{public}s', JSON.stringify(e));
+    return;  // 查不到就保持原来的结果
+  }
+  if (gen !== touchGeneration) {
+    return;  // 期间又查过一次
+  }
+  const ok = TOUCH_BY_TYPE || touch;
+  if (ok !== vpadAvailable()) {
+    hilog.info(DOMAIN, TAG, 'touch controller available: %{public}s (touchscreen %{public}s)', String(ok), String(touch));
+  }
+  AppStorage.setOrCreate<boolean>(VPAD_AVAILABLE_KEY, ok);
 }
 
 export function vpadSizeLabels(): string[] {

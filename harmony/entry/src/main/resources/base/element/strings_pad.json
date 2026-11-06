@@ -210,7 +210,7 @@
     },
     {
       "name": "vpad_unavailable",
-      "value": "Available on phones and tablets only"
+      "value": "This device has no touchscreen"
     },
     {
       "name": "guide_pad_touch_title",
@@ -218,7 +218,7 @@
     },
     {
       "name": "guide_pad_touch_body",
-      "value": "This is experimental and still being tuned; see the known issues below. No controller? While streaming, open the menu at the top center, go to Controller and turn on \"Touch controller\" to get on-screen buttons (phones and tablets). Touch anywhere on the empty left half for the left stick; where you touch is its center. You can slide between the face buttons, the D-pad directions and the shoulder buttons. While they are shown, tapping the picture does nothing; after a few seconds the menu button shrinks to a short line at the top center, and tapping it opens the menu. \"Arrange buttons\" on the Controller page lets you move, resize or hide buttons, or turn on L3 / R3; tap Save to keep it. Tablets, unfolded foldables and other wide screens can also play upright; see \"Layouts and portrait\"."
+      "value": "This is experimental and still being tuned; see the known issues below. No controller? While streaming, open the menu at the top center, go to Controller and turn on \"Touch controller\" to get on-screen buttons (needs a touchscreen). Touch anywhere on the empty left half for the left stick; where you touch is its center. You can slide between the face buttons, the D-pad directions and the shoulder buttons. While they are shown, tapping the picture does nothing; after a few seconds the menu button shrinks to a short line at the top center, and tapping it opens the menu. \"Arrange buttons\" on the Controller page lets you move, resize or hide buttons, or turn on L3 / R3; tap Save to keep it. Tablets, unfolded foldables and other wide screens can also play upright; see \"Layouts and portrait\"."
     },
     {
       "name": "guide_pad_touch_issues_title",
